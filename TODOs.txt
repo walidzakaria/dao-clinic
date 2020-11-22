@@ -1,0 +1,17 @@
+currency
+chat
+video calling
+redis config & heroku
+auth
+test cases
+make appointments api
+
+# frontend:
+main view
+chat part
+appointments
+payment config
+logins
+video chat
+responsiveness
+static parts
