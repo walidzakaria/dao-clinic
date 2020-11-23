@@ -15,4 +15,3 @@ logins
 video chat
 responsiveness
 static parts
-tests
