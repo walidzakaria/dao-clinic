@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
-    # 'cache_fallback',
     'apps.main',
     'apps.authapp',
     'apps.appointments',
