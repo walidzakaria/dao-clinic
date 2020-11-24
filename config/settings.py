@@ -102,22 +102,6 @@ TEMPLATES = [
     },
 ]
 
-# # config simple fallback
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'cache_fallback.FallbackCache',
-#     },
-#     'main_cache': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '/tmp/memcached.sock',
-#         'TIMEOUT': 500,
-#     },
-#     'fallback_cache': {
-#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-#         'LOCATION': 'unique',
-#     }
-# }
-
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
@@ -202,7 +186,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
 
 #  Add configuration for static files storage using whitenoise
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
