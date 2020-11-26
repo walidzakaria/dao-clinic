@@ -5,6 +5,7 @@ import About from '../views/About.vue';
 import Appointments from '../views/Appointments.vue';
 import Prices from '../views/Prices.vue';
 import ConstactUs from '../views/ContactUs.vue';
+import VideoSession from '../home/VideoSession.vue';
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,12 @@ const routes = [
     path: '/contact',
     name: 'Contact',
     component: ConstactUs,
+  },
+  {
+    path: '/session/:sessionId',
+    name: 'Session',
+    component: VideoSession,
+    props: true,
   },
 ];
 

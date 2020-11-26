@@ -58,19 +58,18 @@
         </div>
     </nav>
     </header>
-    <main class="container">
+    <main class="container content">
       <router-view/>
       <button class="btn btn-primary">GO</button>
     </main>
     <ChatBox/>
-    <footer>
-      this is the footer
-    </footer>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import ChatBox from './chat/ChatBox.vue';
+import Footer from './home/PageFooter.vue';
 
 export default {
   created() {
@@ -97,6 +96,7 @@ export default {
   },
   components: {
     ChatBox,
+    Footer,
   },
   data() {
     return {
@@ -148,7 +148,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  float: right;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -210,13 +209,13 @@ nav ul a:hover {
 }
 
 main {
-  position: relative;
+  position: relative !important;
   top: 140px;
   width: 100%;
 }
 
 footer {
-  position: inherit;
+  position: relative;
 }
 /* #nav {
   padding: 30px;

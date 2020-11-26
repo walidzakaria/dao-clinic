@@ -48,10 +48,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
+    # 'channels',
     'apps.main',
     'apps.authapp',
     'apps.appointments',
     'apps.configurations',
+    'apps.chat',
 ]
 
 MIDDLEWARE = [

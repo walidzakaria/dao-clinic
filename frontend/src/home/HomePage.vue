@@ -5,10 +5,12 @@
       <h1>We help people reach new era!</h1>
       <h4>Our team of specialists is ready to help you. Book an appointment now!</h4>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'HomePage',
   props: {
