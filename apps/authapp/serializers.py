@@ -13,3 +13,9 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'username', 'first_name', 'last_name', 'phone',)
+
+
+class LogInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LogInfo
+        fields = '__all__'

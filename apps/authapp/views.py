@@ -11,12 +11,13 @@ from rest_framework.reverse import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from djoser.conf import django_settings
+import random
 
-from .models import User
+from .models import User, LogInfo
 
 
 # Create your views here.
-from .serializers import CurrentUserSerializer
+from .serializers import CurrentUserSerializer, LogInfoSerializer
 
 
 @api_view(['GET'])
@@ -56,3 +57,49 @@ class PasswordReset(GenericAPIView):
         payload = {'uid': uid, 'token': token}
 
         return JsonResponse(payload)
+
+
+@api_view(['GET', ])
+def add_log_info(request):
+    """ Created a new session code """
+
+    if request.method == 'GET':
+        code = random.getrandbits(128)
+        while LogInfo.objects.filter(code=code).first():
+            code = random.getrandbits(128)
+        save_log(request, code)
+
+        return Response(data=code, status=status.HTTP_200_OK)
+
+
+def save_log(request, code):
+    device = ''
+    ip = get_client_ip(request)
+    print(ip)
+    if request.user_agent.is_mobile:
+        device = 'Mobile'
+    elif request.user_agent.is_tablet:
+        device = 'Tablet'
+    elif request.user_agent.is_pc:
+        device = 'PC'
+    elif request.user_agent.is_bot:
+        device = "Bot"
+
+    if request.user_agent.is_touch_capable:
+        device += '-Touch'
+
+    device_family = request.user_agent.device.family  # returns 'iPhone'
+    browser = request.user_agent.browser.family  # returns 'Mobile Safari'
+    operating_system = f'{request.user_agent.os.family}({request.user_agent.os.version_string})'
+    new_log = LogInfo(code=code, device=device, device_family=device_family,
+                      browser=browser, operating_system=operating_system, user=request.user, ip=ip)
+    new_log.save()
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

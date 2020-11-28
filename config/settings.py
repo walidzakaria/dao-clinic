@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'channels',
+    'django_user_agents',
     'apps.main',
     'apps.authapp',
     'apps.appointments',
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
