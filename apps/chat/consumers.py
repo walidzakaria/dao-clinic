@@ -12,6 +12,7 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
         self.user_info = await self.get_user_info()
+        self.user = self.scope['user']
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -23,6 +24,14 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_user_info(self):
         return LogInfo.objects.filter(code=self.room_name).first().user_info()
+
+    @database_sync_to_async
+    def save_message(self, message):
+        new_message = Chat(room=self.room_name, message=message)
+
+        if self.user.id:
+            new_message.user = self.user
+        new_message.save()
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -44,6 +53,8 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
                 'code': code,
             }
         )
+
+        await self.save_message(message)
 
     async def chat_message(self, event):
         message = event['message']

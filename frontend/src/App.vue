@@ -93,6 +93,7 @@ export default {
         }
       });
     });
+    this.$options.sockets.onmessage = (data) => console.log(data);
   },
   components: {
     ChatBox,
