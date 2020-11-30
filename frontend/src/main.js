@@ -14,6 +14,7 @@ import '../node_modules/nprogress/nprogress.css';
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+
 Vue.use(VueNativeSock, 'ws://127.0.0.1:8000/ws/chat/5463360595343258887311041973949567202/', {
   reconnection: true,
   reconnectionAttempts: 5,
