@@ -114,12 +114,14 @@ ASGI_APPLICATION = "config.routing.application"
 #         "BACKEND": "channels.layers.InMemoryChannelLayer"
 #     }
 # }
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.cache.RedisChannelLayer',
-        'CONFIG': {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
         },
+        "ROUTING": "chat.routing.channel_routing",
     },
 }
 
