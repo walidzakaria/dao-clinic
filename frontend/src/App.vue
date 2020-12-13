@@ -59,9 +59,7 @@
     </nav>
     </header>
     <main class="container content">
-      <button @click="sendMessage('hello')" class="btn btn-primary">Send</button>
       <router-view/>
-      <button class="btn btn-primary">GO</button>
     </main>
     <ChatBox/>
     <Footer/>
@@ -77,16 +75,6 @@ import Footer from './home/PageFooter.vue';
 export default {
   created() {
     document.title = 'DAO World';
-    console.log('created');
-    // this.$store.chat.actions.obtainUserId();
-    // console.log(this.$store.getters['chat/userIdItem']);
-    this.connection = new WebSocket('ws://127.0.0.1:8000/ws/chat/5463360595343258887311041973949567202/');
-    this.connection.onopen = (event) => {
-      console.log(event);
-    };
-    this.connection.onmessage = (event) => {
-      console.log(event);
-    };
   },
   mounted() {
     this.$nextTick(() => {
@@ -121,19 +109,9 @@ export default {
         show: false, // initial state
       },
       collapseStyle: {},
-      connection: null,
     };
   },
   methods: {
-    sendMessage(message) {
-      // console.log(this.connection);
-      this.connection.send(JSON.stringify({
-        message,
-        username: 'walid',
-      }));
-      // this.$store.dispatch['chat/obtainUserId'];
-      // console.log(this.$store.chat.userId);
-    },
     toggleNavbar() {
       const curr = this.collapseClasses;
       this.collapseClasses = {

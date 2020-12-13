@@ -7,14 +7,12 @@ import chatModule from './modules/chat';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-  },
   mutations: {
   },
   actions: {
   },
   modules: {
-    users: userModule,
+    user: userModule,
     chat: chatModule,
   },
 });

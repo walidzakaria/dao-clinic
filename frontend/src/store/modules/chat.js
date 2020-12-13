@@ -1,47 +1,49 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default ({
   namespaced: true,
   state: {
-    userId: null,
-    userChats: [],
+    clientId: '0000',
+    conversation: [],
   },
   mutations: {
-    getUserId(state, id) {
-      state.userId = id;
+    updateClientId(state, newId) {
+      state.clientId = newId;
+      Cookies.set('clientId', newId, { expires: 365 });
+    },
+    updateConversation(state, chat) {
+      state.conversation = chat;
     },
   },
   actions: {
-    obtainUserId({ commit }) {
-      const savedId = this.$cookie.get('clientId');
-      console.log(savedId);
+    async getClientId({ commit }) {
+      const savedId = Cookies.get('clientId');
       if (savedId) {
-        commit('getUserId', savedId);
+        commit('updateClientId', savedId);
       } else {
-        axios.get('/api/auth/get-code/')
+        await axios.get('http://127.0.0.1:8000/api/auth/get-code/')
           .then((result) => {
-            this.cookie.set('clientId', result, 365);
-            commit('getUserId', result);
-            console.log(result);
-          });
+            commit('updateClientId', result.data);
+            return result.data;
+          })
+          .catch(console.error);
       }
     },
-    // obtainUserId({ commit }) {
-    //   const savedId = localStorage.getItem('savedId');
-    //   if (!savedId) {
-    //     commit('getUserId', savedId);
-    //   } else {
-    //     axios.get('/api/auth/get-code/')
-    //       .then((result) => {
-    //         commit('getUserId', result.data);
-    //         localStorage.setItem('savedId', result.data);
-    //       })
-    //       .catch(console.error);
-    //   }
+    getConversation({ commit }, roomId) {
+      axios.get(`http://localhost:8000/api/chat/get-chat/${roomId}/`)
+        .then((result) => {
+          commit('updateConversation', result.data);
+        })
+        .catch(console.error);
+    },
   },
   getters: {
-    userIdItem(state) {
-      return state.userId;
+    clientId(state) {
+      return state.clientId;
+    },
+    conversation(state) {
+      return state.conversation;
     },
   },
 });
