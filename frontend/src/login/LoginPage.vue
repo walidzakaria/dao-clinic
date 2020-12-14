@@ -1,19 +1,24 @@
 <template>
     <div class="vue-tempalte">
-        <form>
+        <form v-on:submit.prevent @submit="applyLogin()">
             <h3>Sign In</h3>
 
             <div class="form-group">
                 <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <input v-model="userEmail" type="email"
+                  class="form-control form-control-lg" required/>
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input v-model="userPassword" type="password"
+                  class="form-control form-control-lg" required/>
             </div>
-
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign In</button>
+            <p v-if="showError" class="text-danger">Unable to log in with provided credentials.</p>
+            <button
+              type="submit" class="btn btn-dark btn-lg btn-block">
+                Sign In
+            </button>
 
             <p class="forgot-password text-right mt-2 mb-4">
                 <router-link to="/signup/" exact="">Create account ?  </router-link>
@@ -33,9 +38,40 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import axios from 'axios';
+
 export default {
   data() {
-    return {};
+    return {
+      cuurentUser: {},
+      userEmail: '',
+      userPassword: '',
+      showError: false,
+    };
+  },
+  computed: {
+    // ...mapGetters('user', ['userInfo', 'userKey', 'requestErrors']),
+  },
+  methods: {
+    // ...mapActions('user', ['login']),
+    ...mapMutations('user', ['updateUserKey']),
+    applyLogin() {
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/api/auth/token/login/',
+        data: { password: this.userPassword, email: this.userEmail },
+      }).then((result) => {
+        console.log(result.data);
+        this.showError = false;
+        this.$router.push('/');
+        this.updateUserKey(result.data.auth_token);
+      }).catch((error) => {
+        console.log(error.response.data);
+        this.showError = true;
+        this.updateUserKey('');
+      });
+    },
   },
 };
 </script>

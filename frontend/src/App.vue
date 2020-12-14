@@ -15,24 +15,30 @@
           :style="collapseStyle" ref="mynav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/" exact>HOME</router-link>
+                  <router-link class="nav-link" to="/" exact>HOME</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/about/" exact>ABOUT US</router-link>
+                  <router-link class="nav-link" to="/about/" exact>ABOUT US</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/appointments/" exact>
-                      APPOINTMENTS
-                    </router-link>
+                  <router-link class="nav-link" to="/appointments/" exact>
+                    APPOINTMENTS
+                  </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/prices/" exact>PRICES</router-link>
+                  <router-link class="nav-link" to="/prices/" exact>PRICES</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/contact/" exact="">CONTACT US</router-link>
+                  <router-link class="nav-link" to="/contact/" exact="">CONTACT US</router-link>
                 </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" to="/login/" exact="">LOGIN</router-link>
+                <li v-if="!isAuthenticated" class="nav-item">
+                  <router-link class="nav-link" to="/login/" exact="">LOGIN</router-link>
+                </li>
+                <li v-if="isAuthenticated" class="nav-item">
+                  <button @click="logout()"
+                    class="nav-link btn btn-link router-link-exact-active router-link-active">
+                    LOGOUT
+                  </button>
                 </li>
                 <!-- Dropdown -->
     <!-- <li class="nav-item dropdown">
@@ -56,7 +62,7 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form> -->
         </div>
-    </nav>
+      </nav>
     </header>
     <main class="container content">
       <router-view/>
@@ -69,12 +75,17 @@
 <script>
 // import VueNativeSock from 'vue-native-websocket';
 // import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
 import ChatBox from './chat/ChatBox.vue';
 import Footer from './home/PageFooter.vue';
 
 export default {
   created() {
     document.title = 'DAO World';
+    console.log('created');
+    this.$nextTick(() => {
+      console.log(this.isAuthenticated);
+    });
   },
   mounted() {
     this.$nextTick(() => {
@@ -106,12 +117,17 @@ export default {
         'navbar-collapse': true,
         collapse: true,
         collapsing: false,
-        show: false, // initial state
+        show: false,
       },
       collapseStyle: {},
     };
   },
+  computed: {
+    // ...mapState('user', ['userKey', 'userInfo']),
+    ...mapGetters('user', ['userKey', 'isAuthenticated']),
+  },
   methods: {
+    ...mapActions('user', ['logout']),
     toggleNavbar() {
       const curr = this.collapseClasses;
       this.collapseClasses = {
@@ -126,7 +142,7 @@ export default {
       setTimeout(() => {
         const navHeight = this.$refs.mynav.clientHeight;
         console.log(navHeight);
-        this.collapseStyle = { height: '195px' };
+        this.collapseStyle = { height: '270px' };
         this.collapseClasses = {
           ...curr,
           ...{
@@ -198,11 +214,25 @@ header {
   height: 60px !important;
 }
 
-nav ul a {
+nav ul a{
   border-bottom: 3px solid transparent;
 }
 
 nav ul a:hover {
+  border-bottom: 3px solid #333;
+}
+
+.btn-link {
+  border-bottom: 3px solid transparent;
+  width: 100% !important;
+}
+
+/* .btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+} */
+
+.btn-link:hover {
   border-bottom: 3px solid #333;
 }
 
@@ -214,76 +244,10 @@ main {
   position: relative !important;
   top: 140px;
   width: 100%;
+  margin-bottom: 180px;
 }
 
 footer {
   position: relative;
 }
-/* #nav {
-  padding: 30px;
-  display: flex;
-  margin-left: auto;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-/* #logo-link {
-  margin-left: 40px !important;
-  margin-right: 0;
-  padding-bottom: 10px;
-  display: inline;
-  float: left;
-}
-
-nav a {
-  display: block;
-  margin: 0;
-  flex-wrap: wrap;
-  list-style: none;
-  color: #333;
-  border: none !important;
-  text-decoration: none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.5;
-  font-weight: 600;
-  display: inline-block;
-  padding: 10px;
-  margin-top: 60px;
-}
-
-.is-scrolled {
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.sticky {
-  transition: all 0.25s ease-in-out 0s;
-  -webkit-transition: all 0.25s ease-in-out 0s;
-  -moz-transition: all 0.25s ease-in-out 0s;
-  -ms-transition: all 0.25s ease-in-out 0s;
-}
-h1, h4 {
-  color: black;
-}
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-} */
 </style>

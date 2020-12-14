@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <div class="row chat-window col-xs-3 col-md-3" id="chat_window_1" style="margin-left:10px;">
-        <div class="col-xs-12 col-md-12">
+    <div class="row chat-window col-3"
+      id="chat_window_1" style="margin-left:10px;">
+        <div class="col-12">
           <div class="panel panel-default">
                 <div @click="toggleChat();" class="panel-heading top-bar">
-                  <h5 class="">
+                  <h5>
                     <p id="chat-caption">Chat Now</p>
                     <span v-if="!open" class="chat-logo-container">
                       <img id="chat-logo" src="../assets/chat-logo.png" alt="">
@@ -22,23 +23,25 @@
                     <div v-for="(m, index) in chat" :key="index">
                       <div v-if="!m.user || m.user === userId">
                           <div class="row msg_container base_sent">
-                          <div class="col-md-10 col-xs-10">
+                          <div class="col-10">
                               <div class="messages msg_sent">
                                   <p>{{ m.message }}</p>
-                                  <time datetime="2009-11-13T20:00">Me • 51 min</time>
+                                  <time datetime="2009-11-13T20:00">
+                                    Me • {{ calcTime(m.time) }}
+                                  </time>
                               </div>
                           </div>
-                          <div class="col-md-2 col-xs-2 avatar">
+                          <div class="col-2 avatar">
                               <img src="../assets/user-avatar.png" class=" img-responsive ">
                           </div>
                         </div>
                       </div>
                       <div v-else>
                         <div class="row msg_container base_receive">
-                          <div class="col-md-2 col-xs-2 avatar">
+                          <div class="col-2 avatar">
                               <img src="../assets/employee-avatar.png" class=" img-responsive ">
                           </div>
-                          <div class="col-md-10 col-xs-10">
+                          <div class="col-10">
                               <div class="messages msg_receive">
                                   <p>{{ m.message }}</p>
                                   <time datetime="2009-11-13T20:00">
@@ -58,7 +61,7 @@
                         placeholder="Write your message here..." autocomplete="off"/>
                         <span class="input-group-btn">
                         <button @click="sendMessage()"
-                          class="btn btn-primary btn-sm" id="btn-chat">Send</button>
+                          class="btn btn-dark btn-sm" id="btn-chat">Send</button>
                         </span>
                     </div>
                 </div>
@@ -66,27 +69,16 @@
           </div>
         </div>
     </div>
-
-    <div class="btn-group dropup">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="glyphicon glyphicon-cog"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="#" id="new_chat"><span
-            class="glyphicon glyphicon-plus"></span> Novo</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-list"></span> Ver outras</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Fechar Tudo</a></li>
-            <li class="divider"></li>
-            <li><a href="#"><span class="glyphicon glyphicon-eye-close"></span> Invisivel</a></li>
-        </ul>
-        <div>fill tests {{ userId }}</div>
-    </div>
 </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+
+function addLeadingZero(inputNumber) {
+  const result = inputNumber < 10 ? `0${inputNumber.toString()}` : inputNumber.toString();
+  return result;
+}
 
 export default {
   name: 'ChatBox',
@@ -102,16 +94,16 @@ export default {
   computed: {
     ...mapGetters(
       'chat', ['clientId', 'conversation'],
-      'user', ['userInfo', 'userKey'],
+      'user', ['userInfo', 'userKey', 'requestErrors'],
     ),
   },
   async created() {
     this.getClientId();
   },
   async mounted() {
-    console.log(this.cliendId);
-    console.log(this.userId);
-    console.log('mounted');
+    // console.log(this.cliendId);
+    // console.log(this.userId);
+    // console.log('mounted');
     this.getConversation(this.clientId);
     this.userId = this.$store.getters['user/userKey'];
   },
@@ -123,9 +115,9 @@ export default {
     toggleChat() {
       this.open = !this.open;
       this.applyConnection();
-      console.log(this.chat);
+      // console.log(this.chat);
       this.chat = this.$store.getters['chat/conversation'];
-      console.log(this.$refs['chat-box']);
+      // console.log(this.$refs['chat-box']);
       this.scrollChat();
       // window.scrollTo(0, document.body.scrollHeight);
     },
@@ -154,23 +146,26 @@ export default {
         };
       }
     },
-    calcTime(inputTime) {
-      // @TODO: Fix date in conversation
+    calcTime(chatTime) {
+      const inputTime = new Date(chatTime);
       const currentTime = new Date();
       const timeDiff = Math.round((currentTime - inputTime) / 1000, 0);
-      console.log(inputTime);
+      // console.log(inputTime);
+      // console.log(timeDiff);
       let result = '';
-      if (timeDiff < 60) {
-        result = `${toString(timeDiff)} sec`;
+      if (timeDiff < 30) {
+        result = 'few sec.';
+      } else if (timeDiff < 60) {
+        result = `${timeDiff} sec`;
       } else if (timeDiff < 3600) {
-        result = `${toString(timeDiff / 60)} min`;
+        result = `${Math.floor(timeDiff / 60)} min`;
       } else if (timeDiff < 86400) {
-        result = `${toString(timeDiff / 1440)} hrs`;
+        result = `${Math.floor(timeDiff / 60 / 60)} hrs`;
       } else {
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const timeDay = inputTime.getDay() < 10 ? `0${toString(inputTime.getDay())}` : `${toString(inputTime.getDay())}`;
-        const timeHour = inputTime.getHours() < 10 ? `0${toString(inputTime.getHours())}` : `${toString(inputTime.getHours())}`;
-        const timeMinute = inputTime.getMinutes() < 10 ? `0${toString(inputTime.getMinutes())}` : `${toString(inputTime.getMinutes())}`;
+        const timeDay = addLeadingZero(inputTime.getDay());
+        const timeHour = addLeadingZero(inputTime.getHours());
+        const timeMinute = addLeadingZero(inputTime.getMinutes());
         result = `${timeDay}${monthNames[inputTime.getMonth()]} ${timeHour}:${timeMinute}`;
       }
       return result;
@@ -196,7 +191,7 @@ body{
     position: fixed;
     bottom: 0;
 }
-.col-md-2, .col-md-10{
+.col-2, .col-10{
     padding:0;
 }
 .panel{
@@ -221,6 +216,10 @@ body{
   max-height:300px;
   min-height: 300px;
   overflow-x:hidden;
+  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+
 }
 .top-bar {
   background: #666;
@@ -332,6 +331,10 @@ img {
 .panel-heading {
   border-radius: 10px 10px 0 0;
   cursor: pointer;
+  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+
 }
 
 #chat-logo {
@@ -350,6 +353,13 @@ img {
 
 #chat-caption {
   display: inline;
+}
+
+#btn-input {
+  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+
 }
 
 </style>

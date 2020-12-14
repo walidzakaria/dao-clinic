@@ -22,7 +22,7 @@
 
             <p class="forgot-password text-right">
                 Already registered
-                <router-link :to="{name: 'login'}">sign in?</router-link>
+                <router-link to="/login/" exact="">sign in?</router-link>
             </p>
         </form>
     </div>

@@ -9,8 +9,25 @@ import VideoSession from '../home/VideoSession.vue';
 import LoginForm from '../login/LoginPage.vue';
 import SignupForm from '../login/SignupPage.vue';
 import ForgotPassword from '../login/ForgotPassword.vue';
+import store from '../store';
 
 Vue.use(VueRouter);
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters['user/isAuthenticated']) {
+    next();
+    return;
+  }
+  next('/');
+};
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters['user/isAuthenticated']) {
+    next();
+    return;
+  }
+  next('/login');
+};
 
 const routes = [
   {
@@ -42,20 +59,30 @@ const routes = [
     name: 'Session',
     component: VideoSession,
     props: true,
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/login',
     name: 'Login',
     component: LoginForm,
+    beforeEnter: ifNotAuthenticated,
   },
   {
     path: '/signup',
     name: 'Signup',
     component: SignupForm,
+    beforeEnter: ifNotAuthenticated,
   }, {
     path: '/reset',
     name: 'Reset',
     component: ForgotPassword,
+    beforeEnter: ifNotAuthenticated,
+  },
+
+  {
+    // otherwise redirect to home
+    path: '*',
+    redirect: '/',
   },
 ];
 
@@ -72,6 +99,21 @@ const router = new VueRouter({
 router.beforeResolve((to, from, next) => {
   next();
 });
+
+// eslint-disable-next-line consistent-return
+// router.beforeEach((to, from, next) => {
+//   // redirect to login page if not logged in and trying to access a restricted page
+//   const publicPages = ['/', '/about', '/appointments',
+//      '/prices', '/contact', '/login', '/signup', '/reset'];
+//   const authRequired = !publicPages.includes(to.path);
+//   const loggedIn = localStorage.getItem('user');
+
+//   if (authRequired && !loggedIn) {
+//     return next('/login');
+//   }
+
+//   next();
+// });
 
 // eslint-disable-next-line no-unused-vars
 router.afterEach((to, from) => {
