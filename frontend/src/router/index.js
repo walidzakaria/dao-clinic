@@ -6,6 +6,9 @@ import Appointments from '../views/Appointments.vue';
 import Prices from '../views/Prices.vue';
 import ConstactUs from '../views/ContactUs.vue';
 import VideoSession from '../home/VideoSession.vue';
+import LoginForm from '../login/LoginPage.vue';
+import SignupForm from '../login/SignupPage.vue';
+import ForgotPassword from '../login/ForgotPassword.vue';
 
 Vue.use(VueRouter);
 
@@ -39,6 +42,20 @@ const routes = [
     name: 'Session',
     component: VideoSession,
     props: true,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginForm,
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: SignupForm,
+  }, {
+    path: '/reset',
+    name: 'Reset',
+    component: ForgotPassword,
   },
 ];
 

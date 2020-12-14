@@ -4,7 +4,8 @@
         <div class="col-xs-12 col-md-12">
           <div class="panel panel-default">
                 <div @click="toggleChat();" class="panel-heading top-bar">
-                  <h5 class="">Leave a Message
+                  <h5 class="">
+                    <p id="chat-caption">Chat Now</p>
                     <span v-if="!open" class="chat-logo-container">
                       <img id="chat-logo" src="../assets/chat-logo.png" alt="">
                     </span>
@@ -14,53 +15,54 @@
                   </h5>
                 </div>
                 <!-- Toggleable -->
-                <slot v-if="open">
-                  <div id="dialog-container" class="panel-body msg_container_base">
+                <slot v-show="open">
+                  <div id="dialog-container"
+                    class="panel-body msg_container_base"
+                    :class="{'hidden-chat-box': !open}" ref="chat-box">
                     <div v-for="(m, index) in chat" :key="index">
-                      <div v-if="!m.user">
-                        no user
+                      <div v-if="!m.user || m.user === userId">
+                          <div class="row msg_container base_sent">
+                          <div class="col-md-10 col-xs-10">
+                              <div class="messages msg_sent">
+                                  <p>{{ m.message }}</p>
+                                  <time datetime="2009-11-13T20:00">Me • 51 min</time>
+                              </div>
+                          </div>
+                          <div class="col-md-2 col-xs-2 avatar">
+                              <img src="../assets/user-avatar.png" class=" img-responsive ">
+                          </div>
+                        </div>
                       </div>
-                      <div v-if="m.user || 1==1">
-                        yes user
+                      <div v-else>
+                        <div class="row msg_container base_receive">
+                          <div class="col-md-2 col-xs-2 avatar">
+                              <img src="../assets/employee-avatar.png" class=" img-responsive ">
+                          </div>
+                          <div class="col-md-10 col-xs-10">
+                              <div class="messages msg_receive">
+                                  <p>{{ m.message }}</p>
+                                  <time datetime="2009-11-13T20:00">
+                                    {{ m.first_name + ' ' + m.last_name }} • {{ calcTime(m.time) }}
+                                  </time>
+                              </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="row msg_container base_sent">
-                        <div class="col-md-10 col-xs-10">
-                            <div class="messages msg_sent">
-                                <p>some messages here</p>
-                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-xs-2 avatar">
-                            <img src="../assets/user-avatar.png" class=" img-responsive ">
-                        </div>
-                    </div>
-                    <div class="row msg_container base_receive">
-                        <div class="col-md-2 col-xs-2 avatar">
-                            <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
-                        </div>
-                        <div class="col-md-10 col-xs-10">
-                            <div class="messages msg_receive">
-                                <p>that mongodb thing looks good, huh?
-                                tiny master db, and huge document store</p>
-                                <time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <div class="input-group">
+                    <div class="input-group" :class="{'hidden-chat-box': !open}">
                         <input id="btn-input" type="text" v-model="userMessage"
                           @keyup.enter="sendMessage()"
-                          class="form-control input-sm chat_input"
-                        placeholder="Write your message here..." />
+                          class="form-control input-sm chat_input" ref="chat-input"
+                        placeholder="Write your message here..." autocomplete="off"/>
                         <span class="input-group-btn">
                         <button @click="sendMessage()"
                           class="btn btn-primary btn-sm" id="btn-chat">Send</button>
                         </span>
                     </div>
                 </div>
-                </slot>
+              </slot>
           </div>
         </div>
     </div>
@@ -85,7 +87,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-// import axios from 'axios';
 
 export default {
   name: 'ChatBox',
@@ -95,7 +96,7 @@ export default {
       connection: null,
       chat: [],
       userMessage: null,
-      userId: 10,
+      userId: 1,
     };
   },
   computed: {
@@ -112,7 +113,7 @@ export default {
     console.log(this.userId);
     console.log('mounted');
     this.getConversation(this.clientId);
-    this.userId = this.$store.getters('user/userKey');
+    this.userId = this.$store.getters['user/userKey'];
   },
   methods: {
     ...mapActions('chat', ['getClientId', 'getConversation']),
@@ -124,6 +125,8 @@ export default {
       this.applyConnection();
       console.log(this.chat);
       this.chat = this.$store.getters['chat/conversation'];
+      console.log(this.$refs['chat-box']);
+      this.scrollChat();
       // window.scrollTo(0, document.body.scrollHeight);
     },
     sendMessage() {
@@ -151,12 +154,39 @@ export default {
         };
       }
     },
+    calcTime(inputTime) {
+      // @TODO: Fix date in conversation
+      const currentTime = new Date();
+      const timeDiff = Math.round((currentTime - inputTime) / 1000, 0);
+      console.log(inputTime);
+      let result = '';
+      if (timeDiff < 60) {
+        result = `${toString(timeDiff)} sec`;
+      } else if (timeDiff < 3600) {
+        result = `${toString(timeDiff / 60)} min`;
+      } else if (timeDiff < 86400) {
+        result = `${toString(timeDiff / 1440)} hrs`;
+      } else {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const timeDay = inputTime.getDay() < 10 ? `0${toString(inputTime.getDay())}` : `${toString(inputTime.getDay())}`;
+        const timeHour = inputTime.getHours() < 10 ? `0${toString(inputTime.getHours())}` : `${toString(inputTime.getHours())}`;
+        const timeMinute = inputTime.getMinutes() < 10 ? `0${toString(inputTime.getMinutes())}` : `${toString(inputTime.getMinutes())}`;
+        result = `${timeDay}${monthNames[inputTime.getMonth()]} ${timeHour}:${timeMinute}`;
+      }
+      return result;
+    },
+    scrollChat() {
+      const chatBox = this.$refs['chat-box'];
+      chatBox.scrollTo(0, chatBox.scrollHeight);
+    },
   },
-  // watch: {
-  //   conversation() {
-  //     this.chat = this.conversation;
-  //   },
-  // },
+  watch: {
+    open() {
+      this.$nextTick(() => {
+        this.scrollChat();
+      });
+    },
+  },
 };
 </script>
 
@@ -310,6 +340,16 @@ img {
 
 .chat-logo-container {
   float: right;
+}
+
+.hidden-chat-box {
+  min-height: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+}
+
+#chat-caption {
+  display: inline;
 }
 
 </style>
