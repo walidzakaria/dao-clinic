@@ -1,22 +1,89 @@
 <template>
     <div class="vue-tempalte">
-        <form>
+      <div v-if="registered">
+        <h2>You're registered successfully!</h2>
+        <h3>Please check your email for confirmation.</h3>
+        <p>Click <router-link to="/">here</router-link> to visit our home page.</p>
+      </div>
+        <form v-if="!registered" v-on:submit.prevent @submit="applySignup()">
             <h3>Sign Up</h3>
 
             <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" class="form-control form-control-lg"/>
+                <label>Username <span class="text-danger">*</span></label>
+                <input v-model.trim="newUser.username" type="text"
+                  class="form-control form-control-lg" required/>
+                <ul>
+                  <li v-for="(m, index) in invalidEntry.username" :key="index"
+                    class="text-danger">{{ m }}
+                  </li>
+                </ul>
             </div>
 
             <div class="form-group">
-                <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <label>Email address <span class="text-danger">*</span></label>
+                <input v-model.trim="newUser.email"
+                  type="email" class="form-control form-control-lg" required/>
+                <ul>
+                  <li v-for="(m, index) in invalidEntry.email" :key="index"
+                    class="text-danger">{{ m }}
+                  </li>
+                </ul>
             </div>
 
             <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <label>Phone Number <span class="text-danger">*</span></label>
+                <input v-model.trim="newUser.phone" type="tel"
+                  class="form-control form-control-lg" required/>
+                <ul>
+                  <li v-for="(m, index) in invalidEntry.phone" :key="index"
+                    class="text-danger">{{ m }}
+                  </li>
+                </ul>
             </div>
+
+            <div class="form-group">
+                <label>First Name</label>
+                <input v-model.trim="newUser.firstName"
+                  type="text" class="form-control form-control-lg"/>
+                <ul>
+                  <li v-for="(m, index) in invalidEntry.firstName" :key="index"
+                    class="text-danger">{{ m }}
+                  </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input v-model.trim="newUser.lastName" type="text"
+                  class="form-control form-control-lg"/>
+                <ul>
+                  <li v-for="(m, index) in invalidEntry.lastName" :key="index"
+                    class="text-danger">{{ m }}
+                  </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label>Password <span class="text-danger"> *</span></label>
+                <input v-model="newUser.password"
+                  type="password" class="form-control form-control-lg" required/>
+                <ul>
+                  <li v-for="(m, index) in invalidEntry.password" :key="index"
+                    class="text-danger">{{ m }}
+                  </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label>Retype Password <span class="text-danger"> *</span></label>
+                <input v-model="newUser.rePassword"
+                  type="password" class="form-control form-control-lg" required/>
+            </div>
+            <ul>
+              <li v-for="(m, index) in invalidEntry.nonFieldErrors" :key="index"
+                class="text-danger">{{ m }}
+              </li>
+            </ul>
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
 
@@ -29,9 +96,68 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
-    return {};
+    return {
+      registered: false,
+      newUser: {
+        username: '',
+        email: '',
+        phone: '',
+        firstName: '',
+        lastName: '',
+        password: '',
+        rePassword: '',
+      },
+      invalidEntry: {
+        username: [],
+        email: [],
+        phone: [],
+        firstName: [],
+        lastName: [],
+        password: [],
+        rePassword: [],
+        nonFieldErrors: [],
+      },
+    };
+  },
+  computed: {
+  },
+  methods: {
+    applySignup() {
+      const requestBody = {
+        username: this.newUser.username,
+        phone: this.newUser.phone,
+        first_name: this.newUser.firstName,
+        last_name: this.newUser.lastName,
+        email: this.newUser.email,
+        password: this.newUser.password,
+        re_password: this.newUser.rePassword,
+      };
+
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/api/auth/users/',
+        data: requestBody,
+      }).then((result) => {
+        console.log(result);
+        this.registered = true;
+      }).catch((error) => {
+        const result = error.response.data;
+        console.log(result);
+        this.invalidEntry.username = result.username || [];
+        this.invalidEntry.phone = result.phone || [];
+        this.invalidEntry.firstName = result.firstName || [];
+        this.invalidEntry.lastName = result.lastName || [];
+        this.invalidEntry.email = result.email || [];
+        this.invalidEntry.password = result.password || [];
+        this.invalidEntry.nonFieldErrors = (
+          this.newUser.password === this.newUser.rePassword ? [] : ["The two password fields didn't match."]
+        );
+      });
+    },
   },
 };
 </script>
@@ -46,5 +172,15 @@ export default {
     -webkit-box-shadow: 0px 0px 23px -8px rgba(10,10,10,1);
     -moz-box-shadow: 0px 0px 23px -8px rgba(10,10,10,1);
     box-shadow: 0px 0px 23px -8px rgba(10,10,10,1);
+  }
+
+  label {
+    text-align: left !important;
+    width: 100%;
+  }
+
+  li {
+    margin: 0 auto 0 0;
+    text-align: left !important;
   }
 </style>

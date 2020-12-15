@@ -9,6 +9,7 @@ import VideoSession from '../home/VideoSession.vue';
 import LoginForm from '../login/LoginPage.vue';
 import SignupForm from '../login/SignupPage.vue';
 import ForgotPassword from '../login/ForgotPassword.vue';
+import ActivateUser from '../login/ActivateSuccess.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -60,6 +61,11 @@ const routes = [
     component: VideoSession,
     props: true,
     beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/auth/activate/:uid/:token',
+    name: 'Activate',
+    component: ActivateUser,
   },
   {
     path: '/login',

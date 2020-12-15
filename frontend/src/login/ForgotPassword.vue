@@ -33,4 +33,9 @@ export default {
     -moz-box-shadow: 0px 0px 23px -8px rgba(10,10,10,1);
     box-shadow: 0px 0px 23px -8px rgba(10,10,10,1);
   }
+
+  label {
+    text-align: left !important;
+    width: 100%;
+  }
 </style>
