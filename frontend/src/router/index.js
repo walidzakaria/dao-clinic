@@ -11,6 +11,7 @@ import SignupForm from '../login/SignupPage.vue';
 import ForgotPassword from '../login/ForgotPassword.vue';
 import ActivateUser from '../login/ActivateSuccess.vue';
 import ResetPassword from '../login/ResetSuccess.vue';
+import ResendActivation from '../login/ResendActivation.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -72,6 +73,11 @@ const routes = [
     path: '/auth/password/reset/confirm/:uid/:token',
     name: 'ResetConfirm',
     component: ResetPassword,
+  }, {
+    path: '/auth/account/resend/activation',
+    name: 'ResendActivation',
+    component: ResendActivation,
+    beforeEnter: ifNotAuthenticated,
   },
   {
     path: '/login',

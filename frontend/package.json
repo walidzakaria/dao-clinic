@@ -16,6 +16,7 @@
     "nprogress": "^0.2.0",
     "vue": "^2.6.12",
     "vue-cookie": "^1.1.4",
+    "vue-google-login": "^2.0.5",
     "vue-js-modal": "^2.0.0-rc.6",
     "vue-loading-overlay": "^3.4.2",
     "vue-native-websocket": "^2.0.14",
