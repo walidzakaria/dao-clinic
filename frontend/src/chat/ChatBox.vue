@@ -163,7 +163,7 @@ export default {
         result = `${Math.floor(timeDiff / 60 / 60)} hrs`;
       } else {
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const timeDay = addLeadingZero(inputTime.getDay());
+        const timeDay = addLeadingZero(inputTime.getDay() + 1);
         const timeHour = addLeadingZero(inputTime.getHours());
         const timeMinute = addLeadingZero(inputTime.getMinutes());
         result = `${timeDay}${monthNames[inputTime.getMonth()]} ${timeHour}:${timeMinute}`;
@@ -352,7 +352,10 @@ img {
 }
 
 #chat-caption {
-  display: inline;
+  display: inline-block;
+  text-align: center;
+  width: 80%;
+  margin: 2px 0 -4px 0;
 }
 
 #btn-input {

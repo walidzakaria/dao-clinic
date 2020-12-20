@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label>Email address</label>
                 <input v-model.trim="userEmail" type="email"
-                  class="form-control form-control-lg" required/>
+                  class="form-control form-control-lg" required autofocus/>
             </div>
 
             <div class="form-group">
@@ -14,10 +14,12 @@
                 <input v-model="userPassword" type="password"
                   class="form-control form-control-lg" required/>
             </div>
-            <p v-if="showError" class="text-danger">Unable to log in with provided credentials.</p>
+            <p v-if="showError"
+              class="text-danger">Unable to log in with provided credentials.
+            </p>
             <button
               type="submit" class="btn btn-dark btn-lg btn-block">
-                Sign In
+                Sign In  <span v-if="isLoading" class="spinner-border"></span>
             </button>
 
             <p class="forgot-password text-right mt-2 mb-4">
@@ -38,12 +40,16 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 import axios from 'axios';
+
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 
 export default {
   data() {
     return {
+      isLoading: false,
       cuurentUser: {},
       userEmail: '',
       userPassword: '',
@@ -54,10 +60,12 @@ export default {
     // ...mapGetters('user', ['userInfo', 'userKey', 'requestErrors']),
   },
   methods: {
-    // ...mapActions('user', ['login']),
+    ...mapActions('user', ['getUser']),
     ...mapMutations('user', ['updateUserKey']),
-    applyLogin() {
-      axios({
+    async applyLogin() {
+      if (this.isLoading) { return; }
+      this.isLoading = true;
+      await axios({
         method: 'post',
         url: 'http://127.0.0.1:8000/api/auth/token/login/',
         data: { password: this.userPassword, email: this.userEmail },
@@ -66,11 +74,13 @@ export default {
         this.showError = false;
         this.$router.push('/');
         this.updateUserKey(result.data.auth_token);
+        this.getUser();
       }).catch((error) => {
         console.log(error.response.data);
         this.showError = true;
         this.updateUserKey('');
       });
+      this.isLoading = false;
     },
   },
 };
@@ -91,5 +101,10 @@ export default {
   label {
     text-align: left !important;
     width: 100%;
+  }
+
+  .spinner-border {
+    height: 1.5rem;
+    width: 1.5rem;
   }
 </style>

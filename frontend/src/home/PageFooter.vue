@@ -30,8 +30,9 @@
             </div>
             <div class="col-xl-2 col-md-4 col-sm-4 col-12">
               <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5"><b>ADDRESS</b></h6>
-              <p class="mb-1">605, RATAN ICON BUILDING</p>
-              <p>SEAWOODS SECTOR</p>
+              <p class="mb-1">MOHANDSEEN 49 SUDAN ST.</p>
+              <p>SHEIKH ZAYED 208</p>
+              <P>2ND FLOOR DOWNTOWN MALL</P>
             </div>
           </div>
           <div class="row ">
@@ -40,12 +41,12 @@
                     order-sm-1 order-3 align-self-end">
               <p class="social text-muted mb-0 pb-0 bold-text">
                 <span class="mx-2">
-                  <a href="https://facebook.com" target="_blank">
+                  <a href="https://www.facebook.com/DrAhmedOmar1" target="_blank">
                     <img src="../assets/iconmonstr-facebook-1.svg" alt="facebook">
                   </a>
                 </span>
                 <span class="mx-2">
-                  <a href="https://wa.me/15551234567" target="_blank">
+                  <a href="https://wa.me/00201019090187" target="_blank">
                     <img src="../assets/iconmonstr-whatsapp-1.svg" alt="whatsapp">
                   </a>
                 </span>
@@ -71,10 +72,11 @@
                 <b>CALL US</b>
               </h6>
               <small>
-                <a href="tel:00201229277250" target="_blank">
-                  <span>
+                <span>
                     <img src="../assets/iconmonstr-phone-3.svg" alt="phone">
-                  </span> (+20) 12 292 77 250
+                  </span>
+                <a href="tel:00201019090187" target="_blank">
+                  (+20) 10 190 90 187
                 </a>
               </small>
             </div>
@@ -83,10 +85,10 @@
                 <b>MAIL US</b>
               </h6>
               <small>
-                <a href="mailto:walidpiano@yahoo.com" target="_blank">
+                <a href="mailto:daoegypt@gmail.com" target="_blank">
                   <span>
                     <img src="../assets/iconmonstr-email-1.svg" alt="mail">
-                  </span> walidpiano@gmail.com
+                  </span> daoegypt@gmail.com
                 </a>
               </small>
             </div>
@@ -150,6 +152,10 @@ export default {
 
 #footer-logo {
   max-width: 250px;
+}
+
+a {
+  color: #007bff !important;
 }
 
 </style>

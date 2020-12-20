@@ -1,6 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+
 export default ({
   namespaced: true,
   state: {

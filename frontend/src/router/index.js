@@ -10,6 +10,7 @@ import LoginForm from '../login/LoginPage.vue';
 import SignupForm from '../login/SignupPage.vue';
 import ForgotPassword from '../login/ForgotPassword.vue';
 import ActivateUser from '../login/ActivateSuccess.vue';
+import ResetPassword from '../login/ResetSuccess.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -66,6 +67,11 @@ const routes = [
     path: '/auth/activate/:uid/:token',
     name: 'Activate',
     component: ActivateUser,
+  },
+  {
+    path: '/auth/password/reset/confirm/:uid/:token',
+    name: 'ResetConfirm',
+    component: ResetPassword,
   },
   {
     path: '/login',

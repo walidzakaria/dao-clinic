@@ -1,12 +1,10 @@
 <template>
     <div class="vue-tempalte">
-      <div v-if="registered">
-        <h2>You're registered successfully!</h2>
-        <h3>Please check your email for confirmation.</h3>
-        <p>Click <router-link to="/">here</router-link> to visit our home page.</p>
+      <h2>My Account</h2>
+      <div v-if="updated">
+        <p>Your data was updated successfully!</p>
       </div>
-        <form v-if="!registered" v-on:submit.prevent @submit="applySignup()">
-            <h3>Sign Up</h3>
+        <form v-on:submit.prevent @submit="applyUpdate()">
 
             <div class="form-group">
                 <label>Username <span class="text-danger">*</span></label>
@@ -63,22 +61,6 @@
                 </ul>
             </div>
 
-            <div class="form-group">
-                <label>Password <span class="text-danger"> *</span></label>
-                <input v-model="newUser.password"
-                  type="password" class="form-control form-control-lg" required/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.password" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>Retype Password <span class="text-danger"> *</span></label>
-                <input v-model="newUser.rePassword"
-                  type="password" class="form-control form-control-lg" required/>
-            </div>
             <ul>
               <li v-for="(m, index) in invalidEntry.nonFieldErrors" :key="index"
                 class="text-danger">{{ m }}
@@ -86,13 +68,8 @@
             </ul>
 
             <button type="submit" class="btn btn-dark btn-lg btn-block">
-              Sign Up  <span v-if="isLoading" class="spinner-border"></span>
+              Update Account  <span v-if="isLoading" class="spinner-border"></span>
             </button>
-
-            <p class="forgot-password text-right">
-                Already registered
-                <router-link to="/login/" exact="">sign in?</router-link>
-            </p>
         </form>
     </div>
 </template>
@@ -107,7 +84,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      registered: false,
+      updated: false,
       newUser: {
         username: '',
         email: '',
@@ -151,7 +128,7 @@ export default {
         data: requestBody,
       }).then((result) => {
         console.log(result);
-        this.registered = true;
+        this.updated = true;
         window.scroll({
           top: 0,
           left: 0,

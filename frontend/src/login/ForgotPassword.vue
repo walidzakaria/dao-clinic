@@ -6,20 +6,23 @@
             <div class="form-group">
                 <label>Email address <span class="text-danger">*</span></label>
                 <input v-model.trim="email" type="email"
-                  class="form-control form-control-lg" required/>
+                  class="form-control form-control-lg" required autofocus/>
             </div>
             <div v-if="submitted.isSubmitted">
               <p v-if="submitted.isSuccess" class="text-success">
                 We sent a reset link to your email.
                 <br>
-                Or you can visit our <router-link to="/">home</router-link> page.
+                Please check your email, or you can visit our
+                 <router-link to="/">home</router-link> page.
               </p>
               <p v-if="!submitted.isSuccess" class="text-danger">
                 Something went wrong :-(
                   <br>Please try another email!
               </p>
             </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Reset password</button>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">
+              Reset password  <span v-if="isLoading" class="spinner-border"></span>
+            </button>
 
         </form>
     </div>
@@ -28,9 +31,13 @@
 <script>
 import axios from 'axios';
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+
 export default {
   data() {
     return {
+      isLoading: false,
       submitted: {
         isSuccess: true,
         isSubmitted: false,
@@ -39,12 +46,14 @@ export default {
     };
   },
   methods: {
-    applyReset() {
+    async applyReset() {
+      if (this.isLoading) { return; }
+      this.isLoading = true;
       const requestBody = {
         email: this.email,
       };
 
-      axios({
+      await axios({
         method: 'post',
         url: 'http://127.0.0.1:8000/api/auth/users/reset_password/',
         data: requestBody,
@@ -58,6 +67,7 @@ export default {
         this.submitted.isSuccess = false;
         this.submitted.isSubmitted = true;
       });
+      this.isLoading = false;
     },
   },
 };
@@ -78,5 +88,9 @@ export default {
   label {
     text-align: left !important;
     width: 100%;
+  }
+  .spinner-border {
+    height: 1.5rem;
+    width: 1.5rem;
   }
 </style>
