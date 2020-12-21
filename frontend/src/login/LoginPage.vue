@@ -1,17 +1,17 @@
 <template>
     <div class="vue-tempalte">
-        <form v-on:submit.prevent @submit="applyLogin()">
+        <form v-on:submit.prevent @submit="login()">
             <h3>Sign In</h3>
 
             <div class="form-group">
                 <label>Email address</label>
-                <input v-model.trim="userEmail" type="email"
-                  class="form-control form-control-lg" required autofocus/>
+                <input v-model.trim="email" type="email"
+                  class="form-control form-control-lg" required/>
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input v-model="userPassword" type="password"
+                <input v-model="password" type="password"
                   class="form-control form-control-lg" required/>
             </div>
             <p v-if="showError"
@@ -51,8 +51,8 @@ export default {
     return {
       isLoading: false,
       cuurentUser: {},
-      userEmail: '',
-      userPassword: '',
+      email: '',
+      password: '',
       showError: false,
     };
   },
@@ -62,25 +62,40 @@ export default {
   methods: {
     ...mapActions('user', ['getUser']),
     ...mapMutations('user', ['updateUserKey']),
-    async applyLogin() {
+    // async applyLogin() {
+    //   if (this.isLoading) { return; }
+    //   this.isLoading = true;
+    //   await axios({
+    //     method: 'post',
+    //     url: 'http://127.0.0.1:8000/api/auth/token/login/',
+    //     data: { password: this.userPassword, email: this.userEmail },
+    //   }).then((result) => {
+    //     console.log(result.data);
+    //     this.showError = false;
+    //     this.$router.push('/');
+    //     this.updateUserKey(result.data.auth_token);
+    //     this.getUser();
+    //   }).catch((error) => {
+    //     console.log(error.response.data);
+    //     this.showError = true;
+    //     this.updateUserKey('');
+    //   });
+    //   this.isLoading = false;
+    // },
+    login() {
       if (this.isLoading) { return; }
-      this.isLoading = true;
-      await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api/auth/token/login/',
-        data: { password: this.userPassword, email: this.userEmail },
-      }).then((result) => {
-        console.log(result.data);
+      this.$store.dispatch('user/retrieveToken', {
+        email: this.email,
+        password: this.password,
+      }).then((response) => {
+        console.log(response);
         this.showError = false;
+        // this.getUser();
         this.$router.push('/');
-        this.updateUserKey(result.data.auth_token);
-        this.getUser();
       }).catch((error) => {
-        console.log(error.response.data);
+        console.log(error);
         this.showError = true;
-        this.updateUserKey('');
       });
-      this.isLoading = false;
     },
   },
 };

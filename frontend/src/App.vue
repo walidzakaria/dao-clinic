@@ -2,12 +2,13 @@
   <div id="app">
     <header class="container-fluid" id="app-header">
       <div class="wrap">
-        <div id="hamburger" v-on:click="displayMenu()">
+        <div id="hamburger" @click="displayMenu()">
           <span></span>
           <span></span>
           <span></span>
         </div>
-        <router-link class="navbar-brand" id="logo-link" to="/" exact="">
+        <router-link @click.native="open = false"
+          class="navbar-brand" id="logo-link" to="/" exact="">
           <img id="logo" ref="logo"
             src="./assets/DAO-LOGO.png"
             alt="logo">
@@ -32,7 +33,7 @@
           </li>
           <li id="login-drop" class="drop">
             <a class="nav-link" v-on:click="toggleDropMenu()">
-              LOGIN <i class="icon-arrow" ref="toggleButton"></i>
+              ACCOUNT <i class="icon-arrow" ref="toggleButton"></i>
             </a>
             <ul class="drop_menu nav-link" :class="{'display': open}">
               <div v-if="!isAuthenticated">
@@ -40,13 +41,9 @@
                 <router-link to="/signup/" exact>SIGN UP</router-link>
               </div>
               <div v-else>
-                <router-link to="/me/" exact>ACCOUNT</router-link>
+                <router-link to="/me/" exact>PROFILE</router-link>
                 <router-link to="/my-schedule/" exact>SCHEDULE</router-link>
-                <button id="logout-button" @click="logout()"
-                    class="text-danger nav-link btn btn-link
-                      router-link-exact-active router-link-active">
-                    LOGOUT
-                </button>
+                <router-link to="/logout/" exact>LOGOUT</router-link>
               </div>
             </ul>
           </li>
@@ -91,12 +88,12 @@ export default {
   },
   computed: {
     // ...mapState('user', ['userKey', 'userInfo']),
-    ...mapGetters('user', ['userKey', 'isAuthenticated']),
+    ...mapGetters('user', ['userKey', 'isAuthenticated', 'userInfo', 'loginName']),
   },
   created() {
     this.$nextTick(() => {
       console.log(this.isAuthenticated);
-      console.log(this.$store.state.user.userInfo);
+      console.log(this.userInfo);
     });
   },
   mounted() {
@@ -398,6 +395,7 @@ button {
 header li a {
   color: #444;
   border-bottom: 3px solid transparent;
+  cursor: pointer;
 }
 
 .drop_menu a {

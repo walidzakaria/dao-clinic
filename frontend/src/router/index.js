@@ -12,6 +12,9 @@ import ForgotPassword from '../login/ForgotPassword.vue';
 import ActivateUser from '../login/ActivateSuccess.vue';
 import ResetPassword from '../login/ResetSuccess.vue';
 import ResendActivation from '../login/ResendActivation.vue';
+import MyAccount from '../login/MyAccount.vue';
+import Logout from '../login/LogoutPage.vue';
+
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -96,7 +99,17 @@ const routes = [
     component: ForgotPassword,
     beforeEnter: ifNotAuthenticated,
   },
-
+  {
+    path: '/me',
+    name: 'Me',
+    component: MyAccount,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
+  },
   {
     // otherwise redirect to home
     path: '*',

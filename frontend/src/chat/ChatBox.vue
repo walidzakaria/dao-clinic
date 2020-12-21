@@ -64,6 +64,7 @@
                           class="btn btn-dark btn-sm" id="btn-chat">Send</button>
                         </span>
                     </div>
+                    <button @click="test()"></button>
                 </div>
               </slot>
           </div>
@@ -74,6 +75,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import Cookies from 'js-cookie';
 
 function addLeadingZero(inputNumber) {
   const result = inputNumber < 10 ? `0${inputNumber.toString()}` : inputNumber.toString();
@@ -88,26 +90,39 @@ export default {
       connection: null,
       chat: [],
       userMessage: null,
-      userId: 1,
+      username: '',
+      userId: 0,
     };
   },
   computed: {
     ...mapGetters(
       'chat', ['clientId', 'conversation'],
-      'user', ['userInfo', 'userKey', 'requestErrors'],
+      'user', ['userInfo', 'userKey', 'requestErrors', 'loginName'],
     ),
   },
   async created() {
     this.getClientId();
+    this.$nextTick(() => {
+      this.username = Cookies.get('username');
+      this.userId = Cookies.get('id');
+    });
   },
   async mounted() {
     // console.log(this.cliendId);
     // console.log(this.userId);
     // console.log('mounted');
     this.getConversation(this.clientId);
-    this.userId = this.$store.getters['user/userKey'];
+    // this.userId = this.$store.getters['user/userInfo.id'];
+    // this.username = this.loginName;
+    // console.log(this.username);
   },
   methods: {
+    test() {
+      // console.log(Cookies.get('userInfo.username'));
+      console.log(Cookies.get('id'));
+      console.log(Cookies.get('username'));
+      console.log(this.userId);
+    },
     ...mapActions('chat', ['getClientId', 'getConversation']),
     getWebsocketLink() {
       return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
@@ -125,10 +140,11 @@ export default {
       // console.log(this.connection);
       if (this.userMessage) {
         console.log(this.userMessage);
-        this.connection.send(JSON.stringify({
+        const newMessage = {
           message: this.userMessage,
-          username: 'walid',
-        }));
+          username: Cookies.get('username'),
+        };
+        this.connection.send(JSON.stringify(newMessage));
         this.userMessage = null;
       }
       // this.$store.dispatch['chat/obtainUserId'];
@@ -138,6 +154,12 @@ export default {
       if (!this.connection) {
         this.getConversation(this.clientId);
         this.connection = new WebSocket(this.getWebsocketLink());
+        this.connection.onclose = (e) => {
+          setTimeout(() => {
+            console.log('connecting...');
+            this.connection.reconnet(e);
+          }, 1000);
+        };
         this.connection.onopen = (event) => {
           console.log(event);
         };
@@ -325,7 +347,7 @@ img {
   right: 10px;
   min-width: 315px;
   max-width: 350px;
-  z-index: 999;
+  z-index: 900;
 }
 
 .panel-heading {
@@ -363,6 +385,15 @@ img {
   -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
   box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
 
+}
+
+#btn-chat {
+  height: 32px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
 }
 
 </style>

@@ -4,7 +4,7 @@
       <div v-if="updated">
         <p>Your data was updated successfully!</p>
       </div>
-        <form v-on:submit.prevent @submit="applyUpdate()">
+        <form v-on:submit.prevent @submit="updateUser()">
 
             <div class="form-group">
                 <label>Username <span class="text-danger">*</span></label>
@@ -76,6 +76,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
@@ -91,8 +92,6 @@ export default {
         phone: '',
         firstName: '',
         lastName: '',
-        password: '',
-        rePassword: '',
       },
       invalidEntry: {
         username: [],
@@ -100,16 +99,24 @@ export default {
         phone: [],
         firstName: [],
         lastName: [],
-        password: [],
-        rePassword: [],
         nonFieldErrors: [],
       },
     };
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.username = this.userInfo.username;
+      this.firstName = this.userInfo.firstName;
+      this.lastName = this.userInfo.lastName;
+      this.email = this.userInfo.email;
+      this.phone = this.userInfo.phone;
+    });
+  },
   computed: {
+    ...mapGetters('user', ['userKey', 'isAuthenticated', 'userInfo', 'loginName']),
   },
   methods: {
-    async applySignup() {
+    async updateUser() {
       if (this.isLoading) { return; }
       this.isLoading = true;
       const requestBody = {
@@ -118,8 +125,6 @@ export default {
         first_name: this.newUser.firstName,
         last_name: this.newUser.lastName,
         email: this.newUser.email,
-        password: this.newUser.password,
-        re_password: this.newUser.rePassword,
       };
 
       await axios({
@@ -153,7 +158,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
   form {
     max-width: 400px;
     margin: 10px auto;
