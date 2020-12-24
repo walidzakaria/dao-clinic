@@ -18,7 +18,7 @@ export default ({
     token: Cookies.get('token') || null,
   },
   mutations: {
-    updateInfo(state, newInfo) {
+    updateUserInfo(state, newInfo) {
       if (!newInfo) {
         state.userInfo = {
           id: 0,
@@ -62,6 +62,7 @@ export default ({
           const token = response.data.auth_token;
           Cookies.set('token', token, { expires: 30 });
           context.commit('retrieveToken', token);
+          axios.defaults.headers.common.Authorization = `Token ${context.state.token}`;
           resolve(response);
         }).catch((error) => {
           console.log(error.response.data);
@@ -70,8 +71,6 @@ export default ({
       });
     },
     destroyToken(context) {
-      axios.defaults.headers.common.Authorization = `Token ${context.state.token}`;
-
       return new Promise((resolve, reject) => {
         axios({
           url: 'http://127.0.0.1:8000/api/auth/token/logout/',
@@ -80,49 +79,56 @@ export default ({
           Cookies.remove('token');
           context.commit('retrieveToken', '');
           console.log(response);
+          axios.defaults.headers.common.Authorization = '';
+          context.commit('updateUserInfo', null);
           resolve(response);
-          // resolve(response);
         }).catch((error) => {
           console.log(error.data);
           Cookies.remove('token');
           context.commit('retrieveToken', '');
+          axios.defaults.headers.common.Authorization = '';
           reject(error);
-          // reject(error);
         });
       });
     },
-    // async logout({ commit, state }) {
-    //   await axios({
-    //     url: 'http://127.0.0.1:8000/api/auth/token/logout/',
-    //     method: 'post',
-    //     headers: {
-    //       Authorization: `Token ${state.userKey}`,
-    //     },
-    //   }).then().catch(console.error.data);
-    //   commit('retrieveToken', null);
-    //   commit('updateInfo', null);
-    // },
-
-    getUser({ commit, state }) {
-      axios({
-        url: 'http://127.0.0.1:8000/api/auth/users/me/',
-        method: 'get',
-        headers: {
-          Authorization: `Token ${state.userKey}`,
-        },
-      }).then((result) => {
-        const resultInfo = {
-          id: result.data.id,
-          username: result.data.username,
-          firstName: result.data.first_name,
-          lastName: result.data.last_name,
-          email: result.data.email,
-          phone: result.data.phone,
-        };
-        console.log(resultInfo);
-        console.log(result);
-        commit('updateInfo', resultInfo);
-      }).catch(console.error.data);
+    retrieveUserData(context) {
+      return new Promise((resolve, reject) => {
+        axios({
+          url: 'http://127.0.0.1:8000/api/auth/users/me/',
+          method: 'get',
+        }).then((result) => {
+          const resultInfo = {
+            id: result.data.id,
+            username: result.data.username,
+            firstName: result.data.first_name,
+            lastName: result.data.last_name,
+            email: result.data.email,
+            phone: result.data.phone,
+          };
+          console.log(resultInfo);
+          console.log(result);
+          context.commit('updateUserInfo', resultInfo);
+          resolve(result);
+        }).catch((error) => {
+          console.log(error.data);
+          reject(error);
+        });
+      });
+    },
+    register(context, newUser) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: 'http://127.0.0.1:8000/api/auth/users/',
+          data: newUser,
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          const result = error.response.data;
+          console.log(result);
+          reject(result);
+        });
+      });
     },
   },
   getters: {

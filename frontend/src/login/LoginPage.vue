@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex';
+// import { mapMutations, mapActions } from 'vuex';
 import axios from 'axios';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
@@ -60,8 +60,8 @@ export default {
     // ...mapGetters('user', ['userInfo', 'userKey', 'requestErrors']),
   },
   methods: {
-    ...mapActions('user', ['getUser']),
-    ...mapMutations('user', ['updateUserKey']),
+    // ...mapActions('user', ['getUser']),
+    // ...mapMutations('user', ['updateUserKey']),
     // async applyLogin() {
     //   if (this.isLoading) { return; }
     //   this.isLoading = true;
@@ -90,7 +90,7 @@ export default {
       }).then((response) => {
         console.log(response);
         this.showError = false;
-        // this.getUser();
+        this.$store.dispatch('user/retrieveUserData');
         this.$router.push('/');
       }).catch((error) => {
         console.log(error);

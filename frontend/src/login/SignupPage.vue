@@ -5,7 +5,7 @@
         <h3>Please check your email for confirmation.</h3>
         <p>Click <router-link to="/">here</router-link> to visit our home page.</p>
       </div>
-        <form v-if="!registered" v-on:submit.prevent @submit="applySignup()">
+        <form v-if="!registered" v-on:submit.prevent @submit="signup()">
             <h3>Sign Up</h3>
 
             <div class="form-group">
@@ -132,7 +132,7 @@ export default {
   computed: {
   },
   methods: {
-    async applySignup() {
+    async signup() {
       if (this.isLoading) { return; }
       this.isLoading = true;
       const requestBody = {
@@ -144,32 +144,26 @@ export default {
         password: this.newUser.password,
         re_password: this.newUser.rePassword,
       };
-
-      await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api/auth/users/',
-        data: requestBody,
-      }).then((result) => {
-        console.log(result);
-        this.registered = true;
-        window.scroll({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
+      await this.dispatch('user/register', requestBody)
+        .then((response) => {
+          console.log(response);
+          this.registered = true;
+          window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }).catch((error) => {
+          this.invalidEntry.username = error.username || [];
+          this.invalidEntry.phone = error.phone || [];
+          this.invalidEntry.firstName = error.firstName || [];
+          this.invalidEntry.lastName = error.lastName || [];
+          this.invalidEntry.email = error.email || [];
+          this.invalidEntry.password = error.password || [];
+          this.invalidEntry.nonFieldErrors = (
+            this.newUser.password === this.newUser.rePassword ? [] : ["The two password fields didn't match."]
+          );
         });
-      }).catch((error) => {
-        const result = error.response.data;
-        console.log(result);
-        this.invalidEntry.username = result.username || [];
-        this.invalidEntry.phone = result.phone || [];
-        this.invalidEntry.firstName = result.firstName || [];
-        this.invalidEntry.lastName = result.lastName || [];
-        this.invalidEntry.email = result.email || [];
-        this.invalidEntry.password = result.password || [];
-        this.invalidEntry.nonFieldErrors = (
-          this.newUser.password === this.newUser.rePassword ? [] : ["The two password fields didn't match."]
-        );
-      });
       this.isLoading = false;
     },
   },
