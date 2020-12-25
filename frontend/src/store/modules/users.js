@@ -132,8 +132,8 @@ export default ({
     },
   },
   getters: {
-    userInfo() {
-      return Cookies.get('userInfo');
+    userInfo(state) {
+      return state.userInfo;
     },
     token(state) {
       return state.token;

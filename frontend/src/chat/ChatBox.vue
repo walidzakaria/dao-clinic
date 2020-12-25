@@ -103,8 +103,10 @@ export default {
   async created() {
     this.getClientId();
     this.$nextTick(() => {
-      this.username = Cookies.get('username');
-      this.userId = Cookies.get('id');
+      // this.username = Cookies.get('username');
+      // this.userId = Cookies.get('id');
+      this.username = this.$store.getters('user/');
+      this.userId = this.userInfo.id;
     });
   },
   async mounted() {
