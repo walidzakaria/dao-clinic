@@ -11,3 +11,7 @@ class Chat(models.Model):
 
     def __str__(self):
         return f'(room {self.room}, time {self.time}, user {self.user}): {self.message}'
+
+
+class Rooms(models.Model):
+    room = models.CharField(max_length=40)

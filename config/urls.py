@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/config/', include('apps.configurations.urls')),
     path('api/appointments/', include('apps.appointments.urls')),
     path('', include('apps.main.urls')),
-    path('chat/', include('apps.chat.urls')),
+    path('api/chat/', include('apps.chat.urls')),
 ]
 
 # to enable viewing images in media directory

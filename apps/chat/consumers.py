@@ -3,7 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from apps.authapp.models import LogInfo
-from apps.chat.models import Chat
+from apps.chat.models import Chat, Rooms
 
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
@@ -20,6 +20,7 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
+        await self.check_in()
 
     @database_sync_to_async
     def get_user_info(self):
@@ -33,14 +34,26 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             new_message.user = self.user
         new_message.save()
 
+    @database_sync_to_async
+    def check_in(self):
+        new_room = Rooms(room=self.room_name)
+        new_room.save()
+
+    @database_sync_to_async
+    def check_out(self):
+        connected_room = Rooms.objects.filter(room=self.room_name).first()
+        connected_room.delete()
+
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name,
         )
+        await self.check_out()
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        print(text_data_json)
         message = text_data_json['message']
         username = text_data_json['username']
         code = self.room_name

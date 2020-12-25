@@ -11,7 +11,7 @@ from rest_framework.reverse import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from djoser.conf import django_settings
-import random
+from django.utils.crypto import get_random_string
 
 from .models import User, LogInfo
 
@@ -36,19 +36,19 @@ def restricted(request, *args, **kwargs):
 #         return Response(content)
 
 
-class ActivateUser(GenericAPIView):
-
-    def get(self, request, uid, token, format=None):
-        payload = {'uid': uid, 'token': token}
-        protocol = 'https://' if request.is_secure() else 'http://'
-        domain = request.get_host()
-        url = f"{protocol}{domain}/auth/users/activation/"
-        response = requests.post(url, data=payload)
-
-        if response.status_code == 204:
-            return Response({}, response.status_code)
-        else:
-            return Response(response.json())
+# class ActivateUser(GenericAPIView):
+#
+#     def get(self, request, uid, token, format=None):
+#         payload = {'uid': uid, 'token': token}
+#         protocol = 'https://' if request.is_secure() else 'http://'
+#         domain = request.get_host()
+#         url = f"{protocol}{domain}/auth/users/activation/"
+#         response = requests.post(url, data=payload)
+#
+#         if response.status_code == 204:
+#             return Response({}, response.status_code)
+#         else:
+#             return Response(response.json())
 
 
 class PasswordReset(GenericAPIView):
@@ -64,11 +64,10 @@ def add_log_info(request):
     """ Created a new session code """
 
     if request.method == 'GET':
-        code = random.getrandbits(128)
+        code = get_random_string(length=12)
         while LogInfo.objects.filter(code=code).first():
-            code = random.getrandbits(128)
+            code = get_random_string(length=12)
         save_log(request, code)
-
         return Response(data=code, status=status.HTTP_200_OK)
 
 
@@ -87,17 +86,23 @@ def save_log(request, code):
 
     if request.user_agent.is_touch_capable:
         device += '-Touch'
-
+    if request.user.is_anonymous:
+        current_user = None
+    else:
+        current_user = request.user
     device_family = request.user_agent.device.family  # returns 'iPhone'
+    print(request.user_agent)
     browser = request.user_agent.browser.family  # returns 'Mobile Safari'
     operating_system = f'{request.user_agent.os.family}({request.user_agent.os.version_string})'
     new_log = LogInfo(code=code, device=device, device_family=device_family,
-                      browser=browser, operating_system=operating_system, user=request.user, ip=ip)
+                      browser=browser, operating_system=operating_system, user=current_user, ip=ip)
     new_log.save()
 
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    print(x_forwarded_for)
+    print(request.META)
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
