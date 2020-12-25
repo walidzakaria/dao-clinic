@@ -105,8 +105,8 @@ export default {
     this.$nextTick(() => {
       // this.username = Cookies.get('username');
       // this.userId = Cookies.get('id');
-      this.username = this.$store.getters('user/');
-      this.userId = this.userInfo.id;
+      this.username = this.$store.state.user.userInfo.username;
+      this.userId = this.$store.state.user.userInfo.id;
     });
   },
   async mounted() {
