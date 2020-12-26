@@ -71,6 +71,7 @@ export default ({
       });
     },
     destroyToken(context) {
+      axios.defaults.headers.common.Authorization = `Token ${context.state.token}`;
       return new Promise((resolve, reject) => {
         axios({
           url: '/api/auth/token/logout/',
