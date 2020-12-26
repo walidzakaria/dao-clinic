@@ -25,7 +25,7 @@ export default ({
       if (savedId) {
         commit('updateClientId', savedId);
       } else {
-        await axios.get('http://127.0.0.1:8000/api/auth/get-code/')
+        await axios.get('/api/auth/get-code/')
           .then((result) => {
             commit('updateClientId', result.data);
             return result.data;
@@ -34,7 +34,7 @@ export default ({
       }
     },
     getConversation({ commit }, roomId) {
-      axios.get(`http://localhost:8000/api/chat/get-chat/${roomId}/`)
+      axios.get(`/api/chat/get-chat/${roomId}/`)
         .then((result) => {
           commit('updateConversation', result.data);
         })

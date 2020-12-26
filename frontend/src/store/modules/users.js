@@ -53,7 +53,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'post',
-          url: 'http://127.0.0.1:8000/api/auth/token/login/',
+          url: '/api/auth/token/login/',
           data: {
             password: credentials.password,
             email: credentials.email,
@@ -73,7 +73,7 @@ export default ({
     destroyToken(context) {
       return new Promise((resolve, reject) => {
         axios({
-          url: 'http://127.0.0.1:8000/api/auth/token/logout/',
+          url: '/api/auth/token/logout/',
           method: 'post',
         }).then((response) => {
           Cookies.remove('token');
@@ -94,7 +94,7 @@ export default ({
     retrieveUserData(context) {
       return new Promise((resolve, reject) => {
         axios({
-          url: 'http://127.0.0.1:8000/api/auth/users/me/',
+          url: '/api/auth/users/me/',
           method: 'get',
         }).then((result) => {
           const resultInfo = {
@@ -119,7 +119,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'post',
-          url: 'http://127.0.0.1:8000/api/auth/users/',
+          url: '/api/auth/users/',
           data: newUser,
         }).then((response) => {
           resolve(response);

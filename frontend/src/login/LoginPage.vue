@@ -84,17 +84,20 @@ export default {
     // },
     login() {
       if (this.isLoading) { return; }
+      this.isLoading = true;
       this.$store.dispatch('user/retrieveToken', {
         email: this.email,
         password: this.password,
       }).then((response) => {
         console.log(response);
         this.showError = false;
+        this.isLoading = false;
         this.$store.dispatch('user/retrieveUserData');
         this.$router.push('/');
       }).catch((error) => {
         console.log(error);
         this.showError = true;
+        this.isLoading = false;
       });
     },
   },
