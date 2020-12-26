@@ -40,7 +40,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:8080',
-    'http://104.236.44.190:8000'
+    'http://104.236.44.190:8000',
+    'http://157.245.5.15:8000',
 )
 
 # Application definition
