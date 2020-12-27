@@ -7,7 +7,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 export default ({
   namespaced: true,
   state: {
-    clientId: '0000',
+    clientId: Cookies.get('clientId') || '0000',
     conversation: [],
   },
   mutations: {
@@ -20,18 +20,24 @@ export default ({
     },
   },
   actions: {
-    async getClientId({ commit }) {
-      const savedId = Cookies.get('clientId');
-      if (savedId) {
-        commit('updateClientId', savedId);
-      } else {
-        await axios.get('/api/auth/get-code/')
-          .then((result) => {
-            commit('updateClientId', result.data);
-            return result.data;
-          })
-          .catch(console.error);
-      }
+    getClientId({ commit }) {
+      return new Promise((resolve, reject) => {
+        const savedId = Cookies.get('clientId');
+        if (savedId) {
+          commit('updateClientId', savedId);
+          resolve(savedId);
+        } else {
+          axios.get('/api/auth/get-code/')
+            .then((result) => {
+              commit('updateClientId', result.data);
+              resolve(result.data);
+            })
+            .catch((error) => {
+              console.log(error.response.data);
+              reject(error);
+            });
+        }
+      });
     },
     getConversation({ commit }, roomId) {
       axios.get(`/api/chat/get-chat/${roomId}/`)

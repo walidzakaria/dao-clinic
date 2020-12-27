@@ -92,16 +92,20 @@ export default {
       userMessage: null,
       username: '',
       userId: 0,
+      clientId: '0000',
     };
   },
   computed: {
     ...mapGetters(
-      'chat', ['clientId', 'conversation'],
+      'chat', ['conversation'],
       'user', ['userInfo', 'userKey', 'requestErrors', 'loginName'],
     ),
   },
   async created() {
-    this.getClientId();
+    await this.getClientId().then((response) => {
+      console.log(response);
+      this.clientId = response;
+    });
     this.$nextTick(() => {
       // this.username = Cookies.get('username');
       // this.userId = Cookies.get('id');
@@ -127,6 +131,7 @@ export default {
     },
     ...mapActions('chat', ['getClientId', 'getConversation']),
     getWebsocketLink() {
+      console.log(this.clientId);
       return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
     },
     toggleChat() {
