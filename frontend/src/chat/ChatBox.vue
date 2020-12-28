@@ -132,7 +132,7 @@ export default {
     ...mapActions('chat', ['getClientId', 'getConversation']),
     getWebsocketLink() {
       console.log(this.clientId);
-      return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
+      return `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
     },
     toggleChat() {
       this.open = !this.open;
