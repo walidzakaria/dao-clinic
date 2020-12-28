@@ -90,7 +90,7 @@ MIDDLEWARE = [
 ]
 
 # Directory where Django static files are collected
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Vue project location
