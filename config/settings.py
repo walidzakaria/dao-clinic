@@ -41,6 +41,8 @@ WSGI_APPLICATION = f'{config("PROJECT_NAME")}.wsgi.application'
 
 ASGI_APPLICATION = f'{config("PROJECT_NAME")}.routing.application'
 
+SECRET_KEY = f'{config("PROJECT_NAME")}'.SECRET_KEY
+
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
