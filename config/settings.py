@@ -10,18 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-# import environ
-from pathlib import Path
 from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# env = environ.Env()
-# reading .env file
-# environ.Env.read_env()
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -50,8 +42,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:8080',
-    'http://104.236.44.190:8000',
-    'http://157.245.5.15:8000',
+    'http://167.71.46.213:8000',
 )
 
 # Application definition
@@ -258,9 +249,9 @@ STATICFILES_DIRS = [
     os.path.join(FRONTEND_DIR, 'dist/static'),
 ]
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-# STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+# STATIC_URL = '/static/'
 
 TEMP = os.path.join(BASE_DIR, 'temp')
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
