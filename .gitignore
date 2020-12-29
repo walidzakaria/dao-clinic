@@ -450,5 +450,6 @@ node_modules/
 npm-debug.log
 yarn-error.log
 */settings.ini
+*.ini
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,pycharm,pycharm+iml,pycharm+all,vue,vuejs,vscode
