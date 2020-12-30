@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ["167.71.46.213",]
+ALLOWED_HOSTS = ["159.65.120.247",]
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 
@@ -42,7 +42,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8000',
     'http://127.0.0.1:8080',
-    'http://167.71.46.213:8000',
+    'http://159.65.120.247:8000',
 )
 
 # Application definition
@@ -266,4 +266,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
 
-BASE_URL = "http://167.71.46.213"
+BASE_URL = "http://159.65.120.247"
