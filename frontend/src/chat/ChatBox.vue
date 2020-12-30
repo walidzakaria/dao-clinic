@@ -133,7 +133,7 @@ export default {
     getWebsocketLink() {
       console.log(this.clientId);
       const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      const wsPath = `${wsScheme}://${window.location.host}/chat:8001`;
+      const wsPath = `${wsScheme}://127.0.0.1/chat:8001`;
       return wsPath;
     },
     toggleChat() {
