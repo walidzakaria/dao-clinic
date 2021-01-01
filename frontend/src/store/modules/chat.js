@@ -23,14 +23,16 @@ export default ({
     getClientId({ commit }) {
       return new Promise((resolve, reject) => {
         const savedId = Cookies.get('clientId');
-        if (savedId) {
+        if (savedId && savedId.length !== 0 && savedId !== '0000') {
           commit('updateClientId', savedId);
+          console.log('saved id: ', savedId);
           resolve(savedId);
         } else {
           axios.get('/api/auth/get-code/')
-            .then((result) => {
-              commit('updateClientId', result.data);
-              resolve(result.data);
+            .then((response) => {
+              commit('updateClientId', response.data);
+              console.log('new id: ', response);
+              resolve(response.data);
             })
             .catch((error) => {
               console.log(error.response.data);
@@ -39,12 +41,17 @@ export default ({
         }
       });
     },
-    getConversation({ commit }, roomId) {
-      axios.get(`/api/chat/get-chat/${roomId}/`)
-        .then((result) => {
-          commit('updateConversation', result.data);
-        })
-        .catch(console.error);
+    getConversation({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        axios.get(`/api/chat/get-chat/${state.clientId}/`)
+          .then((result) => {
+            commit('updateConversation', result.data);
+            resolve(result.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
   },
   getters: {

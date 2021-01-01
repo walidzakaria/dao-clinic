@@ -90,13 +90,14 @@ export default {
     // ...mapState('user', ['userKey', 'userInfo']),
     ...mapGetters('user', ['userKey', 'isAuthenticated', 'userInfo', 'loginName']),
   },
-  created() {
-    this.$nextTick(() => {
-      console.log(this.isAuthenticated);
-      console.log(this.userInfo);
+  async created() {
+    console.log('appview created');
+    await this.$store.dispatch('chat/getClientId').then((response) => {
+      console.log('received client id', response);
     });
   },
   mounted() {
+    console.log('appview mounted');
     this.$nextTick(() => {
       window.addEventListener('scroll', () => {
         const navbar = this.$refs.menu;

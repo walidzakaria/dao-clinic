@@ -64,7 +64,6 @@
                           class="btn btn-dark btn-sm" id="btn-chat">Send</button>
                         </span>
                     </div>
-                    <button @click="test()"></button>
                 </div>
               </slot>
           </div>
@@ -75,7 +74,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Cookies from 'js-cookie';
 
 function addLeadingZero(inputNumber) {
   const result = inputNumber < 10 ? `0${inputNumber.toString()}` : inputNumber.toString();
@@ -92,7 +90,7 @@ export default {
       userMessage: null,
       username: '',
       userId: 0,
-      clientId: '0000',
+      clientId: this.$store.state.chat.clientId,
     };
   },
   computed: {
@@ -101,43 +99,40 @@ export default {
       'user', ['userInfo', 'userKey', 'requestErrors', 'loginName'],
     ),
   },
-  async created() {
-    await this.getClientId().then((response) => {
-      console.log(response);
-      this.clientId = response;
-    });
-    this.$nextTick(() => {
-      // this.username = Cookies.get('username');
-      // this.userId = Cookies.get('id');
-      this.username = this.$store.state.user.userInfo.username;
-      this.userId = this.$store.state.user.userInfo.id;
-    });
+  created() {
+    console.log('chatbox created');
   },
   async mounted() {
-    // console.log(this.cliendId);
-    // console.log(this.userId);
     // console.log('mounted');
-    this.getConversation(this.clientId);
-    // this.userId = this.$store.getters['user/userInfo.id'];
-    // this.username = this.loginName;
-    // console.log(this.username);
+    // this.$store.dispatch('chat/getConversation').then((response) => {
+    //   this.chat = this.$store.state.chat.conversation;
+    //   console.log('chat id is ', response);
+    // });
+    console.log('chatbox mounted');
+    this.$nextTick(() => {
+      this.username = this.$store.state.user.userInfo.username;
+      this.userId = this.$store.state.user.userInfo.id;
+      this.clientId = this.$store.state.chat.clientId;
+      console.log(this.$store.state.chat.clientId);
+    });
   },
   methods: {
-    test() {
-      // console.log(Cookies.get('userInfo.username'));
-      console.log(Cookies.get('id'));
-      console.log(Cookies.get('username'));
-      console.log(this.userId);
-    },
-    ...mapActions('chat', ['getClientId', 'getConversation']),
+    ...mapActions('chat', ['getConversation']),
     getWebsocketLink() {
       console.log(this.clientId);
       const wsScheme = window.location.protocol === 'https' ? 'wss' : 'ws';
       const wsLink = `${wsScheme}://${window.location.host}/ws/chat/${this.clientId}/`;
-      return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
+      console.log(wsLink);
+      // return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
+      return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
     },
-    toggleChat() {
+    async toggleChat() {
       this.open = !this.open;
+      if (this.clientId === '0000') {
+        await this.$store.dispatch('chat/getClientId').then(
+          this.clientId = this.$store.state.chat.clientId,
+        );
+      }
       this.applyConnection();
       // console.log(this.chat);
       this.chat = this.$store.getters['chat/conversation'];
@@ -151,7 +146,7 @@ export default {
         console.log(this.userMessage);
         const newMessage = {
           message: this.userMessage,
-          username: Cookies.get('username'),
+          user: this.username,
         };
         this.connection.send(JSON.stringify(newMessage));
         this.userMessage = null;
@@ -173,7 +168,15 @@ export default {
           console.log(event);
         };
         this.connection.onmessage = (event) => {
-          console.log(event);
+          const data = JSON.parse(event.data);
+          const newMessage = {
+            message: data.message,
+            room: this.clientId,
+            time: data.time,
+            user: data.user,
+          };
+          this.chat.push(newMessage);
+          this.scrollChat();
         };
       }
     },
@@ -202,8 +205,10 @@ export default {
       return result;
     },
     scrollChat() {
-      const chatBox = this.$refs['chat-box'];
-      chatBox.scrollTo(0, chatBox.scrollHeight);
+      this.$nextTick(() => {
+        const chatBox = this.$refs['chat-box'];
+        chatBox.scroll(0, chatBox.scrollHeight);
+      });
     },
   },
   watch: {

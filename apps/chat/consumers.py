@@ -1,6 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+from django.utils import timezone
 
 from apps.authapp.models import LogInfo
 from apps.chat.models import Chat, Rooms
@@ -56,14 +57,14 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         print(text_data_json)
         message = text_data_json['message']
-        username = text_data_json['username']
+        user = text_data_json['user']
         code = self.room_name
 
         await self.channel_layer.group_send(
             self.room_group_name, {
                 'type': 'chat_message',
                 'message': message,
-                'username': username,
+                'user': user,
                 'code': code,
             }
         )
@@ -72,10 +73,11 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
 
     async def chat_message(self, event):
         message = event['message']
-        username = event['username']
+        user = event['user']
 
         await self.send(text_data=json.dumps({
             'message': message,
-            'username': username,
+            'user': user,
             'user_info': self.user_info,
+            'time': str(timezone.now()),
         }))

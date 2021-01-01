@@ -68,6 +68,7 @@ def add_log_info(request):
         while LogInfo.objects.filter(code=code).first():
             code = get_random_string(length=12)
         save_log(request, code)
+        print('new code is: ', code)
         return Response(data=code, status=status.HTTP_200_OK)
 
 
