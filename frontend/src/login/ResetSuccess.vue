@@ -64,32 +64,28 @@ export default {
         new_password: this.newPassword,
         re_new_password: this.reNewPassword,
       };
-
-      await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api/auth/users/reset_password_confirm/',
-        data: requestBody,
-      }).then((result) => {
-        console.log(result);
-        this.submitted.isSuccess = true;
-        this.submitted.isSubmitted = true;
-      }).catch((error) => {
-        const result = error.response.data;
-        console.log(result);
-        this.invalidEntry = result.values;
-        this.submitted.isSuccess = false;
-        this.submitted.isSubmitted = true;
-        this.invalidEntry = result.new_password || [];
-        if (this.invalidEntry.length === 0) {
-          this.invalidEntry = result.non_field_errors || [];
-        }
-        if (this.invalidEntry.length === 0) {
-          this.invalidEntry = result.token || [];
-        }
-        if (this.invalidEntry.length === 0) {
-          this.invalidEntry = result.uid || [];
-        }
-      });
+      await this.$store.dispatch('user/resetPasswordConfirm', requestBody)
+        .then((response) => {
+          console.log(response);
+          this.submitted.isSuccess = true;
+          this.submitted.isSubmitted = true;
+        }).catch((error) => {
+          const result = error.response.data;
+          console.log(result);
+          this.invalidEntry = result.values;
+          this.submitted.isSuccess = false;
+          this.submitted.isSubmitted = true;
+          this.invalidEntry = result.new_password || [];
+          if (this.invalidEntry.length === 0) {
+            this.invalidEntry = result.non_field_errors || [];
+          }
+          if (this.invalidEntry.length === 0) {
+            this.invalidEntry = result.token || [];
+          }
+          if (this.invalidEntry.length === 0) {
+            this.invalidEntry = result.uid || [];
+          }
+        });
       this.isLoading = false;
     },
   },

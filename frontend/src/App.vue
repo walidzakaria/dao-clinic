@@ -334,6 +334,7 @@ header #hamburger {
   top: 30px;
   display: none;
   transform: translateY(-50%);
+  padding: 11px;
 }
 header #hamburger span {
   height: 2px;

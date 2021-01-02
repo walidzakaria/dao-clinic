@@ -61,19 +61,16 @@ export default {
         token: this.$route.params.token,
       };
       // @DONE: test wfhen response is successful
-      await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api/auth/users/activation/',
-        data: requestBody,
-      }).then((result) => {
-        console.log(result);
-        this.isSuccess = true;
-      }).catch((error) => {
-        this.isSuccess = false;
-        const result = error.response.data;
-        console.log(result);
-        this.isSuccess = false;
-      });
+      await this.$store.dispatch('user/activateUser', requestBody)
+        .then((result) => {
+          console.log(result);
+          this.isSuccess = true;
+        }).catch((error) => {
+          this.isSuccess = false;
+          const result = error.response.data;
+          console.log(result);
+          this.isSuccess = false;
+        });
       this.isLoading = false;
       this.isResponded = true;
       console.log('done');

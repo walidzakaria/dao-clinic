@@ -5,7 +5,7 @@
         <div class="col-12">
           <div class="panel panel-default">
                 <div @click="toggleChat();" class="panel-heading top-bar">
-                  <h5>
+                  <h5 id="chat-header">
                     <p id="chat-caption">Chat Now</p>
                     <span v-if="!open" class="chat-logo-container">
                       <img id="chat-logo" src="../assets/chat-logo.png" alt="">
@@ -86,7 +86,7 @@ export default {
     return {
       open: false,
       connection: null,
-      chat: [],
+      chat: this.$store.state.chat.conversation,
       userMessage: null,
       username: '',
       userId: 0,
@@ -96,7 +96,7 @@ export default {
   computed: {
     ...mapGetters(
       'chat', ['conversation'],
-      'user', ['userInfo', 'userKey', 'requestErrors', 'loginName'],
+      'user', ['userInfo', 'requestErrors', 'loginName'],
     ),
   },
   created() {
@@ -113,6 +113,7 @@ export default {
       this.username = this.$store.state.user.userInfo.username;
       this.userId = this.$store.state.user.userInfo.id;
       this.clientId = this.$store.state.chat.clientId;
+      this.chat = this.$store.state.chat.conversation;
       console.log(this.$store.state.chat.clientId);
     });
   },
@@ -123,8 +124,8 @@ export default {
       const wsScheme = window.location.protocol === 'https' ? 'wss' : 'ws';
       const wsLink = `${wsScheme}://${window.location.host}/ws/chat/${this.clientId}/`;
       console.log(wsLink);
-      return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
-      // return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
+      // return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
+      return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
     },
     async toggleChat() {
       this.open = !this.open;
@@ -132,6 +133,14 @@ export default {
         await this.$store.dispatch('chat/getClientId').then(
           this.clientId = this.$store.state.chat.clientId,
         );
+      }
+      console.log(this.chat);
+      if (this.chat === []) {
+        await this.$store.dispatch('chat/getConversation')
+          .then(
+            this.chat = this.$store.state.chat.conversation,
+            console.log(this.chat),
+          );
       }
       this.applyConnection();
       // console.log(this.chat);
@@ -260,7 +269,7 @@ body{
 .top-bar {
   background: #666;
   color: white;
-  padding: 10px;
+  padding: 10px 10px 5px 10px;
   position: relative;
   overflow: hidden;
 }
@@ -280,7 +289,7 @@ body{
   max-width:100%;
 }
 .messages > p {
-    font-size: 13px;
+    font-size: 14px;
     margin: 0 0 0.2rem 0;
   }
 .messages > time {
@@ -370,7 +379,7 @@ img {
   -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
   -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
   box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-
+  margin-bottom: 0;
 }
 
 #chat-logo {
@@ -398,11 +407,12 @@ img {
   -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
   -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
   box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-
+  padding: 20px;
+  font-size: 15px;
 }
 
 #btn-chat {
-  height: 32px;
+  height: 40px;
   margin-top: 1px;
   margin-bottom: 1px;
   -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
@@ -410,4 +420,7 @@ img {
   box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
 }
 
+#chat-header {
+  margin-bottom: 0;
+}
 </style>

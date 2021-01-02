@@ -49,24 +49,18 @@ export default {
     async applyReset() {
       if (this.isLoading) { return; }
       this.isLoading = true;
-      const requestBody = {
-        email: this.email,
-      };
-
-      await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api/auth/users/reset_password/',
-        data: requestBody,
-      }).then((result) => {
-        console.log(result);
-        this.submitted.isSuccess = true;
-        this.submitted.isSubmitted = true;
-      }).catch((error) => {
-        const result = error.response.data;
-        console.log(result);
-        this.submitted.isSuccess = false;
-        this.submitted.isSubmitted = true;
-      });
+      await this.$store.dispatch('user/resetPassword', this.email)
+        .then((response) => {
+          console.log(response);
+          this.submitted.isSuccess = true;
+          this.submitted.isSubmitted = true;
+        })
+        .catch((error) => {
+          const result = error.response.data;
+          console.log(result);
+          this.submitted.isSuccess = false;
+          this.submitted.isSubmitted = true;
+        });
       this.isLoading = false;
     },
   },

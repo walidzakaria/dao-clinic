@@ -144,7 +144,7 @@ export default {
         password: this.newUser.password,
         re_password: this.newUser.rePassword,
       };
-      await this.dispatch('user/register', requestBody)
+      await this.$store.dispatch('user/register', requestBody)
         .then((response) => {
           console.log(response);
           this.registered = true;

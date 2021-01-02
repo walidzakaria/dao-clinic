@@ -131,6 +131,65 @@ export default ({
         });
       });
     },
+    resetPassword(context, email) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: '/api/auth/users/reset_password/',
+          data: {
+            email,
+          },
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
+    resetPasswordConfirm(context, data) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: '/api/auth/users/reset_password_confirm/',
+          data,
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
+    activateUser(context, data) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: '/api/auth/users/activation/',
+          data: {
+            uid: data.uid,
+            token: data.token,
+          },
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
+    resendActivate(context, email) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: '/api/auth/users/resend_activation/',
+          data: {
+            email,
+          },
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
   },
   getters: {
     userInfo(state) {
