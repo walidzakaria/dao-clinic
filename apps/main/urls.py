@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import home
+from .views import home, auth
 
 urlpatterns = [
     path('', home, name='home'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('login/', home, name='login'),
     path('signup/', home, name='signup'),
     path('reset/', home, name='reset'),
+    path('auth/activate/<str:uid>/<str:token>/', auth, name='activation'),
 ]
