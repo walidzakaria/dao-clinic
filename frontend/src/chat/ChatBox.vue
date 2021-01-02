@@ -124,8 +124,8 @@ export default {
       const wsScheme = window.location.protocol === 'https' ? 'wss' : 'ws';
       const wsLink = `${wsScheme}://${window.location.host}/ws/chat/${this.clientId}/`;
       console.log(wsLink);
-      // return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
-      return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
+      return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
+      // return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
     },
     async toggleChat() {
       this.open = !this.open;
