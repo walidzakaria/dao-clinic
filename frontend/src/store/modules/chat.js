@@ -1,9 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-
 export default ({
   namespaced: true,
   state: {
@@ -46,6 +43,29 @@ export default ({
         axios.get(`/api/chat/get-chat/${state.clientId}/`)
           .then((result) => {
             commit('updateConversation', result.data);
+            resolve(result.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getCSConversation(context, roomName) {
+      console.log('room name: ', roomName);
+      return new Promise((resolve, reject) => {
+        axios.get(`/api/chat/get-chat/${roomName}/`)
+          .then((result) => {
+            resolve(result.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getOnlineUsers() {
+      return new Promise((resolve, reject) => {
+        axios.get('/api/chat/active-rooms')
+          .then((result) => {
             resolve(result.data);
           })
           .catch((error) => {

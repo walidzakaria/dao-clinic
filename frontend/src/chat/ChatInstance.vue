@@ -1,79 +1,66 @@
 <template>
-  <div class="container">
-    <div class="row chat-window col-3"
-      id="chat_window_1" style="margin-left:10px;">
-        <div class="col-12">
-          <div class="panel panel-default">
-                <div @click="toggleChat();" class="panel-heading top-bar">
-                  <h5 id="chat-header">
-                    <p id="chat-caption">Chat Now</p>
-                    <span v-if="!open" class="chat-logo-container">
-                      <img id="chat-logo" src="../assets/chat-logo.png" alt="">
-                    </span>
-                    <span v-if="open" class="chat-logo-container">
-                      <img id="chat-logo" src="../assets/chat-minimize.png" alt="">
-                    </span>
-                  </h5>
+  <div class="card">
+    <div class="card-header text-dark chat-header" @click="toggleChat()">
+      {{ chatHeader || 'unknown user' }}
+      <span v-if="!open && unreadNo > 0" class="unread">{{ unreadMsg }}</span>
+    </div>
+    <div class="collapse" :class="{'show': open}">
+      <div class="card-body">
+        <div
+          class="panel-body msg_container_base dialog-container"
+          :class="{'hidden-chat-box': !open}" ref="chat-box">
+          <div v-for="(m, index) in chat" :key="index">
+            <div v-if="!m.is_client">
+              <div class="row msg_container base_sent">
+                <div class="text-container">
+                  <div class="messages msg_sent">
+                    <p>{{ m.message }}</p>
+                    <time datetime="2009-11-13T20:00">
+                      Me • {{ calcTime(m.time) }}
+                    </time>
+                  </div>
                 </div>
-                <!-- Toggleable -->
-                <slot v-show="open">
-                  <div id="dialog-container"
-                    class="panel-body msg_container_base"
-                    :class="{'hidden-chat-box': !open}" ref="chat-box">
-                    <div v-for="(m, index) in chat" :key="index">
-                      <div v-if="m.is_client">
-                          <div class="row msg_container base_sent">
-                          <div class="col-10">
-                              <div class="messages msg_sent">
-                                  <p>{{ m.message }}</p>
-                                  <time datetime="2009-11-13T20:00">
-                                    Me • {{ calcTime(m.time) }}
-                                  </time>
-                              </div>
-                          </div>
-                          <div class="col-2 avatar">
-                              <img src="../assets/user-avatar.png" class=" img-responsive ">
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else>
-                        <div class="row msg_container base_receive">
-                          <div class="col-2 avatar">
-                              <img src="../assets/employee-avatar.png" class=" img-responsive ">
-                          </div>
-                          <div class="col-10">
-                              <div class="messages msg_receive">
-                                  <p>{{ m.message }}</p>
-                                  <time datetime="2009-11-13T20:00">
-                                    {{ m.user }} • {{ calcTime(m.time) }}
-                                  </time>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-2 avatar">
+                  <img src="../assets/employee-avatar.png" class=" img-responsive ">
                 </div>
-                <div class="panel-footer">
-                    <div class="input-group" :class="{'hidden-chat-box': !open}">
-                        <input id="btn-input" type="text" v-model="userMessage"
-                          @keyup.enter="sendMessage()"
-                          class="form-control input-sm chat_input" ref="chat-input"
-                        placeholder="Write your message here..." autocomplete="off"/>
-                        <span class="input-group-btn">
-                        <button @click="sendMessage()"
-                          class="btn btn-dark btn-sm" id="btn-chat">Send</button>
-                        </span>
-                    </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="row msg_container base_receive">
+                <div class="col-2 avatar">
+                  <img src="../assets/user-avatar.png" class=" img-responsive ">
                 </div>
-              </slot>
+                <div class="text-container">
+                  <div class="messages msg_receive">
+                    <p>{{ m.message }}</p>
+                    <time datetime="2009-11-13T20:00">
+                      {{ m.username || m.user_info }} • {{ calcTime(m.time) }}
+                    </time>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="panel-footer">
+          <div class="input-group btn-input" :class="{'hidden-chat-box': !open}">
+            <input type="text" v-model="userMessage"
+              @keyup.enter="sendMessage()"
+              class="form-control input-sm chat_input" ref="chat-input"
+              placeholder="Write your message here..." autocomplete="off"/>
+              <span class="input-group-btn">
+              <button @click="sendMessage()"
+                class="btn btn-dark btn-sm btn-chat">Send</button>
+              </span>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 function addLeadingZero(inputNumber) {
   const result = inputNumber < 10 ? `0${inputNumber.toString()}` : inputNumber.toString();
@@ -81,41 +68,46 @@ function addLeadingZero(inputNumber) {
 }
 
 export default {
-  name: 'ChatBox',
+  name: 'ChatInstance',
+  props: ['room'],
   data() {
     return {
       open: false,
       connection: null,
-      chat: this.$store.state.chat.conversation,
+      chat: [],
       userMessage: null,
       username: '',
       userId: 0,
       clientId: this.$store.state.chat.clientId,
+      unreadNo: 0,
     };
   },
   computed: {
-    ...mapGetters(
-      'chat', ['conversation'],
-      'user', ['userInfo', 'requestErrors', 'loginName'],
-    ),
+    chatHeader() {
+      const deviceInfo = this.chat.length > 0 ? this.chat[this.chat.length - 1].user_info : 'Unkown User';
+      const username = this.chat.length > 0 ? this.chat[0].user : '';
+      return `${deviceInfo} * ${username}`;
+    },
+    unreadMsg() {
+      const result = this.open ? 0 : this.unreadNo;
+      return result;
+    },
   },
   created() {
-    console.log('chatbox created');
   },
   async mounted() {
-    console.log('chatbox mounted');
     this.$nextTick(() => {
       this.username = this.$store.state.user.userInfo.username;
       this.userId = this.$store.state.user.userInfo.id;
       this.clientId = this.$store.state.chat.clientId;
-      this.chat = this.$store.state.chat.conversation;
-      console.log(this.$store.state.chat.clientId);
+      this.chat = [];
+      this.connectChat();
     });
   },
   methods: {
-    ...mapActions('chat', ['getConversation']),
+    ...mapActions('chat', ['getCSConversation']),
     getWebsocketLink() {
-      console.log(this.clientId);
+      console.log(this.room);
       const wsScheme = window.location.protocol === 'https' ? 'wss' : 'ws';
       let wsHost = window.location.host;
       if (wsHost === '127.0.0.1:8080' || wsHost === '127.0.0.1:8000') {
@@ -123,13 +115,17 @@ export default {
       } else {
         wsHost += ':8001';
       }
-      const wsLink = `${wsScheme}://${wsHost}/ws/chat/${this.clientId}/client/`;
+      const wsLink = `${wsScheme}://${wsHost}/ws/chat/${this.room}/admin/`;
       console.log(wsLink);
-      return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
-      // return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
+      return wsLink;
     },
-    async toggleChat() {
+    toggleChat() {
       this.open = !this.open;
+      this.unreadNo = 0;
+      this.scrollChat();
+    },
+    async connectChat() {
+      this.unreadNo = 0;
       if (this.clientId === '0000') {
         await this.$store.dispatch('chat/getClientId').then(
           this.clientId = this.$store.state.chat.clientId,
@@ -137,38 +133,35 @@ export default {
       }
       console.log(this.chat.length);
       if (this.chat.length === 0) {
-        await this.$store.dispatch('chat/getConversation')
-          .then(
-            this.chat = this.$store.state.chat.conversation,
-            console.log(this.chat),
-          );
+        await this.getCSConversation(this.room)
+          .then((response) => {
+            this.chat = response;
+            console.log('current chat: ', this.chat);
+          });
       }
       this.applyConnection();
-      // console.log(this.chat);
-      this.chat = this.$store.getters['chat/conversation'];
-      // console.log(this.$refs['chat-box']);
-      this.scrollChat();
-      // window.scrollTo(0, document.body.scrollHeight);
     },
     sendMessage() {
-      // console.log(this.connection);
       if (this.userMessage) {
         console.log(this.userMessage);
         const newMessage = {
           message: this.userMessage,
           user: this.username,
           user_id: this.userId,
-          is_client: true,
+          is_client: false,
         };
         this.connection.send(JSON.stringify(newMessage));
         this.userMessage = null;
       }
-      // this.$store.dispatch['chat/obtainUserId'];
-      // console.log(this.$store.chat.userId);
     },
-    applyConnection() {
+    async applyConnection() {
       if (!this.connection) {
-        this.getConversation(this.clientId);
+        // this.getConversation(this.clientId);
+        await this.getCSConversation(this.room)
+          .then((response) => {
+            this.chat = response;
+            console.log('current chat: ', this.chat);
+          });
         this.connection = new WebSocket(this.getWebsocketLink());
         this.connection.onclose = (e) => {
           setTimeout(() => {
@@ -190,6 +183,7 @@ export default {
             is_client: data.is_client,
           };
           this.chat.push(newMessage);
+          this.unreadNo += 1;
           this.scrollChat();
         };
       }
@@ -236,16 +230,20 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-body{
-    height:400px;
-    position: fixed;
-    bottom: 0;
-}
-.col-2, .col-10{
+.col-2 {
     padding:0;
 }
+
+.text-container {
+  width: calc(100% - 60px);
+}
+
+.col-2 {
+  flex: 0 0 0 60px;
+  max-width: 60px;
+}
+
 .panel{
     margin-bottom: 0px;
 }
@@ -310,7 +308,8 @@ body{
 }
 img {
     display: block;
-    width: 100%;
+    width: 50px;
+    height: 50px;
 }
 .avatar {
     position: relative;
@@ -418,8 +417,8 @@ img {
   font-size: 15px;
 }
 
-#btn-chat {
-  height: 40px;
+.btn-chat {
+  height: 33px;
   margin-top: 1px;
   margin-bottom: 1px;
   -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
@@ -429,5 +428,18 @@ img {
 
 #chat-header {
   margin-bottom: 0;
+}
+
+.card-header {
+  cursor: pointer !important;
+}
+
+.unread {
+  background-color: grey;
+  color: white;
+  border: 1px solid grey;
+  padding: 2px 9px;
+  border-radius: 50%;
+  float: right;
 }
 </style>

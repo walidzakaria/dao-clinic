@@ -163,6 +163,15 @@ export default {
       this.load = true;
     },
   },
+  watch: {
+    $route() {
+      const body = document.getElementsByTagName('body')[0];
+      if (body.classList.contains('display_menu')) {
+        body.classList.remove('display_menu');
+      }
+      this.open = false;
+    },
+  },
 };
 </script>
 

@@ -199,7 +199,11 @@ export default ({
       return state.token;
     },
     isAuthenticated(state) {
-      return !!state.token;
+      const result = !!state.token;
+      if (result) {
+        axios.defaults.headers.common.Authorization = `Token ${state.token}`;
+      }
+      return result;
     },
     loginName(state) {
       return state.username;

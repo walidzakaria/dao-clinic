@@ -14,6 +14,7 @@ import ResetPassword from '../login/ResetSuccess.vue';
 import ResendActivation from '../login/ResendActivation.vue';
 import MyAccount from '../login/MyAccount.vue';
 import Logout from '../login/LogoutPage.vue';
+import ChatAdmin from '../chat/ChatAdmin.vue';
 
 import store from '../store';
 
@@ -103,6 +104,12 @@ const routes = [
     path: '/me',
     name: 'Me',
     component: MyAccount,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/chat-admin',
+    name: 'ChatAdmin',
+    component: ChatAdmin,
     beforeEnter: ifAuthenticated,
   },
   {

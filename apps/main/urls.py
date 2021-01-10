@@ -12,4 +12,5 @@ urlpatterns = [
     path('signup/', home, name='signup'),
     path('reset/', home, name='reset'),
     path('auth/activate/<str:uid>/<str:token>/', auth, name='activation'),
+    path('chat-admin', home, name='chat-admin'),
 ]

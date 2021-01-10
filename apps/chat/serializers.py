@@ -12,7 +12,8 @@ class ChatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Chat
-        fields = ('room', 'time', 'user', 'message', 'username', 'first_name', 'last_name',)
+        fields = ('room', 'time', 'user', 'message', 'username', 'first_name',
+                  'last_name', 'is_client', 'user_info', )
 
 
 class RoomsSerializer(serializers.ModelSerializer):

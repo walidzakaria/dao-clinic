@@ -7,7 +7,9 @@ class Chat(models.Model):
     room = models.CharField(max_length=40)
     time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    is_client = models.BooleanField(default=True)
     message = models.CharField(max_length=300)
+    user_info = models.CharField(max_length=100, null=True, blank=True, default='')
 
     def __str__(self):
         return f'(room {self.room}, time {self.time}, user {self.user}): {self.message}'
