@@ -160,8 +160,13 @@ export default {
           user_id: this.userId,
           is_client: true,
         };
-        this.connection.send(JSON.stringify(newMessage));
-        this.userMessage = null;
+        try {
+          this.connection.send(JSON.stringify(newMessage));
+        } catch (err) {
+          console.log(err);
+        } finally {
+          this.userMessage = null;
+        }
       }
       // this.$store.dispatch['chat/obtainUserId'];
       // console.log(this.$store.chat.userId);

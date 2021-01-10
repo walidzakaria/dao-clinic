@@ -16,17 +16,24 @@ export default {
   data() {
     return {
       onlineUsers: [],
+      timeInterval: null,
     };
   },
   mounted() {
     this.getOnlineUsers();
-    setInterval(this.getOnlineUsers, 5000);
+    this.timeInterval = setInterval(this.getOnlineUsers, 5000);
   },
   components: {
     ChatInstance,
   },
   methods: {
     getOnlineUsers() {
+      console.log('my route is:', this.$router.currentRoute.name);
+      if (this.$router.currentRoute.name !== 'ChatAdmin') {
+        clearInterval(this.timeInterval);
+        return;
+      }
+
       console.log('refresh online users');
       this.$store.dispatch('chat/getOnlineUsers')
         .then((response) => {
