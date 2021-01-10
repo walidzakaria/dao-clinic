@@ -131,6 +131,21 @@ export default ({
         });
       });
     },
+    updateProfile(context, newUser) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'patch',
+          url: '/api/auth/users/me/',
+          data: newUser,
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          const result = error.response.data;
+          console.log(result);
+          reject(result);
+        });
+      });
+    },
     resetPassword(context, email) {
       return new Promise((resolve, reject) => {
         axios({
@@ -186,6 +201,20 @@ export default ({
         }).then((response) => {
           resolve(response);
         }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
+    deactivate() {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'patch',
+          url: '/api/auth/users/me/change/',
+        }).then((response) => {
+          console.log(response);
+          resolve(response);
+        }).catch((error) => {
+          console.log(error);
           reject(error);
         });
       });

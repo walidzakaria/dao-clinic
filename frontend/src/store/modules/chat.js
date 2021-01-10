@@ -64,7 +64,7 @@ export default ({
     },
     getOnlineUsers() {
       return new Promise((resolve, reject) => {
-        axios.get('/api/chat/active-rooms')
+        axios.get('/api/chat/active-rooms/')
           .then((result) => {
             resolve(result.data);
           })

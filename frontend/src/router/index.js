@@ -12,7 +12,7 @@ import ForgotPassword from '../login/ForgotPassword.vue';
 import ActivateUser from '../login/ActivateSuccess.vue';
 import ResetPassword from '../login/ResetSuccess.vue';
 import ResendActivation from '../login/ResendActivation.vue';
-import MyAccount from '../login/MyAccount.vue';
+// import MyAccount from '../login/MyAccount.vue';
 import Logout from '../login/LogoutPage.vue';
 import ChatAdmin from '../chat/ChatAdmin.vue';
 
@@ -100,12 +100,12 @@ const routes = [
     component: ForgotPassword,
     beforeEnter: ifNotAuthenticated,
   },
-  {
-    path: '/me',
-    name: 'Me',
-    component: MyAccount,
-    beforeEnter: ifAuthenticated,
-  },
+  // {
+  //   path: '/me',
+  //   name: 'Me',
+  //   component: MyAccount,
+  //   beforeEnter: ifAuthenticated,
+  // },
   {
     path: '/chat-admin',
     name: 'ChatAdmin',

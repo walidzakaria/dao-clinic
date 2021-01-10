@@ -3,6 +3,7 @@
     <div class="row chat-window col-3"
       id="chat_window_1" style="margin-left:10px;">
         <div class="col-12">
+          <span v-if="!open && unreadNo > 0" class="unread">{{ unreadMsg }}</span>
           <div class="panel panel-default">
                 <div @click="toggleChat();" class="panel-heading top-bar">
                   <h5 id="chat-header">
@@ -91,6 +92,7 @@ export default {
       username: this.$store.state.user.userInfo.username,
       userId: 0,
       clientId: this.$store.state.chat.clientId,
+      unreadNo: 0,
     };
   },
   computed: {
@@ -98,6 +100,10 @@ export default {
       'chat', ['conversation'],
       'user', ['userInfo', 'requestErrors', 'loginName'],
     ),
+    unreadMsg() {
+      const result = this.open ? 0 : this.unreadNo;
+      return result;
+    },
   },
   created() {
     console.log('chatbox created');
@@ -125,11 +131,12 @@ export default {
       }
       const wsLink = `${wsScheme}://${wsHost}/ws/chat/${this.clientId}/client/`;
       console.log(wsLink);
-      return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/`;
-      // return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/`;
+      return wsLink; // `ws://127.0.0.1:8001/ws/chat/${this.clientId}/client/`;
+      // return `ws://127.0.0.1:8000/ws/chat/${this.clientId}/client/`;
     },
     async toggleChat() {
       this.open = !this.open;
+      this.unreadNo = 0;
       if (this.clientId === '0000') {
         await this.$store.dispatch('chat/getClientId').then(
           this.clientId = this.$store.state.chat.clientId,
@@ -156,8 +163,8 @@ export default {
         console.log(this.userMessage);
         const newMessage = {
           message: this.userMessage,
-          user: this.username,
-          user_id: this.userId,
+          user: this.$store.state.user.userInfo.username,
+          user_id: this.$store.state.user.userInfo.id,
           is_client: true,
         };
         try {
@@ -195,6 +202,7 @@ export default {
             is_client: data.is_client,
           };
           this.chat.push(newMessage);
+          this.unreadNo += 1;
           this.scrollChat();
         };
       }
@@ -434,5 +442,17 @@ img {
 
 #chat-header {
   margin-bottom: 0;
+}
+
+.unread {
+  background-color: grey;
+  color: white;
+  border: 1px solid grey;
+  padding: 2px 9px;
+  border-radius: 50%;
+  float: right;
+  display: inline;
+  margin-top: -25px;
+  margin-left: -40px;
 }
 </style>

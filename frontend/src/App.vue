@@ -33,7 +33,7 @@
           </li>
           <li id="login-drop" class="drop">
             <a class="nav-link" v-on:click="toggleDropMenu()">
-              ACCOUNT <i class="icon-arrow" ref="toggleButton"></i>
+              {{ accountName }} <i class="icon-arrow" ref="toggleButton"></i>
             </a>
             <ul class="drop_menu nav-link" :class="{'display': open}">
               <div v-if="!isAuthenticated">
@@ -41,7 +41,7 @@
                 <router-link to="/signup/" exact>SIGN UP</router-link>
               </div>
               <div v-else>
-                <router-link to="/me/" exact>PROFILE</router-link>
+                <!-- <router-link to="/me/" exact>PROFILE</router-link> -->
                 <router-link to="/my-schedule/" exact>SCHEDULE</router-link>
                 <router-link to="/logout/" exact>LOGOUT</router-link>
               </div>
@@ -89,6 +89,10 @@ export default {
   computed: {
     // ...mapState('user', ['userKey', 'userInfo']),
     ...mapGetters('user', ['userKey', 'isAuthenticated', 'userInfo', 'loginName']),
+    accountName() {
+      const name = this.isAuthenticated ? this.$store.state.user.userInfo.username : 'ACCOUNT';
+      return name;
+    },
   },
   async created() {
     console.log('appview created');
@@ -170,6 +174,11 @@ export default {
         body.classList.remove('display_menu');
       }
       this.open = false;
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
     },
   },
 };
@@ -433,6 +442,7 @@ header li a:hover {
 
 #login-drop {
   min-width: 100px;
+  text-transform: uppercase;
 }
 
 #loader {

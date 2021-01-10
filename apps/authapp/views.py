@@ -59,6 +59,19 @@ class PasswordReset(GenericAPIView):
         return JsonResponse(payload)
 
 
+@api_view(['PATCH', ])
+@permission_classes([IsAuthenticated, ])
+def deactivate_user(request):
+    """ Set use active = False when updating data """
+    if request.method == 'PATCH':
+        user = request.user
+        user.is_active = False
+        user.save()
+
+        return Response(data={'message': 'OK'}, status=status.HTTP_200_OK)
+
+
+
 @api_view(['GET', ])
 def add_log_info(request):
     """ Created a new session code """

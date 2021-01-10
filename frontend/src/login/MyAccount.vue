@@ -75,11 +75,7 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapGetters } from 'vuex';
-
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 
 export default {
   data() {
@@ -105,15 +101,15 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.username = this.userInfo.username;
-      this.firstName = this.userInfo.firstName;
-      this.lastName = this.userInfo.lastName;
-      this.email = this.userInfo.email;
-      this.phone = this.userInfo.phone;
+      this.newUser.username = this.$store.state.user.userInfo.username;
+      this.newUser.firstName = this.$store.state.user.userInfo.firstName;
+      this.newUser.lastName = this.$store.state.user.userInfo.lastName;
+      this.newUser.email = this.$store.state.user.userInfo.email;
+      this.newUser.phone = this.$store.state.user.userInfo.phone;
     });
   },
   computed: {
-    ...mapGetters('user', ['userKey', 'isAuthenticated', 'userInfo', 'loginName']),
+    ...mapGetters('user', ['isAuthenticated', 'userInfo', 'loginName']),
   },
   methods: {
     async updateUser() {
@@ -126,33 +122,34 @@ export default {
         last_name: this.newUser.lastName,
         email: this.newUser.email,
       };
-
-      await axios({
-        method: 'post',
-        url: 'http://127.0.0.1:8000/api/auth/users/',
-        data: requestBody,
-      }).then((result) => {
-        console.log(result);
-        this.updated = true;
-        window.scroll({
-          top: 0,
-          left: 0,
-          behavior: 'smooth',
+      await this.$store.dispatch('user/updateProfile', requestBody)
+        .then((response) => {
+          console.log(response);
+          this.deactivate();
+          this.updated = true;
+          window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+          });
+        }).catch((error) => {
+          console.log(error);
+          this.invalidEntry.username = error.username || [];
+          this.invalidEntry.phone = error.phone || [];
+          this.invalidEntry.firstName = error.firstName || [];
+          this.invalidEntry.lastName = error.lastName || [];
+          this.invalidEntry.email = error.email || [];
         });
-      }).catch((error) => {
-        const result = error.response.data;
-        console.log(result);
-        this.invalidEntry.username = result.username || [];
-        this.invalidEntry.phone = result.phone || [];
-        this.invalidEntry.firstName = result.firstName || [];
-        this.invalidEntry.lastName = result.lastName || [];
-        this.invalidEntry.email = result.email || [];
-        this.invalidEntry.password = result.password || [];
-        this.invalidEntry.nonFieldErrors = (
-          this.newUser.password === this.newUser.rePassword ? [] : ["The two password fields didn't match."]
-        );
-      });
       this.isLoading = false;
+    },
+    async deactivate() {
+      await this.$store.dispatch('user/deactivate')
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

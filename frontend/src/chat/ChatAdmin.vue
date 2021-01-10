@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Chat Admin</h1>
-    <button @click="getOnlineUsers()">Test</button>
     <div v-for="(i, index) of onlineUsers" :key="index">
       <ChatInstance :room="i" />
     </div>

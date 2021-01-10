@@ -34,7 +34,7 @@
                   <div class="messages msg_receive">
                     <p>{{ m.message }}</p>
                     <time datetime="2009-11-13T20:00">
-                      {{ m.username || m.user_info }} • {{ calcTime(m.time) }}
+                      {{ m.user || m.user_info }} • {{ calcTime(m.time) }}
                     </time>
                   </div>
                 </div>
@@ -80,14 +80,16 @@ export default {
       userId: 0,
       clientId: this.$store.state.chat.clientId,
       unreadNo: 0,
+      chatHeader: null,
     };
   },
   computed: {
-    chatHeader() {
-      const deviceInfo = this.chat.length > 0 ? this.chat[this.chat.length - 1].user_info : 'Unkown User';
-      const username = this.chat.length > 0 ? this.chat[0].user : '';
-      return `${deviceInfo} * ${username}`;
-    },
+    // chatHeader() {
+    //   const deviceInfo = this.chat.length > 0 ?
+    //    this.chat[this.chat.length - 1].user_info : 'Unkown User';
+    //   const username = this.chat.length > 0 ? this.chat[0].user : '';
+    //   return `${deviceInfo} * ${username}`;
+    // },
     unreadMsg() {
       const result = this.open ? 0 : this.unreadNo;
       return result;
@@ -137,6 +139,7 @@ export default {
           .then((response) => {
             this.chat = response;
             console.log('current chat: ', this.chat);
+            this.chatHeader = `${this.chat[this.chat.length - 1].user_info} • ${this.chat[this.chat.length - 1].username}`;
           });
       }
       this.applyConnection();
@@ -181,8 +184,12 @@ export default {
             time: data.time,
             user: data.user,
             is_client: data.is_client,
+            user_info: data.user_info,
           };
           this.chat.push(newMessage);
+          if (newMessage.is_client) {
+            this.chatHeader = `${this.chat[this.chat.length - 1].user_info} • ${this.chat[this.chat.length - 1].user}`;
+          }
           this.unreadNo += 1;
           this.scrollChat();
         };
