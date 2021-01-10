@@ -201,6 +201,7 @@ export default ({
     isAuthenticated(state) {
       const result = !!state.token;
       if (result) {
+        console.log('this user is authenticated');
         axios.defaults.headers.common.Authorization = `Token ${state.token}`;
       }
       return result;

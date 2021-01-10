@@ -88,7 +88,7 @@ export default {
       connection: null,
       chat: this.$store.state.chat.conversation,
       userMessage: null,
-      username: '',
+      username: this.$store.state.user.userInfo.username,
       userId: 0,
       clientId: this.$store.state.chat.clientId,
     };
