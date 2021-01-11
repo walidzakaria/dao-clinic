@@ -25,6 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 PROD = config('ENV') == 'Prod'
+CURRENCY_KEY = config('CURRENCY_KEY')
 
 ALLOWED_HOSTS = ["159.65.120.247", 'localhost', '127.0.0.1']
 

@@ -87,8 +87,8 @@ export default {
     Footer,
   },
   computed: {
-    // ...mapState('user', ['userKey', 'userInfo']),
-    ...mapGetters('user', ['userKey', 'isAuthenticated', 'userInfo', 'loginName']),
+    // ...mapState('user', 'userInfo']),
+    ...mapGetters('user', ['isAuthenticated', 'userInfo', 'loginName']),
     accountName() {
       const name = this.isAuthenticated ? this.$store.state.user.userInfo.username : 'ACCOUNT';
       return name;

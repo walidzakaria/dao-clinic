@@ -52,31 +52,8 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters('user', ['userInfo', 'userKey', 'requestErrors']),
   },
   methods: {
-    // ...mapActions('user', ['getUser']),
-    // ...mapMutations('user', ['updateUserKey']),
-    // async applyLogin() {
-    //   if (this.isLoading) { return; }
-    //   this.isLoading = true;
-    //   await axios({
-    //     method: 'post',
-    //     url: 'http://127.0.0.1:8000/api/auth/token/login/',
-    //     data: { password: this.userPassword, email: this.userEmail },
-    //   }).then((result) => {
-    //     console.log(result.data);
-    //     this.showError = false;
-    //     this.$router.push('/');
-    //     this.updateUserKey(result.data.auth_token);
-    //     this.getUser();
-    //   }).catch((error) => {
-    //     console.log(error.response.data);
-    //     this.showError = true;
-    //     this.updateUserKey('');
-    //   });
-    //   this.isLoading = false;
-    // },
     login() {
       if (this.isLoading) { return; }
       this.isLoading = true;

@@ -1,12 +1,17 @@
+import json
+
+import requests
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
 
-from .models import Appointments
-from .serializers import AppointmentsSerializer, BusySlotsSerializer
+from config import settings
+from .models import Appointments, Currency
+from .serializers import AppointmentsSerializer, BusySlotsSerializer, CurrencySerializer
 from .utils import convert_to_date
 
 
@@ -36,3 +41,37 @@ def user_appointments(request):
         serializer = AppointmentsSerializer(appointments, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+def get_currency(request):
+    """ List currency with exchange rates
+    if currency is outdates, it get updates from api.currencyfreaks.com
+    """
+    if request.method == 'GET':
+        last_currency = Currency.objects.order_by('-id').first()
+        if last_currency:
+            td = timezone.now() - last_currency.date
+            difference_in_hours = td.seconds / 60 / 60
+            print(difference_in_hours)
+            if difference_in_hours <= 1:
+                serializer = CurrencySerializer(last_currency, many=False)
+                print('update rates existing')
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+        retrieved_currency = retrieve_currency()
+        if retrieved_currency['rates']:
+            new_currency = Currency(rates=json.dumps(retrieved_currency['rates']))
+            new_currency.save()
+            serializer = CurrencySerializer(new_currency, many=False)
+            print('new rates retrieved')
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            print('failed to retrieve new rates')
+            return Response(data={'message': 'error'},
+                            status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+
+def retrieve_currency():
+    r = requests.get(f'https://api.currencyfreaks.com/latest?apikey={settings.CURRENCY_KEY}')
+    return r.json()

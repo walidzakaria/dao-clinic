@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Appointments
+from .models import Appointments, Currency
 
 
 class AppointmentsSerializer(serializers.ModelSerializer):
@@ -13,3 +13,9 @@ class BusySlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointments
         fields = ('id', 'date', 'time', )
+
+
+class CurrencySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Currency
+        fields = ('id', 'date', 'rates', )
