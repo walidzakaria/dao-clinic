@@ -23,8 +23,8 @@
             </button>
 
             <p class="forgot-password text-right mt-2 mb-4">
-                <router-link to="/signup/" exact="">Create account ?  </router-link>
-                <router-link to="/reset/" exact="">Forgot password ?</router-link>
+                <router-link to="/signup/" exact>Create account ?  </router-link>
+                <router-link to="/reset/" exact>Forgot password ?</router-link>
             </p>
 
             <!-- <div class="social-icons">

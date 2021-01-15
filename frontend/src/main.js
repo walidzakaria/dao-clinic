@@ -7,12 +7,14 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../node_modules/nprogress/nprogress.css';
+import CurrencyFilter from './shared/currency-filter';
 
 // import vueConfig from '../vue.config';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.filter('currency', CurrencyFilter);
 
 new Vue({
   router,

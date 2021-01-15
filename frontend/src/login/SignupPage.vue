@@ -11,7 +11,7 @@
             <div class="form-group">
                 <label>Username <span class="text-danger">*</span></label>
                 <input v-model.trim="newUser.username" type="text"
-                  class="form-control form-control-lg" required autofocus/>
+                  class="form-control form-control-lg" required/>
                 <ul>
                   <li v-for="(m, index) in invalidEntry.username" :key="index"
                     class="text-danger">{{ m }}

@@ -5,88 +5,36 @@
         <h3>Please check your email for confirmation.</h3>
         <p>Click <router-link to="/">here</router-link> to visit our home page.</p>
       </div>
-        <form v-if="!registered" v-on:submit.prevent @submit="signup()">
+        <form v-if="!registered" v-on:submit.prevent @submit="book()">
             <h2>Book an Appointment</h2>
 
             <div class="form-group">
-                <label>Username <span class="text-danger">*</span></label>
-                <input v-model.trim="newUser.username" type="text"
-                  class="form-control form-control-lg" required autofocus/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.username" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
+                <label>Select Session Type <span class="text-danger">*</span></label>
+                <select v-model="sessionType" class="form-control">
+                  <option value="S">One Session</option>
+                  <option value="M">Four Sessions</option>
+                </select>
             </div>
-
-            <div class="form-group">
-                <label>Email address <span class="text-danger">*</span></label>
-                <input v-model.trim="newUser.email"
-                  type="email" class="form-control form-control-lg" required/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.email" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
+            <!-- <div v-if="sessionType === 'S'">
+              <BookDay :sessionNumber="0" @clicked="singleSelected" />
             </div>
-
+            <div v-else>
+              <BookDay @clicked="firstSelected" :sessionNumber="1" />
+              <BookDay @clicked="secondSelected" :sessionNumber="2" />
+              <BookDay @clicked="thirdSelected" :sessionNumber="3" />
+              <BookDay @clicked="fourthSelected" :sessionNumber="4" />
+            </div> -->
             <div class="form-group">
-                <label>Phone Number <span class="text-danger">*</span></label>
-                <input v-model.trim="newUser.phone" type="tel"
-                  class="form-control form-control-lg" required/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.phone" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>First Name</label>
-                <input v-model.trim="newUser.firstName"
-                  type="text" class="form-control form-control-lg"/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.firstName" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>Last Name</label>
-                <input v-model.trim="newUser.lastName" type="text"
-                  class="form-control form-control-lg"/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.lastName" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>Password <span class="text-danger"> *</span></label>
-                <input v-model="newUser.password"
-                  type="password" class="form-control form-control-lg" required/>
-                <ul>
-                  <li v-for="(m, index) in invalidEntry.password" :key="index"
-                    class="text-danger">{{ m }}
-                  </li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <label>Retype Password <span class="text-danger"> *</span></label>
-                <input v-model="newUser.rePassword"
-                  type="password" class="form-control form-control-lg" required/>
+              <label for="comment">Comment:</label>
+              <textarea v-model="comments" class="form-control" rows="5" id="comment"></textarea>
             </div>
             <ul>
-              <li v-for="(m, index) in invalidEntry.nonFieldErrors" :key="index"
+              <li v-for="(m, index) in errorMessages" :key="index"
                 class="text-danger">{{ m }}
               </li>
             </ul>
-
             <button type="submit" class="btn btn-dark btn-lg btn-block">
-              Sign Up  <span v-if="isLoading" class="spinner-border"></span>
+              Book  <span v-if="isLoading" class="spinner-border"></span>
             </button>
 
             <p class="forgot-password text-right">
@@ -94,84 +42,103 @@
                 <router-link to="/login/" exact="">sign in?</router-link>
             </p>
         </form>
+
     </div>
 </template>
 
 <script>
-import axios from 'axios';
 
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+// import BookDay from './BookingSelection.vue';
 
 export default {
   data() {
     return {
       isLoading: false,
       registered: false,
-      newUser: {
-        username: '',
-        email: '',
-        phone: '',
-        firstName: '',
-        lastName: '',
-        password: '',
-        rePassword: '',
-      },
-      invalidEntry: {
-        username: [],
-        email: [],
-        phone: [],
-        firstName: [],
-        lastName: [],
-        password: [],
-        rePassword: [],
-        nonFieldErrors: [],
-      },
+      sessionType: 'S',
+      singleStartDate: new Date(),
+      firstStartDate: new Date(),
+      secondStartDate: new Date(),
+      thirdStartDate: new Date(),
+      fourthStartDate: new Date(),
+      singleSchedule: {},
+      firstSchedule: [],
+      secondSchedule: [],
+      thirdSchedule: [],
+      fourthSchedule: [],
+      errorMessages: [],
+      comments: '',
     };
+  },
+  components: {
+    // BookDay,
   },
   computed: {
   },
+  created() {
+  },
   methods: {
-    setAppointment() {},
-    getAppointments() {},
-    // async signup() {
-    //   if (this.isLoading) { return; }
-    //   this.isLoading = true;
-    //   const requestBody = {
-    //     username: this.newUser.username,
-    //     phone: this.newUser.phone,
-    //     first_name: this.newUser.firstName,
-    //     last_name: this.newUser.lastName,
-    //     email: this.newUser.email,
-    //     password: this.newUser.password,
-    //     re_password: this.newUser.rePassword,
-    //   };
-    //   await this.dispatch('user/register', requestBody)
-    //     .then((response) => {
-    //       console.log(response);
-    //       this.registered = true;
-    //       window.scroll({
-    //         top: 0,
-    //         left: 0,
-    //         behavior: 'smooth',
-    //       });
-    //     }).catch((error) => {
-    //       this.invalidEntry.username = error.username || [];
-    //       this.invalidEntry.phone = error.phone || [];
-    //       this.invalidEntry.firstName = error.firstName || [];
-    //       this.invalidEntry.lastName = error.lastName || [];
-    //       this.invalidEntry.email = error.email || [];
-    //       this.invalidEntry.password = error.password || [];
-    //     });
-    //   this.isLoading = false;
-    // },
+    book() {
+      this.errorMessages = [];
+      if (this.sessionType === 'M') {
+        if (!this.firstSchedule || !this.secondSchedule) {
+          this.errorMessages.push('Please select a valid date and time');
+        } else if (!this.thirdSchedule || !this.fourthSchedule) {
+          this.errorMessages.push('Please select a valid date and time');
+        }
+
+        if (this.firstStartDate > this.secondStartDate) {
+          this.errorMessages.push('The second entered date is invalid!');
+        }
+        if (this.secondStartDate > this.thirdStartDate) {
+          this.errorMessages.push('The third entered date is invalid!');
+        }
+        if (this.thirdStartDate > this.fourthStartDate) {
+          this.errorMessages.push('The fourth entered date is invalid!');
+        }
+      } else if (!this.singleSchedule) {
+        this.errorMessages.push('Please select a valid date and time');
+      }
+      if (this.errorMessages.length > 0) { return; }
+      if (this.sessionType === 'S') {
+        const bodyRequest = {
+          sequence: null,
+          date: this.singleSchedule.date,
+          time: this.singleSchedule.time,
+          price: 1000,
+          comments: this.comments,
+        };
+        this.$store.dispatch('res/postNewBooking', bodyRequest);
+      }
+    },
+    singleSelected(event) {
+      console.log('clicked', event);
+      this.singleSchedule = event;
+    },
+    firstSelected(event) {
+      console.log('clicked', event);
+      this.firstSchedule = event;
+    },
+    secondSelected(event) {
+      console.log('clicked', event);
+      this.secondStartDate = event;
+    },
+    thirdSelected(event) {
+      console.log('clicked', event);
+      this.thirdSchedule = event;
+    },
+    fourthSelected(event) {
+      console.log('clicked', event);
+      this.fourthSchedule = event;
+    },
   },
 };
+
 </script>
 
 <style scoped>
   form {
-    max-width: 400px;
+    max-width: 500px;
     margin: 10px auto;
     /* border: 2px solid grey; */
     padding: 12px 30px 5px 30px;
@@ -195,4 +162,18 @@ export default {
     height: 1.5rem;
     width: 1.5rem;
   }
+
+  option {
+    color: #007bff;
+  }
+
+  option:disabled {
+    color: gray;
+  }
+
+  .spinner-border {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
 </style>

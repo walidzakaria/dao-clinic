@@ -43,6 +43,18 @@ def user_appointments(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@api_view(['POST', ])
+def create_appointment(request):
+    """ Create single or multiple appointments """
+    if request.method == 'POST':
+        request.data['user'] = request.user.id
+        serializer = AppointmentsSerializer(data=request.data)
+        serializer.user = request.user
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET', ])
 def get_currency(request):
     """ List currency with exchange rates

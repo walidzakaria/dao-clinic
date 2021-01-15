@@ -17,8 +17,8 @@ def available_days_list(request):
     """ List available working weekdays """
     if request.method == 'GET':
         today = timezone.now().date()
-        available_days = AvailableDays.objects.all()
-        serializer = AvailableDaysSerializer(available_days, many=True)
+        available_days = AvailableDays.objects.filter(effective_date=today).first()
+        serializer = AvailableDaysSerializer(available_days, many=False)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -28,7 +28,7 @@ def prices_list(request):
     """ List Session Prices based on booking date """
     today = timezone.now().date()
     prices = Prices.objects.filter(
-        effective_date__gte=today).order_by('-effective_date').first()
+        effective_date__lte=today).order_by('-effective_date').first()
     serializer = PricesSerializer(prices, many=False)
 
     return Response(serializer.data, status=status.HTTP_200_OK)

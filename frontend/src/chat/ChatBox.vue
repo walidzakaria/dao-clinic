@@ -224,7 +224,7 @@ export default {
         result = `${Math.floor(timeDiff / 60 / 60)} hrs`;
       } else {
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const timeDay = addLeadingZero(inputTime.getDay() + 1);
+        const timeDay = addLeadingZero(inputTime.getDate());
         const timeHour = addLeadingZero(inputTime.getHours());
         const timeMinute = addLeadingZero(inputTime.getMinutes());
         result = `${timeDay}${monthNames[inputTime.getMonth()]} ${timeHour}:${timeMinute}`;

@@ -1,15 +1,20 @@
 <template>
   <div class="prices">
     <h1>This is prices page</h1>
-    <button @click="retriveCurrency()">Test</button>
+    <button @click="retrieveCurrency()">Test</button>
+    <button @click="retrievePrices()">Test2</button>
     <select class="form-control" name="currency" id="currency"
       ref="currency" v-model="selectedCurrency">
-      <option value="EUR">USD</option>
       <option v-for="(k, index) in currencyNames" :key="index" :value="k">
         {{ k }}
       </option>
     </select>
     <p>{{ currencyRate }}</p>
+    <p>Single Session: {{ singleSessionPrice | currency(selectedCurrency) }}</p>
+    <p>4 Times Session: {{ multiSessionPrice | currency(selectedCurrency) }}</p>
+
+    <p>save up to {{ savedAmount | currency(selectedCurrency) }}</p>
+    <router-link to="/appointments/" exact>Book Now</router-link>
   </div>
 </template>
 
@@ -19,7 +24,8 @@ export default {
     return {
       currency: null,
       selectedCurrency: 'USD',
-      selectedRate: 1,
+      singlePrice: null,
+      multiPrice: null,
     };
   },
   computed: {
@@ -32,9 +38,22 @@ export default {
       const rate = this.currency ? this.currency[this.selectedCurrency] : 1;
       return rate;
     },
+    singleSessionPrice() {
+      return this.currencyRate * this.singlePrice;
+    },
+    multiSessionPrice() {
+      return this.currencyRate * this.multiPrice;
+    },
+    savedAmount() {
+      return (this.singleSessionPrice * 4) - this.multiSessionPrice;
+    },
+  },
+  mounted() {
+    console.log('created');
+    this.retrievePrices();
   },
   methods: {
-    retriveCurrency() {
+    retrieveCurrency() {
       this.$store.dispatch('res/getCurrency')
         .then((response) => {
           if (response.data.rates) {
@@ -45,6 +64,22 @@ export default {
           console.log(error);
         });
     },
+    retrievePrices() {
+      this.$store.dispatch('res/getPrices')
+        .then((response) => {
+          console.log(response);
+          this.singlePrice = response.data.single_session_price;
+          this.multiPrice = response.data.multi_session_price;
+          this.retrieveCurrency();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
+
+<style scoped>
+
+</style>
