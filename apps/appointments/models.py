@@ -23,10 +23,12 @@ class Appointments(models.Model):
     time = models.TimeField()
     price = models.DecimalField(max_digits=14, decimal_places=2)
     comments = models.TextField(max_length=250, null=True, blank=True)
+    confirmed = models.BooleanField(default=False)
 
     class Meta:
+        unique_together = (('date', 'time'),)
         verbose_name_plural = 'Appointments'
-        ordering: ['date', 'time']
+        ordering = ['date', 'time']
 
 
 class Currency(models.Model):
@@ -35,4 +37,4 @@ class Currency(models.Model):
 
     class Meta:
         verbose_name_plural = 'Currency Rates'
-        ordering: ['-date', ]
+        ordering = ['-date', ]

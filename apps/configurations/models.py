@@ -20,7 +20,7 @@ class AvailableDays(models.Model):
 
     class Meta:
         verbose_name_plural = 'Available Days'
-        ordering: ['-effective_date']
+        ordering = ['-effective_date']
 
 
 class Prices(models.Model):
@@ -30,4 +30,4 @@ class Prices(models.Model):
 
     class Meta:
         verbose_name_plural = 'Prices'
-        ordering: ['-effective_date']
+        ordering = ['-effective_date']

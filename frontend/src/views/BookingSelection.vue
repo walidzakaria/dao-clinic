@@ -182,34 +182,5 @@ export default {
 </script>
 
 <style scoped>
-  .spinner-border {
-    height: 1.5rem;
-    width: 1.5rem;
-  }
 
-  option {
-    color: #007bff;
-  }
-
-  option:disabled {
-    color: gray;
-  }
-
-  .spinner-border {
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-
-  .input-date {
-    display: inline;
-    width: 60%;
-  }
-
-  .input-time {
-    display: inline;
-    width: 40%;
-  }
-  label {
-    display: block;
-  }
 </style>

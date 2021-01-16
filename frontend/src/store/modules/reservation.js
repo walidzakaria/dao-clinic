@@ -1,6 +1,5 @@
-// a59ac0f74da9403ea59b17dd76c4ee15
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 export default ({
   namespaced: true,
@@ -18,8 +17,17 @@ export default ({
       closeTime: null,
     },
     appointment: [],
+    pendingBooking: Cookies.get('pendingBooking') || [],
   },
   mutations: {
+    updatePendingBooking(state, newData) {
+      Cookies.set('pendingBooking', newData, { expires: 1 });
+      state.pendingBooking = newData;
+    },
+    removePendingBooking(state) {
+      Cookies.remove('pendingBooking');
+      state.pendingBooking = [];
+    },
     updateCurrency(state, newData) {
       state.currency = JSON.parse(newData.rates) || null;
     },
@@ -108,7 +116,7 @@ export default ({
         }).then((response) => {
           resolve(response);
         }).catch((error) => {
-          reject(error);
+          reject(error.response.data);
         });
       });
     },

@@ -44,13 +44,15 @@ def user_appointments(request):
 
 
 @api_view(['POST', ])
+@permission_classes([IsAuthenticated, ])
 def create_appointment(request):
     """ Create single or multiple appointments """
     if request.method == 'POST':
-        request.data['user'] = request.user.id
-        serializer = AppointmentsSerializer(data=request.data)
-        serializer.user = request.user
+        for e in request.data:
+            e['user'] = request.user.id
+        serializer = AppointmentsSerializer(data=request.data, many=True)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

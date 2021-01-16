@@ -17,7 +17,8 @@ def available_days_list(request):
     """ List available working weekdays """
     if request.method == 'GET':
         today = timezone.now().date()
-        available_days = AvailableDays.objects.filter(effective_date=today).first()
+        available_days = AvailableDays.objects.filter(
+            effective_date__lte=today).order_by('-effective_date').first()
         serializer = AvailableDaysSerializer(available_days, many=False)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
