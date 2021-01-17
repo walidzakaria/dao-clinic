@@ -88,4 +88,5 @@ def get_currency(request):
 
 def retrieve_currency():
     r = requests.get(f'https://api.currencyfreaks.com/latest?apikey={settings.CURRENCY_KEY}')
+    print(r.json())
     return r.json()

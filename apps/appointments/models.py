@@ -33,7 +33,7 @@ class Appointments(models.Model):
 
 class Currency(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    rates = models.CharField(max_length=1000, default='')
+    rates = models.CharField(max_length=2500, default='')
 
     class Meta:
         verbose_name_plural = 'Currency Rates'
