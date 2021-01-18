@@ -122,7 +122,7 @@ export default {
     ...mapActions('chat', ['getConversation']),
     getWebsocketLink() {
       console.log(this.clientId);
-      const wsScheme = window.location.protocol === 'https' ? 'wss' : 'ws';
+      const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
       let wsHost = window.location.host;
       if (wsHost === '127.0.0.1:8080' || wsHost === '127.0.0.1:8000') {
         wsHost = '127.0.0.1:8000';
