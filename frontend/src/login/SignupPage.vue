@@ -2,11 +2,11 @@
     <div class="vue-tempalte">
       <div v-if="registered">
         <h2>You're registered successfully!</h2>
-        <h3>Please check your email for confirmation.</h3>
+        <p>Please check your email for confirmation.</p>
         <p>Click <router-link to="/">here</router-link> to visit our home page.</p>
       </div>
         <form v-if="!registered" v-on:submit.prevent @submit="signup()">
-            <h3>Sign Up</h3>
+            <h2>Sign Up</h2>
 
             <div class="form-group">
                 <label>Username <span class="text-danger">*</span></label>
@@ -98,10 +98,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 
 export default {
   data() {

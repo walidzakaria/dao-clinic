@@ -119,7 +119,7 @@ export default {
 
  .container-fluid {
      overflow: hidden;
-     margin-top: 250px;
+     /* margin-top: 250px; */
      background: #262626;
      color: #627482 !important;
      margin-bottom: 0;

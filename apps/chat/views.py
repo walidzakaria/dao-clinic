@@ -4,17 +4,19 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
+from django.core.mail import send_mail
 from django.db.models import Q
 
 
-from apps.chat.models import Chat, Rooms
-from apps.chat.serializers import ChatSerializer, RoomsSerializer
+from apps.chat.models import Chat, Rooms, Messages
+from apps.chat.serializers import ChatSerializer, RoomsSerializer, MessageSerializer
 
 
 # def room(request, room_name):
 #     return render(request, 'chatroom.html', {
 #         'room_name': room_name
 #     })
+from config import settings
 
 
 @api_view(['GET', ])
@@ -41,3 +43,18 @@ def active_rooms(request):
         rooms = Rooms.objects.order_by().values('room').distinct()
         serializer = RoomsSerializer(rooms, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST',])
+def contact_us(request):
+    if request.method == 'POST':
+
+        serializer = MessageSerializer(data=request.data, many=False)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data)
+            send_mail('New Request', serializer.data['message'],
+                      settings.EMAIL_HOST_USER, ['walidpiano@yahoo.com', ], True)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

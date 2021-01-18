@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Chat, Rooms
+from .models import Chat, Rooms, Messages
 from apps.authapp.models import LogInfo
 
 
@@ -20,3 +20,9 @@ class RoomsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rooms
         fields = ('room', )
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Messages
+        fields = ('name', 'phone', 'email', 'message', 'time',)

@@ -1,7 +1,7 @@
 <template>
     <div class="vue-tempalte">
         <form v-on:submit.prevent @submit="applyReset()">
-            <h3>Password Reset</h3>
+            <h2>Password Reset</h2>
 
             <div v-if="!submitted.isSubmitted || !submitted.isSuccess">
               <div class="form-group">

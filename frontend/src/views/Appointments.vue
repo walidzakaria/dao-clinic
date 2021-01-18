@@ -185,7 +185,7 @@ function TimeForJson(inputTime) {
 export default {
   data() {
     return {
-      pendingRequest: null,
+      // pendingRequest: null,
       isLoading: false,
       registered: false,
       sessionType: 'S',
@@ -252,9 +252,9 @@ export default {
   },
   async mounted() {
     await this.retrieveAvailableDays();
-    if (this.$store.state.res.pendingBooking) {
-      this.pendingRequest = JSON.parse(this.$store.state.res.pendingBooking) || null;
-    }
+    // if (this.$store.state.res.pendingBooking) {
+    //   this.pendingRequest = JSON.parse(this.$store.state.res.pendingBooking) || null;
+    // }
     // this.$nextTick(() => {
     //   this.sessionType = this.pendingRequest.sessionType || 'S';
     //   if (this.sessionType === 'S') {

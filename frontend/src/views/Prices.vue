@@ -1,8 +1,6 @@
 <template>
   <div class="prices">
     <h1>This is prices page</h1>
-    <button @click="retrieveCurrency()">Test</button>
-    <button @click="retrievePrices()">Test2</button>
     <select class="form-control" name="currency" id="currency"
       ref="currency" v-model="selectedCurrency">
       <option v-for="(k, index) in currencyNames" :key="index" :value="k">

@@ -1,7 +1,7 @@
 <template>
     <div class="vue-tempalte">
         <form v-on:submit.prevent @submit="applyReset()">
-            <h3>Resend Activation Code</h3>
+            <h2>Resend Activation Code</h2>
 
             <div class="form-group">
                 <label>Email address <span class="text-danger">*</span></label>

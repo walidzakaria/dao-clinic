@@ -120,6 +120,31 @@ export default ({
         });
       });
     },
+    retrieveMyBookings() {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url: '/api/appointments/my_appointments/',
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
+    sendRequest(context, requestBody) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          url: '/api/chat/contact_message/',
+          data: requestBody,
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
   },
   getters: {
   },

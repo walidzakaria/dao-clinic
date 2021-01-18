@@ -1,7 +1,7 @@
 <template>
     <div class="vue-tempalte">
         <form v-on:submit.prevent @submit="login()">
-            <h3>Sign In</h3>
+            <h2>Sign In</h2>
 
             <div class="form-group">
                 <label>Email address</label>

@@ -50,18 +50,6 @@
         </nav>
       </div>
     </header>
-    <div id="loader" v-if="load">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div id="overlay" v-if="load"></div>
     <main @click="open=false" id="background" class="container content">
       <router-view/>
     </main>
@@ -122,6 +110,9 @@ export default {
   },
   methods: {
     ...mapActions('user', ['logout']),
+    wait(isWaiting) {
+      this.load = isWaiting;
+    },
     displayMenu() {
       const body = document.getElementsByTagName('body')[0];
       if (!body.classList.contains('display_menu')) {
@@ -383,7 +374,7 @@ header #hamburger span:nth-child(3) {width: 12px;}
   content: '';
   display: block;
   width: 100vw;
-  height: 200vh;
+  /* height: 200vh; */
   padding: 5%;
 }
 

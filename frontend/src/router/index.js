@@ -13,6 +13,7 @@ import ActivateUser from '../login/ActivateSuccess.vue';
 import ResetPassword from '../login/ResetSuccess.vue';
 import ResendActivation from '../login/ResendActivation.vue';
 // import MyAccount from '../login/MyAccount.vue';
+import UserSchedule from '../login/UserSchedule.vue';
 import Logout from '../login/LogoutPage.vue';
 import ChatAdmin from '../chat/ChatAdmin.vue';
 
@@ -66,6 +67,12 @@ const routes = [
     name: 'Session',
     component: VideoSession,
     props: true,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/my-schedule',
+    name: 'MyAppointments',
+    component: UserSchedule,
     beforeEnter: ifAuthenticated,
   },
   {
