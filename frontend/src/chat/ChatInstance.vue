@@ -110,7 +110,7 @@ export default {
     ...mapActions('chat', ['getCSConversation']),
     getWebsocketLink() {
       console.log(this.room);
-      const wsScheme = window.location.protocol === 'https' ? 'wss' : 'ws';
+      const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
       let wsHost = window.location.host;
       if (wsHost === '127.0.0.1:8080' || wsHost === '127.0.0.1:8000') {
         wsHost = '127.0.0.1:8000';
