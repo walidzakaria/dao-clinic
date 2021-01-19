@@ -8,3 +8,7 @@ def home(request):
 
 def auth(request, uid, token):
     return render(request, 'index.html', {})
+
+
+def session(request, session_id):
+    return render(request, 'index.html', {})
