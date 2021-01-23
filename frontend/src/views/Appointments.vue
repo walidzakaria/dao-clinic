@@ -1,5 +1,6 @@
 <template>
     <div class="vue-tempalte">
+      <button @click="pay()">Try Pay</button>
       <div v-if="registered">
         <h2>Your appointment was confirmed!</h2>
         <h3>Please check your email for confirmation.</h3>
@@ -144,20 +145,34 @@
               </li>
             </ul>
             <button type="submit" class="btn btn-dark btn-lg btn-block">
-              Book  <span v-if="isLoading" class="spinner-border"></span>
+              Book Now <span v-if="isLoading" class="spinner-border"></span>
             </button>
-
-            <p class="forgot-password text-right">
-                Already registered
-                <router-link to="/login/" exact="">sign in?</router-link>
-            </p>
+            <br>
         </form>
 
+      <form action="http://127.0.0.1:8000/payment" id="payform" method="post">
+        <span id="paymentErrors"></span>
+        <div class="row">
+          <label>Card Number</label>
+          <input type="text" data-paylib="number" size="20">
+        </div>
+        <div class="row">
+          <label>Expiry Date (MM/YYYY)</label>
+          <input type="text" data-paylib="expmonth" size="2">
+          <input type="text" data-paylib="expyear" size="4">
+        </div>
+        <div class="row">
+          <label>Security Code</label>
+          <input type="text" data-paylib="cvv" size="4">
+        </div>
+        <input type="submit" value="Place order">
+      </form>
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import axios from 'axios';
 
 function addLeadingZero(inputNumber) {
   const result = inputNumber < 10 ? `0${inputNumber.toString()}` : inputNumber.toString();
@@ -252,27 +267,24 @@ export default {
   },
   async mounted() {
     await this.retrieveAvailableDays();
-    // if (this.$store.state.res.pendingBooking) {
-    //   this.pendingRequest = JSON.parse(this.$store.state.res.pendingBooking) || null;
-    // }
-    // this.$nextTick(() => {
-    //   this.sessionType = this.pendingRequest.sessionType || 'S';
-    //   if (this.sessionType === 'S') {
-    //     this.singleSelectedDateIndex = this.pendingRequest.singleSelectedDateIndex || null;
-    //     this.singleSelectedTime = this.pendingRequest.singleSelectedTime || null;
-    //   } else {
-    //     this.firstSelectedDateIndex = this.pendingRequest.firstSelectedDateIndex || null;
-    //     this.firstSelectedTime = this.pendingRequest.firstSelectedTime || null;
-    //     this.secondSelectedDateIndex = this.pendingRequest.secondSelectedDateIndex || null;
-    //     this.secondSelectedTime = this.pendingRequest.secondSelectedTime || null;
-    //     this.thirdSelectedDateIndex = this.pendingRequest.thirdSelectedDateIndex || null;
-    //     this.thirdSelectedTime = this.pendingRequest.thirdSelectedTime || null;
-    //     this.fourthSelectedDateIndex = this.pendingRequest.fourthSelectedDateIndex || null;
-    //     this.fourthSelectedTime = this.pendingRequest.fourthSelectedTime || null;
-    //   }
-    // });
+    const paymentLink = document.createElement('script');
+    paymentLink.setAttribute('src', 'https://secure-egypt.paytabs.com/payment/js/paylib.js');
+    document.head.appendChild(paymentLink);
   },
   methods: {
+    pay() {
+      axios({
+        method: 'post',
+        url: 'https://secure-egypt.paytabs.com/payment/request',
+        headers: {
+          Authorization: 'SLJN9DH96L-JBBMZNJRK2-9MTBDLM6W6',
+        },
+      }).then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
     async book() {
       if (!this.isAuthenticated) {
         const currentRequest = {

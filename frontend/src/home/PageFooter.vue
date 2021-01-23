@@ -51,16 +51,21 @@
                   </a>
                 </span>
                 <span class="mx-2">
+                  <a href="https://www.youtube.com/channel/UCUejKcXgnPuorj3IIVfe4hQ" target="_blank">
+                    <img src="../assets/iconmonstr-youtube-6.svg" alt="youtube">
+                  </a>
+                </span>
+                <span class="mx-2">
                   <a href="https://linkedin.com" target="_blank">
                     <img src="../assets/iconmonstr-linkedin-3.svg" alt="linkedin">
                   </a>
-                  </span>
-                  <span class="mx-2">
+                </span>
+                <span class="mx-2">
                   <a href="https://tweitter.com">
                     <img src="../assets/iconmonstr-twitter-1.svg" alt="twitter">
                   </a>
                   <br/>
-                  </span> </p><small class="rights"><span>&#174;
+                </span> </p><small class="rights"><span>&#174;
                 </span>
                   Developed with &#10084; by
                     <a href="mailto:walidpiano@yahoo.com">Walid Zakaria

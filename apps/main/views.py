@@ -12,3 +12,10 @@ def auth(request, uid, token):
 
 def session(request, session_id):
     return render(request, 'index.html', {})
+
+
+def pay(request):
+    if request.method == 'POST':
+        print('posted')
+        print(request.POST)
+        return render('index.html')

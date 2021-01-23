@@ -29,6 +29,12 @@
                 </a>
               </tr>
               <tr>
+                <a href="https://www.youtube.com/channel/UCUejKcXgnPuorj3IIVfe4hQ" target="_blank">
+                  <td><img src="../assets/iconmonstr-youtube-6.svg" alt="youtube"></td>
+                  <td>Dr. Ahmed Omar - DAO Slimming Centers</td>
+                </a>
+              </tr>
+              <tr>
                 <a href="mailto:daoegypt@gmail.com" target="_blank">
                   <td><img src="../assets/iconmonstr-email-1.svg" alt="mail"></td>
                   <td>daoegypt@gmail.com</td>
@@ -39,35 +45,35 @@
           </table>
         </form>
         <br>
-        <p>Submit you request here:</p>
         <form v-if="!registered" v-on:submit.prevent @submit="sendRequest()">
-            <h2>Submit Request</h2>
+          <p>Submit you request here:</p>
+          <h2>Submit Request</h2>
 
-            <div class="form-group">
-                <label>Your name</label>
-                <input v-model.trim="name"
-                  type="text" class="form-control form-control-lg"/>
-            </div>
-            <div class="form-group">
-                <label>Your email address <span class="text-danger">*</span></label>
-                <input v-model.trim="email"
-                  type="email" class="form-control form-control-lg" required/>
-            </div>
+          <div class="form-group">
+              <label>Your name</label>
+              <input v-model.trim="name"
+                type="text" class="form-control form-control-lg"/>
+          </div>
+          <div class="form-group">
+              <label>Your email address <span class="text-danger">*</span></label>
+              <input v-model.trim="email"
+                type="email" class="form-control form-control-lg" required/>
+          </div>
 
-            <div class="form-group">
-                <label>Phone number</label>
-                <input v-model.trim="phone" type="tel"
-                  class="form-control form-control-lg"/>
-            </div>
-            <div class="form-group">
-              <label for="comment">Your message: <span class="text-danger">*</span></label>
-              <textarea v-model="message" class="form-control"
-                  rows="5" id="comment" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-dark btn-lg btn-block">
-              Send  <span v-if="isLoading" class="spinner-border"></span>
-            </button>
-
+          <div class="form-group">
+              <label>Phone number</label>
+              <input v-model.trim="phone" type="tel"
+                class="form-control form-control-lg"/>
+          </div>
+          <div class="form-group">
+            <label for="comment">Your message: <span class="text-danger">*</span></label>
+            <textarea v-model="message" class="form-control"
+                rows="5" id="comment" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark btn-lg btn-block">
+            Send  <span v-if="isLoading" class="spinner-border"></span>
+          </button>
+          <br>
         </form>
     </div>
 </template>

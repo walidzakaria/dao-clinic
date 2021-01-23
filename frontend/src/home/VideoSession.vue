@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="heading">P2P Media example</h1>
+    <h1 class="heading">DAO Video Session</h1>
     <p class="note">
       Enter remote peer ID to call.
     </p>
@@ -129,3 +129,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  #js-remote-stream {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+  }
+
+  #js-local-stream {
+    max-width: 150px;
+    border-radius: 3px;
+  }
+
+  .remote-stream {
+    background-color: grey;
+    border-radius: 10px;
+    display: block;
+    max-width: 460px;
+  }
+</style>
