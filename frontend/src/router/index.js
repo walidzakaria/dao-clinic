@@ -6,6 +6,7 @@ import Appointments from '../views/Appointments.vue';
 import Prices from '../views/Prices.vue';
 import ConstactUs from '../views/ContactUs.vue';
 import VideoSession from '../home/VideoSession.vue';
+import DoctorSession from '../home/DoctorSession.vue';
 import LoginForm from '../login/LoginPage.vue';
 import SignupForm from '../login/SignupPage.vue';
 import ForgotPassword from '../login/ForgotPassword.vue';
@@ -67,6 +68,13 @@ const routes = [
     name: 'Session',
     component: VideoSession,
     props: true,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/Doctor',
+    name: 'DoctorSession',
+    component: DoctorSession,
+    props: false,
     beforeEnter: ifAuthenticated,
   },
   {

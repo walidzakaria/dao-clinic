@@ -16,5 +16,5 @@ urlpatterns = [
     path('chat-admin', home, name='chat-admin'),
     path('session-admin/', home, name='session-admin'),
     path('session/<str:session_id>/', session, name='session'),
-    path('pay/', pay, name='pay'),
+    path('payment/', pay, name='pay'),
 ]

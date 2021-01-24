@@ -2,7 +2,8 @@
   <div class="container">
     <h1 class="heading">DAO Video Session</h1>
     <p class="note">
-      Enter remote peer ID to call.
+      Please click connect, to get connected to the doctor.
+      Please make sure to give permission for your camera & microphone.
     </p>
     <div class="p2p-media">
         <div class="remote-stream">
@@ -10,14 +11,12 @@
         </div>
         <div class="local-stream">
           <video id="js-local-stream"></video>
-          <p>Your ID: <span id="js-local-id"></span></p>
-          <input type="text" placeholder="Remote Peer ID" id="js-remote-id">
+          <!-- <input type="text" placeholder="Remote Peer ID" id="js-remote-id"> -->
           <button id="js-call-trigger">Call</button>
           <button id="js-close-trigger">Close</button>
         </div>
       </div>
-      <p class="meta" id="js-meta"></p>
-      <div data-aos="fade-down-left">test animation</div>
+
   </div>
 </template>
 
@@ -28,6 +27,7 @@ export default {
   data() {
     return {
       Peer: window.Peer,
+      localId: null,
     };
   },
   props: {
@@ -38,27 +38,28 @@ export default {
     webRtcLinkFirst.setAttribute('src', '//cdn.webrtc.ecl.ntt.com/skyway-latest.js');
     document.head.appendChild(webRtcLinkFirst);
     this.configureSession();
+    console.log('this session:', this.currentSession);
   },
   computed: {
     currentSession() {
-      const sessionId = this;
+      const { sessionId } = this;
       return sessionId;
     },
   },
   methods: {
     async configureSession() {
       const localVideo = document.getElementById('js-local-stream');
-      const localId = document.getElementById('js-local-id');
+      // const localId = document.getElementById('js-local-id');
       const callTrigger = document.getElementById('js-call-trigger');
       const closeTrigger = document.getElementById('js-close-trigger');
       const remoteVideo = document.getElementById('js-remote-stream');
-      const remoteId = document.getElementById('js-remote-id');
-      const meta = document.getElementById('js-meta');
-      const sdkSrc = document.querySelector('script[src*=skyway]');
-      meta.innerText = `
-          UA: ${navigator.userAgent}
-          SDK: ${sdkSrc ? sdkSrc.src : 'unknown'}
-        `.trim();
+      // const remoteId = document.getElementById('js-remote-id');
+      // const meta = document.getElementById('js-meta');
+      // const sdkSrc = document.querySelector('script[src*=skyway]');
+      // meta.innerText = `
+      //     UA: ${navigator.userAgent}
+      //     SDK: ${sdkSrc ? sdkSrc.src : 'unknown'}
+      //   `.trim();
       const localStream = await navigator.mediaDevices
         .getUserMedia({
           audio: true,
@@ -84,7 +85,7 @@ export default {
           return;
         }
 
-        const mediaConnection = window.peer.call(remoteId.value, localStream);
+        const mediaConnection = window.peer.call(this.sessionId, localStream);
 
         mediaConnection.on('stream', async (stream) => {
           // Render remote stream for caller
@@ -102,7 +103,7 @@ export default {
       });
 
       window.peer.once('open', (id) => {
-        localId.textContent = id;
+        this.localId = id;
       });
 
       // Register callee handler

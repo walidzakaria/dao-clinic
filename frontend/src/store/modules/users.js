@@ -49,6 +49,18 @@ export default ({
     },
   },
   actions: {
+    retrieveIsDoctor() {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url: '/api/chat/is_doctor/',
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
     retrieveToken(context, credentials) {
       return new Promise((resolve, reject) => {
         axios({

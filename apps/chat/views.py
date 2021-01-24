@@ -58,3 +58,12 @@ def contact_us(request):
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET',])
+@permission_classes([IsAuthenticated, ])
+def is_doctor(request):
+    if request.method == 'GET':
+        user = request.user
+        result = user.groups.filter(name='Doctor').exists()
+        return Response(data={'message': result}, status=status.HTTP_200_OK)

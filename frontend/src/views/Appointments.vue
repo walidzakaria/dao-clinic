@@ -149,24 +149,6 @@
             </button>
             <br>
         </form>
-
-      <form action="http://127.0.0.1:8000/payment" id="payform" method="post">
-        <span id="paymentErrors"></span>
-        <div class="row">
-          <label>Card Number</label>
-          <input type="text" data-paylib="number" size="20">
-        </div>
-        <div class="row">
-          <label>Expiry Date (MM/YYYY)</label>
-          <input type="text" data-paylib="expmonth" size="2">
-          <input type="text" data-paylib="expyear" size="4">
-        </div>
-        <div class="row">
-          <label>Security Code</label>
-          <input type="text" data-paylib="cvv" size="4">
-        </div>
-        <input type="submit" value="Place order">
-      </form>
     </div>
 </template>
 
