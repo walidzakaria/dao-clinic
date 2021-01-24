@@ -13,7 +13,7 @@
         <video id="js-local-stream"></video>
         <p>Client link:
           <router-link v-if="localId" :to="{ path: `/session/${this.localId}/` }"
-            target="_blank">https://daoegypt/session/{{ localId }}/</router-link>
+            target="_blank">https://daoegypt.com/session/{{ localId }}/</router-link>
         </p>
         <!-- <input type="text" placeholder="Remote Peer ID" id="js-remote-id"> -->
         <!-- <button id="js-call-trigger">Call</button> -->
