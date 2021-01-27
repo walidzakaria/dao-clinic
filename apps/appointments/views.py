@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
 
 from config import settings
-from .models import Appointments, Currency, Payment, PaymentLog
+from .models import Appointments, Currency, Payment, PaymentLog, PaymentDetails
 from .serializers import AppointmentsSerializer, BusySlotsSerializer,\
     CurrencySerializer, PaymentSerializer
 from .utils import convert_to_date
@@ -110,7 +110,7 @@ def callback(request):
 
 @csrf_exempt
 @api_view(['POST', 'GET',])
-def pay(request):
+def payment(request):
     if request.method == 'POST':
         post_data = request.data
         new_payment = Payment(tran_ref=post_data['tran_ref'],
@@ -130,6 +130,20 @@ def pay(request):
                               )
         new_payment.save()
         return Response(data={'message': 'got'}, status=status.HTTP_201_CREATED)
+
+    elif request.method == 'GET':
+        print(request.data)
+        return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(['POST', 'GET', ])
+def pay(request):
+    if request.method == 'POST':
+        request_data = json.dumps(request.data)
+        new_log = PaymentDetails(log=request_data)
+        new_log.save()
+        return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
 
     elif request.method == 'GET':
         print(request.data)

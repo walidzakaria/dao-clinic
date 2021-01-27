@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Appointments, Payment, PaymentLog
+from .models import Appointments, Payment, PaymentLog, PaymentDetails
 
 
 # Register your models here.
@@ -22,6 +22,11 @@ class PaymentLogAdmin(admin.ModelAdmin):
     list_display = ('id', 'log')
 
 
+class PaymentDetailsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'log')
+
+
 admin.site.register(Appointments, AppointmentAdmin)
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(PaymentLog, PaymentLogAdmin)
+admin.site.register(PaymentDetails, PaymentDetailsAdmin)

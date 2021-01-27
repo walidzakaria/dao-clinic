@@ -59,3 +59,7 @@ class Payment(models.Model):
 
 class PaymentLog(models.Model):
     log = models.TextField()
+
+
+class PaymentDetails(models.Model):
+    log = models.TextField()
