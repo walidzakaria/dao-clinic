@@ -4,8 +4,9 @@ from .models import Messages
 
 # Register your models here.
 class MessagesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'email', 'message', 'time', )
+    list_display = ('name', 'phone', 'email', 'message', 'time',)
     search_fields = ('name', 'phone', 'email',)
-    list_filter = ('time', )
+    list_filter = ('time',)
+
 
 admin.site.register(Messages, MessagesAdmin)

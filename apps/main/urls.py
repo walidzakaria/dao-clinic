@@ -17,5 +17,6 @@ urlpatterns = [
     path('session-admin/', home, name='session-admin'),
     path('session/<str:session_id>/', session, name='session'),
     path('payment/', pay, name='pay'),
+    path('callback/', pay, name='pay'),
     path('doctor/', home, name='doctor'),
 ]

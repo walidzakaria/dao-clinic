@@ -28,7 +28,12 @@ PROD = config('ENV') == 'Prod'
 CURRENCY_KEY = config('CURRENCY_KEY')
 
 ALLOWED_HOSTS = ["159.65.120.247", 'localhost', '127.0.0.1',
-                 'daoegypt.com', 'www.daoegypt.com']
+                 'daoegypt.com', 'www.daoegypt.com',
+                 'secure-egypt.paytabs.com',
+                 'secure-egypt.paytabs.com',
+                 'www.merchant-egypt.paytabs.com',
+                 'www.merchant-egypt.paytabs.com',
+                 '40.123.210.89',]
 
 ROOT_URLCONF = f'{config("PROJECT_NAME")}.urls'
 
@@ -46,6 +51,9 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000',
     'http://127.0.0.1:8080',
     'http://159.65.120.247:8000',
+    'https://secure-egypt.paytabs.com',
+    'https://merchant-egypt.paytabs.com',
+    'https://40.123.210.89',
 )
 
 # Application definition

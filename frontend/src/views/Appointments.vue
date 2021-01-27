@@ -576,7 +576,14 @@ export default {
       return `${addLeadingZero(inputDate.getDate())} ${inputDate.toLocaleString('default', { month: 'short' })}`;
     },
     formatTime(inputTime) {
-      const result = inputTime.getHours() <= 12 ? `${addLeadingZero(inputTime.getHours())}:${addLeadingZero(inputTime.getMinutes())} AM` : `${addLeadingZero(inputTime.getHours() - 12)}:${addLeadingZero(inputTime.getMinutes())} PM`;
+      let result;
+      if (inputTime.getHours() < 12) {
+        result = `${addLeadingZero(inputTime.getHours())}:${addLeadingZero(inputTime.getMinutes())} AM`;
+      } else if (inputTime.getHours() === 12) {
+        result = `${addLeadingZero(inputTime.getHours())}:${addLeadingZero(inputTime.getMinutes())} PM`;
+      } else {
+        result = `${addLeadingZero(inputTime.getHours() - 12)}:${addLeadingZero(inputTime.getMinutes())} PM`;
+      }
       return result;
     },
   },
