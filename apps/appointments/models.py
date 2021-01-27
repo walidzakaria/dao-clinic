@@ -41,4 +41,17 @@ class Currency(models.Model):
 
 
 class Payment(models.Model):
-    log = models.TextField()
+    tran_ref = models.CharField(max_length=20)
+    cart_id = models.CharField(max_length=20)
+    cart_description = models.CharField(max_length=50)
+    tran_currency = models.CharField(max_length=3)
+    tran_total = models.DecimalField(decimal_places=2, max_digits=12)
+    email = models.EmailField()
+    response_status = models.CharField(max_length=5)
+    response_message = models.CharField(max_length=100)
+    transaction_time = models.DateTimeField()
+    card_type = models.CharField(max_length=20)
+    card_scheme = models.CharField(max_length=20)
+    payment_description = models.CharField(max_length=30)
+    expiryMonth = models.PositiveSmallIntegerField()
+    expiryYear = models.PositiveIntegerField()

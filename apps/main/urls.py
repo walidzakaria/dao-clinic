@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import home, auth, session, pay
+from .views import home, auth, session
 
 urlpatterns = [
     path('', home, name='home'),
@@ -16,7 +16,5 @@ urlpatterns = [
     path('chat-admin', home, name='chat-admin'),
     path('session-admin/', home, name='session-admin'),
     path('session/<str:session_id>/', session, name='session'),
-    path('payment/', pay, name='pay'),
-    path('callback/', pay, name='pay'),
     path('doctor/', home, name='doctor'),
 ]

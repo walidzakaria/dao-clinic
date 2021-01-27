@@ -10,8 +10,12 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('log', )
-
+    list_display = ('id', 'tran_ref', 'cart_id', 'cart_description', 'tran_currency',
+                    'tran_total', 'email', 'response_status', 'response_message',
+                    'transaction_time', 'card_type', 'card_scheme', 'payment_description',
+                    'expiryMonth', 'expiryYear')
+    search_fields = ('tran_ref', 'cart_id', 'email', )
+    list_filter = ('tran_currency', 'response_status', 'transaction_time', )
 
 admin.site.register(Appointments, AppointmentAdmin)
 admin.site.register(Payment, PaymentAdmin)

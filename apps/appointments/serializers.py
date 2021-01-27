@@ -30,7 +30,7 @@ class CurrencySerializer(serializers.ModelSerializer):
         fields = ('id', 'date', 'rates', )
 
 
-# class PaymentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Payment
-#         fields = ('id', 'log', )
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'

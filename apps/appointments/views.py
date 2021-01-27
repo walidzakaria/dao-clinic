@@ -4,14 +4,16 @@ import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
 
 from config import settings
-from .models import Appointments, Currency
-from .serializers import AppointmentsSerializer, BusySlotsSerializer, CurrencySerializer
+from .models import Appointments, Currency, Payment
+from .serializers import AppointmentsSerializer, BusySlotsSerializer,\
+    CurrencySerializer, PaymentSerializer
 from .utils import convert_to_date
 
 
@@ -90,3 +92,20 @@ def retrieve_currency():
     r = requests.get(f'https://api.currencyfreaks.com/latest?apikey={settings.CURRENCY_KEY}')
     print(r.json())
     return r.json()
+
+
+@csrf_exempt
+@api_view(['POST', 'GET',])
+# @permission_classes([IsAuthenticated, ])
+def pay(request):
+    if request.method == 'POST':
+        print(request.data)
+        serializer = PaymentSerializer(data=request.data, many=False)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'GET':
+        print(request.data)
+        return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
