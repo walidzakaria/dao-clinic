@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -6,6 +8,8 @@ from rest_framework.views import Response
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+
+from apps.appointments.models import Payment
 
 
 def home(request):
@@ -26,6 +30,9 @@ def session(request, session_id):
 def pay(request):
     if request.method == 'POST':
         print(request.data)
+        request_data = json.dumps(request.data)
+        payment = Payment(log=request_data)
+        payment.save()
         return Response(data={'message': 'OK'}, status=status.HTTP_200_OK)
     elif request.method == 'GET':
         print(request.data)

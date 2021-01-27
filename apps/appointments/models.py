@@ -38,3 +38,7 @@ class Currency(models.Model):
     class Meta:
         verbose_name_plural = 'Currency Rates'
         ordering = ['-date', ]
+
+
+class Payment(models.Model):
+    log = models.TextField()

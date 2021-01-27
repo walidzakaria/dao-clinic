@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from .models import Appointments, Currency
+from .models import Appointments, Currency, Payment
 
 
 class AppointmentsSerializer(serializers.ModelSerializer):
@@ -28,3 +28,9 @@ class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
         fields = ('id', 'date', 'rates', )
+
+
+# class PaymentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Payment
+#         fields = ('id', 'log', )
