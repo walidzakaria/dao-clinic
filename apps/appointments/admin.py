@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Appointments, Payment
+from .models import Appointments, Payment, PaymentLog
 
 
 # Register your models here.
@@ -17,5 +17,11 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = ('tran_ref', 'cart_id', 'email', )
     list_filter = ('tran_currency', 'response_status', 'transaction_time', )
 
+
+class PaymentLogAdmin(admin.ModelAdmin):
+    list_display = ('id', 'log')
+
+
 admin.site.register(Appointments, AppointmentAdmin)
 admin.site.register(Payment, PaymentAdmin)
+admin.site.register(PaymentLog, PaymentLogAdmin)

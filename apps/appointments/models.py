@@ -55,3 +55,7 @@ class Payment(models.Model):
     payment_description = models.CharField(max_length=30)
     expiryMonth = models.PositiveSmallIntegerField()
     expiryYear = models.PositiveIntegerField()
+
+
+class PaymentLog(models.Model):
+    log = models.TextField()

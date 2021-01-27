@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
 
 from config import settings
-from .models import Appointments, Currency, Payment
+from .models import Appointments, Currency, Payment, PaymentLog
 from .serializers import AppointmentsSerializer, BusySlotsSerializer,\
     CurrencySerializer, PaymentSerializer
 from .utils import convert_to_date
@@ -95,16 +95,41 @@ def retrieve_currency():
 
 
 @csrf_exempt
+@api_view(['POST', 'GET', ])
+def callback(request):
+    if request.method == 'POST':
+        request_data = json.dumps(request.data)
+        new_log = PaymentLog(log=request_data)
+        new_log.save()
+        return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
+
+    elif request.method == 'GET':
+        print(request.data)
+        return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
+
+
+@csrf_exempt
 @api_view(['POST', 'GET',])
-# @permission_classes([IsAuthenticated, ])
 def pay(request):
     if request.method == 'POST':
         print(request.data)
-        serializer = PaymentSerializer(data=request.data, many=False)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        new_payment = Payment(tran_ref=request.data['tran_ref'],
+                              cart_id=request.data['cart_id'],
+                              cart_description=request.data['cart_description'],
+                              tran_currency=request.data['tran_currency'],
+                              tran_total=request.data['tran_total'],
+                              email=request.data['email'],
+                              response_status=request.data['response_status'],
+                              response_message=request.data['response_message'],
+                              transaction_time=request.data['transaction_time'],
+                              card_type=request.data['card_type'],
+                              card_scheme=request.data['card_scheme'],
+                              payment_description=request.data['payment_description'],
+                              expiryMonth=request.data['expiryMonth'],
+                              expiryYear=request.data['expiryYear'],
+                              )
+        new_payment.save()
+        return Response(data={'message': 'got'}, status=status.HTTP_201_CREATED)
 
     elif request.method == 'GET':
         print(request.data)
