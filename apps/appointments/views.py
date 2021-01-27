@@ -112,21 +112,21 @@ def callback(request):
 @api_view(['POST', 'GET',])
 def pay(request):
     if request.method == 'POST':
-        print(request.data)
-        new_payment = Payment(tran_ref=request.data['tran_ref'],
-                              cart_id=request.data['cart_id'],
-                              cart_description=request.data['cart_description'],
-                              tran_currency=request.data['tran_currency'],
-                              tran_total=request.data['tran_total'],
-                              email=request.data['email'],
-                              response_status=request.data['response_status'],
-                              response_message=request.data['response_message'],
-                              transaction_time=request.data['transaction_time'],
-                              card_type=request.data['card_type'],
-                              card_scheme=request.data['card_scheme'],
-                              payment_description=request.data['payment_description'],
-                              expiryMonth=request.data['expiryMonth'],
-                              expiryYear=request.data['expiryYear'],
+        post_data = request.data
+        new_payment = Payment(tran_ref=post_data['tran_ref'],
+                              cart_id=post_data['cart_id'],
+                              cart_description=post_data['cart_description'],
+                              tran_currency=post_data['tran_currency'],
+                              tran_total=post_data['tran_total'],
+                              email=post_data['email'],
+                              response_status=post_data['response_status'],
+                              response_message=post_data['response_message'],
+                              transaction_time=post_data['transaction_time'],
+                              card_type=post_data['card_type'],
+                              card_scheme=post_data['card_scheme'],
+                              payment_description=post_data['payment_description'],
+                              expiryMonth=post_data['expiryMonth'],
+                              expiryYear=post_data['expiryYear'],
                               )
         new_payment.save()
         return Response(data={'message': 'got'}, status=status.HTTP_201_CREATED)
