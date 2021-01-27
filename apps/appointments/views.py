@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
 
 from config import settings
-from .models import Appointments, Currency, Payment, PaymentLog, PaymentDetails
+from .models import Appointments, Currency, Payment, PaymentDetail
 from .serializers import AppointmentsSerializer, BusySlotsSerializer,\
     CurrencySerializer, PaymentSerializer
 from .utils import convert_to_date
@@ -94,39 +94,30 @@ def retrieve_currency():
     return r.json()
 
 
-@csrf_exempt
-@api_view(['POST', 'GET', ])
-def callback(request):
-    if request.method == 'POST':
-        request_data = json.dumps(request.data)
-        new_log = PaymentLog(log=request_data)
-        new_log.save()
-        return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
-
-    elif request.method == 'GET':
-        print(request.data)
-        return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
+# @csrf_exempt
+# @api_view(['POST', 'GET', ])
+# def callback(request):
+#     if request.method == 'POST':
+#         request_data = json.dumps(request.data)
+#         new_log = PaymentLog(log=request_data)
+#         new_log.save()
+#         return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
+#
+#     elif request.method == 'GET':
+#         print(request.data)
+#         return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
 
 
 @csrf_exempt
 @api_view(['POST', 'GET',])
-def payment(request):
+def pay(request):
     if request.method == 'POST':
         post_data = request.data
-        new_payment = Payment(tran_ref=post_data['tran_ref'],
-                              cart_id=post_data['cart_id'],
-                              cart_description=post_data['cart_description'],
-                              tran_currency=post_data['tran_currency'],
-                              tran_total=post_data['tran_total'],
-                              email=post_data['email'],
-                              response_status=post_data['response_status'],
-                              response_message=post_data['response_message'],
-                              transaction_time=post_data['transaction_time'],
-                              card_type=post_data['card_type'],
-                              card_scheme=post_data['card_scheme'],
-                              payment_description=post_data['payment_description'],
-                              expiryMonth=post_data['expiryMonth'],
-                              expiryYear=post_data['expiryYear'],
+        new_payment = Payment(cart_id=post_data['cartId'],
+                              email=post_data['customerEmail'],
+                              resp_status=post_data['respStatus'],
+                              tran_ref=post_data['tranRef'],
+                              signature=post_data['signature'],
                               )
         new_payment.save()
         return Response(data={'message': 'got'}, status=status.HTTP_201_CREATED)
@@ -138,10 +129,25 @@ def payment(request):
 
 @csrf_exempt
 @api_view(['POST', 'GET', ])
-def pay(request):
+def callback(request):
     if request.method == 'POST':
-        request_data = json.dumps(request.data)
-        new_log = PaymentDetails(log=request_data)
+        post_data = request.data
+        new_log = PaymentDetail(
+            tran_ref=post_data['tran_ref'],
+            cart_id=post_data['cart_id'],
+            cart_description=post_data['cart_description'],
+            tran_currency=post_data['tran_currency'],
+            tran_total=post_data['tran_total'],
+            email=post_data['customer_details']['email'],
+            response_status=post_data['payment_result']['response_status'],
+            response_message=post_data['payment_result']['response_message'],
+            transaction_time=post_data['payment_result']['transaction_time'],
+            card_type=post_data['payment_info']['card_type'],
+            card_scheme=post_data['payment_info']['card_scheme'],
+            payment_description=post_data['payment_info']['payment_description'],
+            expiryMonth=post_data['payment_info']['expiryMonth'],
+            expiryYear=post_data['payment_info']['expiryYear'],
+        )
         new_log.save()
         return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
 

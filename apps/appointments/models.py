@@ -41,25 +41,26 @@ class Currency(models.Model):
 
 
 class Payment(models.Model):
+    cart_id = models.CharField(max_length=20)
+    email = models.EmailField()
+    resp_status = models.CharField(max_length=10)
+    tran_ref = models.CharField(max_length=20)
+    signature = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+class PaymentDetail(models.Model):
     tran_ref = models.CharField(max_length=20)
     cart_id = models.CharField(max_length=20)
-    cart_description = models.CharField(max_length=50)
+    cart_description = models.CharField(max_length=100)
     tran_currency = models.CharField(max_length=3)
-    tran_total = models.DecimalField(decimal_places=2, max_digits=12)
+    tran_total = models.DecimalField(max_digits=12, decimal_places=2)
     email = models.EmailField()
     response_status = models.CharField(max_length=5)
     response_message = models.CharField(max_length=100)
     transaction_time = models.DateTimeField()
     card_type = models.CharField(max_length=20)
     card_scheme = models.CharField(max_length=20)
-    payment_description = models.CharField(max_length=30)
+    payment_description = models.CharField(max_length=20)
     expiryMonth = models.PositiveSmallIntegerField()
     expiryYear = models.PositiveIntegerField()
-
-
-class PaymentLog(models.Model):
-    log = models.TextField()
-
-
-class PaymentDetails(models.Model):
-    log = models.TextField()

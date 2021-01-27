@@ -1,32 +1,32 @@
 from django.contrib import admin
-from .models import Appointments, Payment, PaymentLog, PaymentDetails
+from .models import Appointments, Payment, PaymentDetail
 
 
 # Register your models here.
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('user', 'type', 'sequence', 'date', 'time', 'price', 'comments', 'confirmed',)
-    search_fields = ('user__username', 'user__email', )
+    search_fields = ('user__username', 'user__email',)
     list_filter = ('date', 'time', 'type', 'sequence', 'confirmed',)
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'tran_ref', 'cart_id', 'cart_description', 'tran_currency',
+    list_display = ('id', 'cart_id', 'email', 'resp_status', 'tran_ref',
+                    'signature', 'date',)
+    search_fields = ('cart_id', 'tran_ref', 'email',)
+    list_filter = ('date', 'resp_status',)
+
+
+class PaymentDetailAdmin(admin.ModelAdmin):
+    list_display = ('tran_ref', 'cart_id', 'cart_description', 'tran_currency',
                     'tran_total', 'email', 'response_status', 'response_message',
-                    'transaction_time', 'card_type', 'card_scheme', 'payment_description',
-                    'expiryMonth', 'expiryYear')
-    search_fields = ('tran_ref', 'cart_id', 'email', )
-    list_filter = ('tran_currency', 'response_status', 'transaction_time', )
-
-
-class PaymentLogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'log')
-
-
-class PaymentDetailsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'log')
+                    'transaction_time', 'card_type', 'card_scheme',
+                    'payment_description', 'expiryMonth', 'expiryYear',)
+    search_fields = ('tran_ref', 'cart_id',)
+    list_filter = ('tran_currency',
+                   'response_status',
+                   'transaction_time', 'card_type', 'card_scheme', )
 
 
 admin.site.register(Appointments, AppointmentAdmin)
 admin.site.register(Payment, PaymentAdmin)
-admin.site.register(PaymentLog, PaymentLogAdmin)
-admin.site.register(PaymentDetails, PaymentDetailsAdmin)
+admin.site.register(PaymentDetail, PaymentDetailAdmin)
