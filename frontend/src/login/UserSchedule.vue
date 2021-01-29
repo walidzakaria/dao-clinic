@@ -34,6 +34,10 @@
 </template>
 
 <script>
+function addLeadingZero(inputNumber) {
+  const result = inputNumber < 10 ? `0${inputNumber.toString()}` : inputNumber.toString();
+  return result;
+}
 
 export default {
   data() {
@@ -99,11 +103,13 @@ export default {
       let hours = sessionDate.getHours();
       const minutes = sessionDate.getMinutes();
       let midDay = 'AM';
-      if (hours > 12) {
+      if (hours === 12) {
+        midDay = 'PM';
+      } else if (hours > 12) {
         hours -= 12;
         midDay = 'PM';
       }
-      const result = `The session ${past} at ${hours}:${minutes} ${midDay}`;
+      const result = `The session ${past} at ${addLeadingZero(hours)}:${addLeadingZero(minutes)} ${midDay}`;
       return result;
     },
   },

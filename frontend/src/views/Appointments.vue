@@ -1,12 +1,18 @@
 <template>
     <div class="vue-tempalte">
-      <button @click="pay()">Try Pay</button>
-      <div v-if="registered">
-        <h2>Your appointment was confirmed!</h2>
-        <h3>Please check your email for confirmation.</h3>
-        <p>Click <router-link to="/">here</router-link> to visit our home page.</p>
-      </div>
-        <form v-if="!registered" v-on:submit.prevent @submit="book()">
+      <div id="loader" v-if="load">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div id="overlay" v-if="load"></div>
+        <form v-if="iframeLink === ''" v-on:submit.prevent @submit="book()">
             <h2>Book an Appointment</h2>
 
             <div class="form-group">
@@ -139,6 +145,21 @@
               <label for="comment">Comment:</label>
               <textarea v-model="comments" class="form-control" rows="5" id="comment"></textarea>
             </div>
+            <select class="form-control" name="currency" id="currency"
+              ref="currency" v-model="selectedCurrency">
+              <option v-for="(k, index) in currencyNames" :key="index" :value="k">
+                {{ k }}
+              </option>
+            </select>
+            <div v-if="sessionType === 'S'">
+              <p>
+                Total Price: {{ singleSessionPrice | currency(selectedCurrency) }}
+              </p>
+              <p>Book 4 sessions and save up to {{ savedAmount | currency(selectedCurrency) }}</p>
+            </div>
+            <div v-else>
+              <p>Total Price: {{ multiSessionPrice | currency(selectedCurrency) }}</p>
+            </div>
             <ul>
               <li v-for="(m, index) in errorMessages" :key="index"
                 class="text-danger">{{ m }}
@@ -148,7 +169,10 @@
               Book Now <span v-if="isLoading" class="spinner-border"></span>
             </button>
             <br>
+            <!-- <iframe src="https://secure-egypt.paytabs.com/payment/page/3F12289C82E4157B7B65349D7ECBF07C5CE176142C111AB26B28E126"
+              style="border:none;" title="Iframe Example" id="iframe"></iframe> -->
         </form>
+        <iframe v-else :src="iframeLink" frameborder="0"></iframe>
     </div>
 </template>
 
@@ -170,19 +194,24 @@ function TimeForJson(inputTime) {
   const result = new Date();
   let hours = parseInt(inputTime.substr(0, 2), 0);
   const minutes = parseInt(inputTime.substr(3, 2), 0);
-  if (inputTime.substr(6, 2) === 'PM') {
+  if (inputTime.substr(6, 2) === 'PM' && hours > 12) {
     hours += 12;
   }
   result.setHours(hours);
   result.setMinutes(minutes);
   result.setMilliseconds(0);
-  return `${result.getHours()}:${result.getMinutes()}:00`;
+  return `${addLeadingZero(result.getHours())}:${addLeadingZero(result.getMinutes())}:00`;
 }
 
 export default {
   data() {
     return {
-      // pendingRequest: null,
+      load: true,
+      iframeLink: '',
+      selectedCurrency: 'USD',
+      currency: null,
+      singlePrice: null,
+      multiplePrice: null,
       isLoading: false,
       registered: false,
       sessionType: 'S',
@@ -219,6 +248,24 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isAuthenticated', 'userInfo', 'loginName']),
+    currencyNames() {
+      const keys = this.currency ? Object.keys(this.currency) : null;
+      return keys;
+    },
+    currencyRate() {
+      console.log(this.selectedCurrency);
+      const rate = this.currency ? this.currency[this.selectedCurrency] : 1;
+      return rate;
+    },
+    singleSessionPrice() {
+      return this.currencyRate * this.singlePrice;
+    },
+    multiSessionPrice() {
+      return this.currencyRate * this.multiPrice;
+    },
+    savedAmount() {
+      return (this.singleSessionPrice * 4) - this.multiSessionPrice;
+    },
     singleSelectedDate() {
       const newDate = new Date();
       newDate.setDate(newDate.getDate() + this.singleSelectedDateIndex + 1);
@@ -249,11 +296,33 @@ export default {
   },
   async mounted() {
     await this.retrieveAvailableDays();
-    const paymentLink = document.createElement('script');
-    paymentLink.setAttribute('src', 'https://secure-egypt.paytabs.com/payment/js/paylib.js');
-    document.head.appendChild(paymentLink);
+    await this.retrievePrices();
+    this.load = false;
   },
   methods: {
+    retrievePrices() {
+      this.$store.dispatch('res/getPrices')
+        .then((response) => {
+          console.log('prices ', response);
+          this.singlePrice = response.data.single_session_price;
+          this.multiPrice = response.data.multi_session_price;
+          this.retrieveCurrency();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    retrieveCurrency() {
+      this.$store.dispatch('res/getCurrency')
+        .then((response) => {
+          if (response.data.rates) {
+            this.currency = this.$store.state.res.currency;
+            console.log('rates are:', this.currency);
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+    },
     pay() {
       axios({
         method: 'post',
@@ -311,7 +380,7 @@ export default {
           type: this.sessionType,
           date: bookDate,
           time: bookTime,
-          price: 1000,
+          currency: this.selectedCurrency,
           comments: this.comments,
         }];
       } else {
@@ -334,7 +403,7 @@ export default {
             sequence: i + 1,
             date: bookDate[i],
             time: bookTime[i],
-            price: 4000,
+            currency: this.selectedCurrency,
             comments: this.comments,
           });
         }
@@ -342,7 +411,8 @@ export default {
       await this.$store.dispatch('res/postNewBooking', bookingRequest)
         .then((response) => {
           console.log(response);
-          this.$router.push('/my-schedule/');
+          // this.$router.push('/my-schedule/');
+          this.iframeLink = response.data;
         }).catch((error) => {
           console.log(error);
           this.errorMessages.push('Unable to book your appointment. Please try again!');
@@ -591,7 +661,7 @@ export default {
 </script>
 
 <style scoped>
-  form {
+  form, iframe {
     max-width: 500px;
     margin: 10px auto;
     /* border: 2px solid grey; */
@@ -635,6 +705,15 @@ export default {
     width: 40%;
   }
   label {
+    display: block;
+  }
+
+  iframe {
+    width: 100%;
+    height: 500px;
+    background-color: #f5f7f9;
+    margin-left: auto;
+    margin-right: auto;
     display: block;
   }
 

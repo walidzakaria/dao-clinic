@@ -22,8 +22,10 @@ class Appointments(models.Model):
     date = models.DateField()
     time = models.TimeField()
     price = models.DecimalField(max_digits=14, decimal_places=2)
+    currency = models.CharField(max_length=3)
     comments = models.TextField(max_length=250, null=True, blank=True)
     confirmed = models.BooleanField(default=False)
+    cart_id = models.CharField(max_length=20)
 
     class Meta:
         unique_together = (('date', 'time'),)
@@ -64,3 +66,11 @@ class PaymentDetail(models.Model):
     payment_description = models.CharField(max_length=20)
     expiryMonth = models.PositiveSmallIntegerField()
     expiryYear = models.PositiveIntegerField()
+
+
+class Transaction(models.Model):
+    id = models.BigAutoField(primary_key=True)
+
+    def cart_id(self):
+        str_id = str(self.id)
+        return str_id.zfill(5)

@@ -4,9 +4,10 @@ from .models import Appointments, Payment, PaymentDetail
 
 # Register your models here.
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'type', 'sequence', 'date', 'time', 'price', 'comments', 'confirmed',)
-    search_fields = ('user__username', 'user__email',)
-    list_filter = ('date', 'time', 'type', 'sequence', 'confirmed',)
+    list_display = ('user', 'type', 'sequence', 'date', 'time',
+                    'currency', 'price', 'confirmed', 'cart_id', )
+    search_fields = ('user__username', 'user__email', 'cart_id', )
+    list_filter = ('date', 'time', 'type', 'sequence', 'confirmed', 'currency', )
 
 
 class PaymentAdmin(admin.ModelAdmin):

@@ -1,3 +1,4 @@
+import decimal
 import json
 
 import requests
@@ -11,13 +12,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
 
 from config import settings
-from .models import Appointments, Currency, Payment, PaymentDetail
-from .serializers import AppointmentsSerializer, BusySlotsSerializer,\
-    CurrencySerializer, PaymentSerializer
+from .models import Appointments, Currency, Payment, PaymentDetail, Transaction
+from .serializers import AppointmentsSerializer, BusySlotsSerializer, \
+    CurrencySerializer
 from .utils import convert_to_date
 
-
 # Create your views here.
+from ..authapp.models import User
+from ..configurations.models import Prices
+
+
 @api_view(['GET', ])
 def busy_slots_list(request, selected_date):
     """ List busy slots against selected date """
@@ -50,19 +54,40 @@ def user_appointments(request):
 def create_appointment(request):
     """ Create single or multiple appointments """
     if request.method == 'POST':
+        new_cart_id = Transaction()
+        new_cart_id.save()
+        cart_id = new_cart_id.cart_id()
+        last_currency = Currency.objects.order_by('-id').first()
+        exchange_rates = json.loads(last_currency.rates)
+        today = timezone.now().date()
+        prices = Prices.objects.filter(
+            effective_date__lte=today).order_by('-effective_date').first()
         for e in request.data:
             e['user'] = request.user.id
+            e['cart_id'] = cart_id
+            if e['type'] == 'S':
+                price = prices.single_session_price
+            else:
+                price = prices.multi_session_price
+            e['price'] = round(decimal.Decimal(exchange_rates['EGP']) * price, 2)
+            print(e['time'])
         serializer = AppointmentsSerializer(data=request.data, many=True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            payment_request = retrieve_payment_link(
+                cart_id, 'EGP', e['price'], e['type'], e['user']
+            )
+            if payment_request[1] == 200:
+                serializer.save()
+                return Response(payment_request[0]['redirect_url'], status=status.HTTP_201_CREATED)
+            else:
+                return Response(payment_request[0], status=status.HTTP_501_NOT_IMPLEMENTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', ])
 def get_currency(request):
     """ List currency with exchange rates
-    if currency is outdates, it get updates from api.currencyfreaks.com
+    if currency is out-dates, it get updates from api.currencyfreaks.com
     """
     if request.method == 'GET':
         last_currency = Currency.objects.order_by('-id').first()
@@ -94,22 +119,54 @@ def retrieve_currency():
     return r.json()
 
 
+def retrieve_payment_link(cart_id, currency, amount, session_type, customer):
+    print(customer)
+    customer_info = User.objects.filter(id=customer).first()
+    first_name = customer_info.first_name or customer_info.username
+    last_name = customer_info.last_name or customer_info.username
+
+    if session_type == 'S':
+        description = 'Purchase of single session'
+    else:
+        description = 'Purchase of 4 sessions'
+    request_data = {
+        "profile_id": settings.PAYMENT_ID,
+        "tran_type": "sale",
+        "tran_class": "ecom",
+        "cart_id": cart_id,
+        "cart_currency": currency,
+        "cart_amount": str(amount),
+        "cart_description": description,
+        "paypage_lang": "en",
+        "customer_details": {
+            "name": f'{first_name} {last_name}',
+            "email": f'{customer_info.email}',
+            "phone": customer_info.phone or '000000',
+            "street1": "unknown address",
+            "city": "cairo",
+            "state": "cai",
+            "country": "EG",
+            "zip": "12345",
+            "ip": "1.1.1.1"
+        },
+        "callback": "https://daoegypt.com/api/appointments/callback/",
+        "return": "https://daoegypt.com/api/appointments/payment/",
+        "framed": True,
+        "framed_return_top": True,
+        "hide_shipping": True,
+    }
+    r = requests.post(f'https://secure-egypt.paytabs.com/payment/request/',
+                      data=json.dumps(request_data),
+                      headers={
+                          'Authorization': settings.PAYMENT_KEY,
+                      })
+    print(r.json())
+    print(r.status_code)
+    return r.json(), r.status_code
+
+
 # @csrf_exempt
-# @api_view(['POST', 'GET', ])
-# def callback(request):
-#     if request.method == 'POST':
-#         request_data = json.dumps(request.data)
-#         new_log = PaymentLog(log=request_data)
-#         new_log.save()
-#         return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
-#
-#     elif request.method == 'GET':
-#         print(request.data)
-#         return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
-
-
-@csrf_exempt
-@api_view(['POST', 'GET',])
+@api_view(['POST', 'GET', ])
 def pay(request):
     if request.method == 'POST':
         post_data = request.data
@@ -127,7 +184,7 @@ def pay(request):
         return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
 
 
-@csrf_exempt
+# @csrf_exempt
 @api_view(['POST', 'GET', ])
 def callback(request):
     if request.method == 'POST':
@@ -149,8 +206,15 @@ def callback(request):
             expiryYear=post_data['payment_info']['expiryYear'],
         )
         new_log.save()
+        appointments = Appointments.objects.filter(cart_id=new_log.cart_id).all()
+        if new_log.response_status == 'A':
+            appointments.confirmed = True
+            appointments.save()
+        else:
+            appointments.delete()
+
         return Response(data={'message': 'OK'}, status=status.HTTP_201_CREATED)
 
     elif request.method == 'GET':
         print(request.data)
-        return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
+        return Response(data=request.data, status=status.HTTP_200_OK)

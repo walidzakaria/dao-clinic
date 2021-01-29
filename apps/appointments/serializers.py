@@ -10,12 +10,12 @@ class AppointmentsSerializer(serializers.ModelSerializer):
         model = Appointments
         fields = '__all__'
 
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Appointments.objects.all(),
-                fields=['date', 'time']
-            )
-        ]
+        # validators = [
+        #     UniqueTogetherValidator(
+        #         queryset=Appointments.objects.all(),
+        #         fields=['date', 'time']
+        #     )
+        # ]
 
 
 class BusySlotsSerializer(serializers.ModelSerializer):

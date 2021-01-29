@@ -26,6 +26,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = config('DEBUG', default=False, cast=bool)
 PROD = config('ENV') == 'Prod'
 CURRENCY_KEY = config('CURRENCY_KEY')
+PAYMENT_ID = config('PAYMENT_ID')
+PAYMENT_KEY = config('PAYMENT_KEY')
 
 ALLOWED_HOSTS = ["159.65.120.247", 'localhost', '127.0.0.1',
                  'daoegypt.com', 'www.daoegypt.com',
