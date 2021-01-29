@@ -177,7 +177,11 @@ def pay(request):
                               signature=post_data['signature'],
                               )
         new_payment.save()
-        return Response(data={'message': 'got'}, status=status.HTTP_201_CREATED)
+        # return Response(data={'resp_status': new_payment.resp_status}, status=status.HTTP_201_CREATED)
+        return render(request, 'index.html', {
+            'resp_status': new_payment.resp_status
+        })
+
 
     elif request.method == 'GET':
         print(request.data)
