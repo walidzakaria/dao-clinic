@@ -181,7 +181,7 @@ def pay(request):
 
     elif request.method == 'GET':
         print(request.data)
-        return Response(data={'message': 'got'}, status=status.HTTP_200_OK)
+        return Response(data=request.data, status=status.HTTP_200_OK)
 
 
 # @csrf_exempt
