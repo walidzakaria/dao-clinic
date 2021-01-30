@@ -153,7 +153,7 @@ def retrieve_payment_link(cart_id, currency, amount, session_type, customer):
             "ip": "1.1.1.1"
         },
         "callback": "https://daoegypt.com/api/appointments/callback/",
-        "return": "https://daoegypt.com/api/appointments/payment/",
+        "return": "https://daoegypt.com/payment/",
         "framed": True,
         "framed_return_top": True,
         "hide_shipping": True,

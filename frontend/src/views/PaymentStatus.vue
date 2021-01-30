@@ -1,8 +1,15 @@
 <template>
   <div>
     <h2>Payment Status</h2>
-    <div v-if="paymentStatus === 'A'">Your payment was done successfully!</div>
-    <div v-if="paymentStatus !== null && paymentStatus !== 'A'">Failed to submit your payment</div>
+    <div v-if="paymentStatus === 'A'">
+      Your payment transaction was done successfully.
+      Go to your schedule from<router-link to="/my-schedule/" exact> here. </router-link>
+      Or visit our<router-link to="/" exact> home page </router-link>
+    </div>.
+    <div v-if="paymentStatus !== null && paymentStatus !== 'A'">
+      Your payment transaction failed.
+      Please <router-link to="/appointments/" exact>try again.  </router-link>
+    </div>
   </div>
 </template>
 
@@ -27,3 +34,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>

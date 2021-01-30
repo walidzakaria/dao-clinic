@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import home, auth, session
+from ..appointments.views import pay
 
 urlpatterns = [
     path('', home, name='home'),
@@ -17,4 +18,5 @@ urlpatterns = [
     path('session-admin/', home, name='session-admin'),
     path('session/<str:session_id>/', session, name='session'),
     path('doctor/', home, name='doctor'),
+    path('payment/', pay, name='pay'),
 ]
