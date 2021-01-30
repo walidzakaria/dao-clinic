@@ -15,6 +15,7 @@ import ResetPassword from '../login/ResetSuccess.vue';
 import ResendActivation from '../login/ResendActivation.vue';
 // import MyAccount from '../login/MyAccount.vue';
 import UserSchedule from '../login/UserSchedule.vue';
+import PaymentStatus from '../views/PaymentStatus.vue';
 import Logout from '../login/LogoutPage.vue';
 import ChatAdmin from '../chat/ChatAdmin.vue';
 
@@ -81,6 +82,12 @@ const routes = [
     path: '/my-schedule',
     name: 'MyAppointments',
     component: UserSchedule,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/api/appointments/payment',
+    name: 'Payment',
+    component: PaymentStatus,
     beforeEnter: ifAuthenticated,
   },
   {

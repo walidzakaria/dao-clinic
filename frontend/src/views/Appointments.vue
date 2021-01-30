@@ -412,7 +412,7 @@ export default {
         .then((response) => {
           console.log(response);
           // this.$router.push('/my-schedule/');
-          this.iframeLink = response.data;
+          this.iframeLink = response.data.url;
         }).catch((error) => {
           console.log(error);
           this.errorMessages.push('Unable to book your appointment. Please try again!');

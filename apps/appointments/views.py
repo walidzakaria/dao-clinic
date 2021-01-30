@@ -78,7 +78,10 @@ def create_appointment(request):
             )
             if payment_request[1] == 200:
                 serializer.save()
-                return Response(payment_request[0]['redirect_url'], status=status.HTTP_201_CREATED)
+                return Response(data={
+                    'url': payment_request[0]['redirect_url'],
+                    'cart_id': cart_id,
+                }, status=status.HTTP_201_CREATED)
             else:
                 return Response(payment_request[0], status=status.HTTP_501_NOT_IMPLEMENTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -165,7 +168,6 @@ def retrieve_payment_link(cart_id, currency, amount, session_type, customer):
     return r.json(), r.status_code
 
 
-# @csrf_exempt
 @api_view(['POST', 'GET', ])
 def pay(request):
     if request.method == 'POST':
@@ -182,13 +184,10 @@ def pay(request):
             'resp_status': new_payment.resp_status
         })
 
-
     elif request.method == 'GET':
-        print(request.data)
-        return Response(data=request.data, status=status.HTTP_200_OK)
+        return render(request, 'index.html')
 
 
-# @csrf_exempt
 @api_view(['POST', 'GET', ])
 def callback(request):
     if request.method == 'POST':
@@ -212,8 +211,9 @@ def callback(request):
         new_log.save()
         appointments = Appointments.objects.filter(cart_id=new_log.cart_id).all()
         if new_log.response_status == 'A':
-            appointments.confirmed = True
-            appointments.save()
+            for appointment in appointments:
+                appointment.confirmed = True
+                appointment.save()
         else:
             appointments.delete()
 
@@ -222,3 +222,18 @@ def callback(request):
     elif request.method == 'GET':
         print(request.data)
         return Response(data=request.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([IsAuthenticated, ])
+def check_payment(request, cart_id):
+    """ Checks payment status """
+    if request.method == 'GET':
+        user = request.user
+        payment = PaymentDetail.objects.filter(cart_id=cart_id).first()
+        if not payment:
+            return Response(data={'message': 'wrong id'}, status=status.HTTP_404_NOT_FOUND)
+        if payment.email != user.email:
+            return Response(data={'message': 'not allowed'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response(data={'status': payment.response_status}, status=status.HTTP_200_OK)

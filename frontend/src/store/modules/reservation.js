@@ -18,8 +18,12 @@ export default ({
     },
     appointment: [],
     pendingBooking: Cookies.get('pendingBooking') || [],
+    cartId: null,
   },
   mutations: {
+    updateCartId(state, newId) {
+      state.cartId = newId;
+    },
     updatePendingBooking(state, newData) {
       Cookies.set('pendingBooking', newData, { expires: 1 });
       state.pendingBooking = newData;
@@ -114,8 +118,10 @@ export default ({
           url: '/api/appointments/create/',
           data: inputData,
         }).then((response) => {
+          context.commit('updateCartId', response.data.cart_id);
           resolve(response);
         }).catch((error) => {
+          context.commit('updateCartId', null);
           reject(error.response.data);
         });
       });
@@ -138,6 +144,18 @@ export default ({
           method: 'post',
           url: '/api/chat/contact_message/',
           data: requestBody,
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
+    checkPayment(context) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url: `/api/appointments/check_payment/${context.state.cartId}/`,
         }).then((response) => {
           resolve(response);
         }).catch((error) => {
