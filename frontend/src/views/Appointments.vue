@@ -408,6 +408,7 @@ export default {
           });
         }
       }
+      console.log('booking request', bookingRequest);
       await this.$store.dispatch('res/postNewBooking', bookingRequest)
         .then((response) => {
           console.log(response);
