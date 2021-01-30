@@ -151,11 +151,11 @@ export default ({
         });
       });
     },
-    checkPayment() {
+    checkPayment(context) {
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: '/api/appointments/check_payment/cart_111/',
+          url: `/api/appointments/check_payment/${context.state.cartId}/`,
         }).then((response) => {
           resolve(response);
         }).catch((error) => {
