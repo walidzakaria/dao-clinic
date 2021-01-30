@@ -29,6 +29,7 @@ export default {
         this.load = false;
       }).catch((error) => {
         console.log(error);
+        this.paymentStatus = 'X';
         this.load = false;
       });
   },

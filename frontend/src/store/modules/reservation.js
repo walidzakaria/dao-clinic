@@ -18,10 +18,15 @@ export default ({
     },
     appointment: [],
     pendingBooking: Cookies.get('pendingBooking') || [],
-    cartId: null,
+    cartId: Cookies.get('cartId') || null,
   },
   mutations: {
     updateCartId(state, newId) {
+      if (newId) {
+        Cookies.set('cartId', newId, { expires: 1 });
+      } else {
+        Cookies.remove('cartId');
+      }
       state.cartId = newId;
     },
     updatePendingBooking(state, newData) {
