@@ -12,6 +12,9 @@ from .serializers import AvailableDaysSerializer, PricesSerializer
 
 
 # Create your views here.
+from ..appointments.utils import get_valid_coupon
+
+
 @api_view(['GET', ])
 def available_days_list(request):
     """ List available working weekdays """
@@ -33,3 +36,18 @@ def prices_list(request):
     serializer = PricesSerializer(prices, many=False)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+def redeem_coupon(request, code):
+    """ return discount value if code is valid """
+    if request.method == 'GET':
+        coupon = get_valid_coupon(code)
+        if coupon:
+            return Response(data={
+                'id': coupon.id,
+                'discount': coupon.discount,
+                'percent': coupon.percent,
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response(data={'message': 'not valid'}, status=status.HTTP_404_NOT_FOUND)

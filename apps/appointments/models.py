@@ -3,6 +3,9 @@ from apps.authapp.models import User
 
 
 # Create your models here.
+from apps.configurations.models import Coupon
+
+
 class Appointments(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     TYPE = (
@@ -22,10 +25,12 @@ class Appointments(models.Model):
     date = models.DateField()
     time = models.TimeField()
     price = models.DecimalField(max_digits=14, decimal_places=2)
-    currency = models.CharField(max_length=3)
+    currency = models.CharField(max_length=5)
     comments = models.TextField(max_length=250, null=True, blank=True)
     confirmed = models.BooleanField(default=False)
     cart_id = models.CharField(max_length=20)
+    coupon = models.ForeignKey(Coupon, on_delete=models.DO_NOTHING,
+                               null=True, blank=True, default=None)
 
     class Meta:
         unique_together = (('date', 'time'),)
@@ -55,7 +60,7 @@ class PaymentDetail(models.Model):
     tran_ref = models.CharField(max_length=20)
     cart_id = models.CharField(max_length=20)
     cart_description = models.CharField(max_length=100)
-    tran_currency = models.CharField(max_length=3)
+    tran_currency = models.CharField(max_length=5)
     tran_total = models.DecimalField(max_digits=12, decimal_places=2)
     email = models.EmailField()
     response_status = models.CharField(max_length=5)

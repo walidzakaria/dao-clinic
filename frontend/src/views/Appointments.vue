@@ -160,6 +160,30 @@
             <div v-else>
               <p>Total Price: {{ multiSessionPrice | currency(selectedCurrency) }}</p>
             </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Enter coupon here..."
+                  aria-label="Coupon" aria-describedby="basic-addon2"
+                  v-model.trim="coupon.code"
+                  @keypress.enter.prevent @keypress.enter="redeem();">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary"
+                    @click="redeem();" type="button">
+                    Redeem <span v-if="coupon.load" class="spinner-border"></span>
+                  </button>
+              </div>
+              <div v-if="coupon.discount > 0" class="text-primary">
+                Congratulations! You have exclusive discount of
+                <strong v-if="!coupon.percent">
+                  {{ coupon.discount * currencyRate | currency(selectedCurrency) }}
+                </strong>
+                <strong v-if="coupon.percent">
+                  {{ coupon.discount | currency('%')}}
+                </strong>
+                <br>
+                Total amount after discount is
+                  <strong>{{ finalPrice | currency(selectedCurrency) }}</strong>
+              </div>
+            </div>
             <ul>
               <li v-for="(m, index) in errorMessages" :key="index"
                 class="text-danger">{{ m }}
@@ -244,6 +268,13 @@ export default {
       fourthAvailableTimes: null,
       fourthSelectedDateIndex: null,
       fourthSelectedTime: null,
+      coupon: {
+        code: null,
+        load: false,
+        id: null,
+        discount: 0,
+        percent: null,
+      },
     };
   },
   computed: {
@@ -265,6 +296,17 @@ export default {
     },
     savedAmount() {
       return (this.singleSessionPrice * 4) - this.multiSessionPrice;
+    },
+    finalPrice() {
+      const dueAmount = this.sessionType === 'S' ? this.singleSessionPrice : this.multiSessionPrice;
+      console.log(dueAmount);
+      let reduction;
+      if (this.coupon.percent) {
+        reduction = (this.coupon.discount / 100) * dueAmount;
+      } else {
+        reduction = this.coupon.discount * this.currencyRate;
+      }
+      return dueAmount - reduction;
     },
     singleSelectedDate() {
       const newDate = new Date();
@@ -336,6 +378,26 @@ export default {
         console.log(error);
       });
     },
+    async redeem() {
+      if (!this.coupon.code) {
+        return;
+      }
+      this.coupon.load = true;
+      await this.$store.dispatch('res/retrieveCoupon', this.coupon.code)
+        .then((response) => {
+          console.log(response);
+          this.coupon.id = response.data.id || null;
+          this.coupon.discount = response.data.discount || 0;
+          this.coupon.percent = response.data.percent || false;
+          this.coupon.load = false;
+        }).catch((error) => {
+          console.log(error);
+          this.coupon.code = null;
+          this.coupon.id = null;
+          this.coupon.discount = 0;
+          this.coupon.load = false;
+        });
+    },
     async book() {
       if (!this.isAuthenticated) {
         const currentRequest = {
@@ -382,6 +444,7 @@ export default {
           time: bookTime,
           currency: this.selectedCurrency,
           comments: this.comments,
+          coupon: this.coupon.id,
         }];
       } else {
         const bookDate = [];
@@ -405,6 +468,7 @@ export default {
             time: bookTime[i],
             currency: this.selectedCurrency,
             comments: this.comments,
+            coupon: this.coupon.id,
           });
         }
       }
@@ -470,7 +534,7 @@ export default {
       return result;
     },
     async fillSingleAvailableTimes() {
-      if (this.singleSelectedDateIndex === 0) {
+      if (this.singleSelectedDateIndex === null) {
         // this.bookTimes[sessionNumber] = null;
         this.busySlots[0] = null;
         return;

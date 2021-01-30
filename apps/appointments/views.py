@@ -15,7 +15,7 @@ from config import settings
 from .models import Appointments, Currency, Payment, PaymentDetail, Transaction
 from .serializers import AppointmentsSerializer, BusySlotsSerializer, \
     CurrencySerializer
-from .utils import convert_to_date
+from .utils import convert_to_date, get_valid_coupon, get_valid_coupon_by_id
 
 # Create your views here.
 from ..authapp.models import User
@@ -62,6 +62,10 @@ def create_appointment(request):
         today = timezone.now().date()
         prices = Prices.objects.filter(
             effective_date__lte=today).order_by('-effective_date').first()
+        if request.data[0]['coupon']:
+            coupon = get_valid_coupon_by_id(request.data[0]['coupon'])
+        else:
+            coupon = None
         for e in request.data:
             e['user'] = request.user.id
             e['cart_id'] = cart_id
@@ -69,8 +73,16 @@ def create_appointment(request):
                 price = prices.single_session_price
             else:
                 price = prices.multi_session_price
-            e['price'] = round(decimal.Decimal(exchange_rates['EGP']) * price, 2)
-            print(e['time'])
+            price = round(decimal.Decimal(exchange_rates['EGP']) * price, 2)
+            if coupon:
+                if coupon.percent:
+                    price -= (coupon.discount / 100) * price
+                else:
+                    price -= coupon.discount
+            else:
+                e['coupon'] = None
+            e['price'] = round(price, 2)
+
         serializer = AppointmentsSerializer(data=request.data, many=True)
         if serializer.is_valid():
             payment_request = retrieve_payment_link(
@@ -97,7 +109,7 @@ def get_currency(request):
         if last_currency:
             td = timezone.now() - last_currency.date
             difference_in_hours = td.seconds / 60 / 60
-            print(difference_in_hours)
+
             if difference_in_hours <= 1:
                 serializer = CurrencySerializer(last_currency, many=False)
                 print('update rates existing')
@@ -105,7 +117,11 @@ def get_currency(request):
 
         retrieved_currency = retrieve_currency()
         if retrieved_currency['rates']:
-            new_currency = Currency(rates=json.dumps(retrieved_currency['rates']))
+            rates = retrieved_currency['rates']
+            base_currency = decimal.Decimal(rates['EGP'])
+            for e in rates:
+                rates[e] = str(decimal.Decimal(rates[e]) / base_currency)
+            new_currency = Currency(rates=json.dumps(rates))
             new_currency.save()
             serializer = CurrencySerializer(new_currency, many=False)
             print('new rates retrieved')

@@ -17,7 +17,7 @@
                 </a>
               </tr>
               <tr>
-                <a href="https://wa.me/00201019090187" target="_blank">
+                <a href="https://wa.me/201019090187" target="_blank">
                   <td><img src="../assets/iconmonstr-whatsapp-1.svg" alt="whatsapp"></td>
                   <td>(+20) 10 190 90 187</td>
                 </a>
@@ -35,9 +35,9 @@
                 </a>
               </tr>
               <tr>
-                <a href="mailto:daoegypt@gmail.com" target="_blank">
+                <a href="mailto:info@daoegypt.com" target="_blank">
                   <td><img src="../assets/iconmonstr-email-1.svg" alt="mail"></td>
-                  <td>daoegypt@gmail.com</td>
+                  <td>info@daoegypt.com</td>
                 </a>
               </tr>
 

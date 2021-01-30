@@ -168,6 +168,18 @@ export default ({
         });
       });
     },
+    retrieveCoupon(context, couponCode) {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          url: `/api/config/redeem/${couponCode}`,
+        }).then((response) => {
+          resolve(response);
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    },
   },
   getters: {
   },

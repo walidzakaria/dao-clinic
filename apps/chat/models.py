@@ -25,3 +25,7 @@ class Messages(models.Model):
     email = models.EmailField()
     message = models.TextField()
     time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Messages'
+        ordering = ['-time']

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AvailableDays, Prices
+from .models import AvailableDays, Prices, Coupon
 
 
 # Register your models here.
@@ -24,5 +24,12 @@ class PricesAdmin(admin.ModelAdmin):
     list_display = ('effective_date', 'single_session_price', 'multi_session_price', )
 
 
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ('id', 'code', 'valid_from', 'valid_till', 'discount', 'percent', )
+    search_fields = ('code', )
+    list_filter = ('valid_from', 'valid_till', 'percent', )
+
+
 admin.site.register(AvailableDays, AvailableDaysAdmin)
 admin.site.register(Prices, PricesAdmin)
+admin.site.register(Coupon, CouponAdmin)

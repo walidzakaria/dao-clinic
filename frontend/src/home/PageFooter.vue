@@ -46,7 +46,7 @@
                   </a>
                 </span>
                 <span class="mx-2">
-                  <a href="https://wa.me/00201019090187" target="_blank">
+                  <a href="https://wa.me/201019090187" target="_blank">
                     <img src="../assets/iconmonstr-whatsapp-1.svg" alt="whatsapp">
                   </a>
                 </span>
@@ -90,10 +90,10 @@
                 <b>MAIL US</b>
               </h6>
               <small>
-                <a href="mailto:daoegypt@gmail.com" target="_blank">
+                <a href="mailto:info@daoegypt.com" target="_blank">
                   <span>
                     <img src="../assets/iconmonstr-email-1.svg" alt="mail">
-                  </span> daoegypt@gmail.com
+                  </span> info@daoegypt.com
                 </a>
               </small>
             </div>
