@@ -28,6 +28,7 @@ PROD = config('ENV') == 'Prod'
 CURRENCY_KEY = config('CURRENCY_KEY')
 PAYMENT_ID = config('PAYMENT_ID')
 PAYMENT_KEY = config('PAYMENT_KEY')
+CONTACT_US_MAIL = config('CONTACT_US_MAIL')
 
 ALLOWED_HOSTS = ["159.65.120.247", 'localhost', '127.0.0.1',
                  'daoegypt.com', 'www.daoegypt.com',

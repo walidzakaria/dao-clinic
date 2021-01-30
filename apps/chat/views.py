@@ -52,9 +52,15 @@ def contact_us(request):
         serializer = MessageSerializer(data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
-            send_mail('New Request', serializer.data['message'],
-                      settings.EMAIL_HOST_USER, ['walidpiano@yahoo.com', ], True)
+            mail_body = f'''
+Name:    {serializer.data['name']}
+Phone:   {serializer.data['phone']}
+
+Message: {serializer.data['message']}
+'''
+            print(mail_body)
+            send_mail('New Request', mail_body,
+                      settings.EMAIL_HOST_USER, ['info@daoegypt.com', ], True)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
