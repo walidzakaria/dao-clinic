@@ -194,7 +194,7 @@ function TimeForJson(inputTime) {
   const result = new Date();
   let hours = parseInt(inputTime.substr(0, 2), 0);
   const minutes = parseInt(inputTime.substr(3, 2), 0);
-  if (inputTime.substr(6, 2) === 'PM' && hours > 12) {
+  if (inputTime.substr(6, 2) === 'PM' && hours !== 12) {
     hours += 12;
   }
   result.setHours(hours);
