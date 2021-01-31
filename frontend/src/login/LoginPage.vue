@@ -16,6 +16,8 @@
             </div>
             <p v-if="showError"
               class="text-danger">Unable to log in with provided credentials.
+              <br>
+              If you're new user, please activate your account first.
             </p>
             <button
               type="submit" class="btn btn-dark btn-lg btn-block">

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import NProgress from 'nprogress';
+import Meta from 'vue-meta';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -14,6 +15,7 @@ import CurrencyFilter from './shared/currency-filter';
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(Meta);
 Vue.filter('currency', CurrencyFilter);
 
 new Vue({

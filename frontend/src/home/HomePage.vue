@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img id="staff-image"
-      class="img-rounded img-responsive" src="../assets/main-image.png" alt="staff image">
+      class="img-rounded img-responsive" src="../assets/main-image.webp" alt="staff image">
     <div class="slogan">
       <h1 id="slogan" class="lead">DAO Slimming Centers</h1>
       <h2 id="dr-ahmed">Dr. Ahmed Omar</h2>
@@ -38,6 +38,17 @@
 export default {
   name: 'HomePage',
   props: {
+  },
+  metaInfo() {
+    return {
+      title: 'DAO Egypt',
+      meta: [
+        {
+          name: 'DAO Egypt',
+          content: '',
+        },
+      ],
+    };
   },
 };
 </script>

@@ -10,7 +10,7 @@
         <router-link @click.native="open = false"
           class="navbar-brand" id="logo-link" to="/" exact="">
           <img id="logo" ref="logo"
-            src="./assets/DAO-LOGO.png"
+            src="./assets/DAO-LOGO.webp"
             alt="logo">
         </router-link>
         <nav id="menu" ref="menu">
