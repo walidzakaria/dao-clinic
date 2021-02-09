@@ -64,7 +64,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: '/api/appointments/get_currency/',
+          url: '/api/appointments/get-currency/',
         }).then((response) => {
           console.log(response);
           commit('updateCurrency', response.data);
@@ -91,7 +91,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: '/api/config/available_days/',
+          url: '/api/config/available-days/',
         })
           .then((response) => {
             console.log('available days are', response.data);
@@ -107,7 +107,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: `/api/appointments/busy_slots/${inputDate}/`,
+          url: `/api/appointments/busy-slots/${inputDate}/`,
         }).then((response) => {
           resolve(response);
         }).catch((error) => {
@@ -135,7 +135,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: '/api/appointments/my_appointments/',
+          url: '/api/appointments/my-appointments/',
         }).then((response) => {
           resolve(response);
         }).catch((error) => {
@@ -147,7 +147,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'post',
-          url: '/api/chat/contact_message/',
+          url: '/api/chat/contact-message/',
           data: requestBody,
         }).then((response) => {
           resolve(response);
@@ -160,7 +160,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: `/api/appointments/check_payment/${context.state.cartId}/`,
+          url: `/api/appointments/check-payment/${context.state.cartId}/`,
         }).then((response) => {
           resolve(response);
         }).catch((error) => {

@@ -8,6 +8,6 @@ urlpatterns = [
     path('get-chat/<str:room_id>/', get_chat, name='chat-history'),
     path('active-rooms/', active_rooms, name='active-rooms'),
     # path('video/video/', views.video, name='video'),
-    path('contact_message/', contact_us, name='contact-us-message'),
-    path('is_doctor/', is_doctor, name='is-doctor'),
+    path('contact-message/', contact_us, name='contact-us-message'),
+    path('is-doctor/', is_doctor, name='is-doctor'),
 ]

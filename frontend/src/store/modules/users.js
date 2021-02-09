@@ -53,7 +53,7 @@ export default ({
       return new Promise((resolve, reject) => {
         axios({
           method: 'get',
-          url: '/api/chat/is_doctor/',
+          url: '/api/chat/is-doctor/',
         }).then((response) => {
           resolve(response);
         }).catch((error) => {

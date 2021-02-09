@@ -1,6 +1,35 @@
 <template>
   <div id="app">
-    <header class="container-fluid" id="app-header">
+    <div class="upper-header">
+        <div class="link-wrapper">
+          <div class="link-child">
+            <img src="./assets/iconmonstr-phone-6.svg" alt="phone-logo">
+            <a href="tel:00201096633904" target="_blank">
+              (+20) 10 966 33904
+            </a>,
+            <a href="tel:00201097766816" target="_blank">
+              (+20) 10 977 66816
+            </a>
+          </div>
+          <div class="link-child">
+            <img src="./assets/iconmonstr-whatsapp-1.svg" alt="whatsapp-logo">
+            <a href="https://wa.me/201019090187" target="_blank">
+              (+20) 10 190 90187
+            </a>
+          </div>
+          <div class="link-child">
+            <img src="./assets/iconmonstr-location-19.svg" alt="location-logo">
+            <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
+              Mohandseen: 40 Sudan st.
+            </a>,
+            <a href="https://g.page/ZayedDowntown?share" target="_blank">
+              Sheikh Zayed: 208 2nd Floor Downtown
+            </a>
+          </div>
+        </div>
+      </div>
+    <header class="container-fluid"
+        :class="{ 'sticky': scrolled }" id="app-header" ref="mainHeader">
       <div class="wrap">
         <div id="hamburger" @click="displayMenu()">
           <span></span>
@@ -8,28 +37,31 @@
           <span></span>
         </div>
         <router-link @click.native="open = false"
-          class="navbar-brand" id="logo-link" to="/" exact="">
-          <img id="logo" ref="logo"
-            src="./assets/DAO-LOGO.webp"
-            alt="logo">
+          class="navbar-brand" id="logo-link" to="/" exact>
+          <div id="logo-container">
+            <div id="logo-title">DAO Slimming Centers</div>
+            <img id="logo" ref="logo" :class="{ 'shrink-logo': scrolled }"
+              src="./assets/DAO-LOGO.webp"
+              alt="logo">
+          </div>
         </router-link>
-        <nav id="menu" ref="menu">
+        <nav id="menu" ref="menu" :class="{ 'shrink-nav': scrolled }">
           <li class="nav-item">
-            <router-link class="nav-link" to="/" exact>HOME</router-link>
+            <router-link class="nav-link" to="/" exact>Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about/" exact>ABOUT US</router-link>
+            <router-link class="nav-link" to="/about/" exact>About Us</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/appointments/" exact>
-              APPOINTMENTS
+            <router-link class="nav-link" to="/booking/" exact>
+              Booking
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/prices/" exact>PRICES</router-link>
+            <router-link class="nav-link" to="/doctors/" exact>Our Doctors</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/contact/" exact>CONTACT US</router-link>
+            <router-link class="nav-link" to="/services/" exact>Services</router-link>
           </li>
           <li id="login-drop" class="drop">
             <a class="nav-link" v-on:click="toggleDropMenu()">
@@ -37,20 +69,21 @@
             </a>
             <ul class="drop_menu nav-link" :class="{'display': open}">
               <div v-if="!isAuthenticated">
-                <router-link to="/login/" exact>LOGIN</router-link>
-                <router-link to="/signup/" exact>SIGN UP</router-link>
+                <router-link to="/login/" exact>Login</router-link>
+                <router-link to="/signup/" exact>Sign Up</router-link>
               </div>
               <div v-else>
                 <!-- <router-link to="/me/" exact>PROFILE</router-link> -->
-                <router-link to="/my-schedule/" exact>SCHEDULE</router-link>
-                <router-link to="/logout/" exact>LOGOUT</router-link>
+                <router-link to="/my-schedule/" exact>Schedule</router-link>
+                <router-link to="/logout/" exact>Logout</router-link>
               </div>
             </ul>
           </li>
         </nav>
       </div>
     </header>
-    <main @click="open=false" id="background" class="container content">
+    <main id="background" class="container content"
+        :class="{ 'increase-top': scrolled }" ref="mainSection">
       <router-view/>
     </main>
     <ChatBox/>
@@ -68,6 +101,7 @@ export default {
     return {
       load: false,
       open: false,
+      scrolled: false,
     };
   },
   components: {
@@ -78,7 +112,7 @@ export default {
     // ...mapState('user', 'userInfo']),
     ...mapGetters('user', ['isAuthenticated', 'userInfo', 'loginName']),
     accountName() {
-      const name = this.isAuthenticated ? this.$store.state.user.userInfo.username : 'ACCOUNT';
+      const name = this.isAuthenticated ? this.$store.state.user.userInfo.username : 'Account';
       return name;
     },
   },
@@ -92,19 +126,7 @@ export default {
     console.log('appview mounted');
     this.$nextTick(() => {
       window.addEventListener('scroll', () => {
-        const navbar = this.$refs.menu;
-        const appLogo = this.$refs.logo;
-        const navClasses = navbar.classList;
-        const logoClasses = appLogo.classList;
-        if (document.documentElement.scrollTop >= 100) {
-          if (navClasses.contains('shrink-nav') === false) {
-            navClasses.toggle('shrink-nav');
-            logoClasses.toggle('shrink-logo');
-          }
-        } else if (navClasses.contains('shrink-nav') === true) {
-          navClasses.toggle('shrink-nav');
-          logoClasses.toggle('shrink-logo');
-        }
+        this.scrolled = document.documentElement.scrollTop > 50;
       });
     });
   },
@@ -189,6 +211,53 @@ export default {
   box-sizing: content-box;
 }
 
+.link-wrapper {
+  background-color: #9a7338;
+  width: 100%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.increase-top {
+  margin-top: 98px !important;
+}
+
+#logo-title {
+  color: #4b4746;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-size: 15px;
+  font-weight: bolder;
+  margin: 0 auto;
+}
+
+.link-child {
+  color: whitesmoke;
+  font-size: 12px;
+  height: 100%;
+  display: inline-block;
+  line-height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+
+#app .upper-header a {
+  color: whitesmoke;
+  font-size: 12px;
+}
+
+#app .upper-header img {
+  height: 23px;
+  /* margin-left: 23%; */
+}
+
 .icon-arrow {
   mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 284.929 284.929'><path d='M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441    L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z'/></svg>");
 }
@@ -218,13 +287,16 @@ header {
   z-index: 999;
   padding: 10px 0;
   background-color: #ffffff;
-  position: fixed;
   width: 100%;
   top: 0;
   justify-content: center;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
   transition: 0.33s;
   opacity: 1;
+}
+
+.sticky {
+  position: fixed;
 }
 
 .shrink-nav {
@@ -235,7 +307,7 @@ header {
 }
 
 .shrink-logo {
-  height: 60px !important;
+  height: 42px !important;
 }
 
 #logo-link {
@@ -298,8 +370,8 @@ header #menu li i a {
 }
 
 header #menu li i a:hover {
-  border-bottom-color: #41B883;
-  color: #41B883;
+  border-bottom-color: #9a7338;
+  color: #9a7338;
 }
 
 /* header #menu li i a i {
@@ -338,11 +410,9 @@ header .drop_menu.display a {
 header #hamburger {
   cursor: pointer;
   border-radius: 50%;
-  position: absolute;
-  left: 3%;
   top: 30px;
   display: none;
-  transform: translateY(-50%);
+  transform: translateY(-20%);
   padding: 11px;
 }
 header #hamburger span {
@@ -370,12 +440,10 @@ header #hamburger span:nth-child(3) {width: 12px;}
 }
 
 #background {
-  margin-top: 90px;
   content: '';
   display: block;
   width: 100vw;
-  /* height: 200vh; */
-  padding: 5%;
+  padding: 14px 5% 5% 5%;
 }
 
 #background h3 {
@@ -418,8 +486,8 @@ header li a {
 }
 
 header li a:hover {
-  border-bottom: 3px solid #333;
-  color: #222;
+  border-bottom: 3px solid #9a7338;
+  color: #9a7338;
 }
 
 .btn-link {
@@ -429,11 +497,18 @@ header li a:hover {
 
 .router-link-exact-active {
   font-weight: 550 !important;
+  color: #9a7338;
+}
+
+#logo {
+  margin: 0 auto;
+  display: block;
+  height: 60px;
 }
 
 #login-drop {
   min-width: 100px;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 #loader {
@@ -492,7 +567,7 @@ header li a:hover {
 }
 
 @media screen and (max-width: 850px) {
-  body {padding-top: 70px;}
+  /* body {padding-top: 20px;} */
   header .wrap {
     justify-content: center;
     align-items: center;
@@ -500,13 +575,37 @@ header li a:hover {
     padding: 0;
   }
 
+  .link-child {
+    line-height: 33px;
+  }
+
   #app {
-    margin-top: -250px;
+    margin-top: 0;
   }
 
   header img {height: 50px;}
   header #hamburger {
     display: block;
+    margin-left: -90vw;
+    margin-top: 10px;
+  }
+
+  #logo-container {
+    margin-top: -44px;
+  }
+
+  #logo {
+    margin-top: -38px;
+    margin-left: 75vw;
+  }
+
+  #app-header {
+    padding-top: 8px;
+    padding-bottom: 1px;
+  }
+
+  #logo-title {
+    margin-left: 40px;
   }
 
   .shrink-logo {
@@ -521,16 +620,16 @@ header li a:hover {
     transition: 0.33s ease;
     flex-direction: column;
   }
-.display_menu header #menu {
-  height: calc(100vh - 64px);
-}
+  .display_menu header #menu {
+    height: calc(100vh - 64px);
+  }
 
-main {
-  position: relative !important;
-  top: 140px;
-  width: 100%;
-  margin-bottom: 180px;
-}
+  main {
+    position: relative !important;
+    /* top: 140px; */
+    width: 100%;
+    margin-bottom: 180px;
+  }
 
 footer {
   position: relative;
@@ -600,11 +699,13 @@ header .drop_menu a {
   border-bottom: 1px solid #DAD9D7 !important;
 }
 }
-@media screen and(max-width: 850px) and(max-height: 500px) {
+@media screen and(max-width: 850px) and (max-height: 500px) {
+
   .display_menu header  {
     max-height: 100vh;
     overflow-y: scroll;
     }
+
     .display_menu header #menu li{
       height: calc((100vh - 113px)/4);
     }
@@ -619,6 +720,26 @@ header .drop_menu a {
     vertical-align: middle;
     display: inline-block;
     background-repeat: no-repeat;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  #hamburger {
+    margin-left: -60vw;
+  }
+
+  #logo {
+    margin-left: 66vw;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  #logo {
+    margin-left: 50vw;
+  }
+
+  #logo-title {
+    visibility: hidden;
   }
 }
 </style>

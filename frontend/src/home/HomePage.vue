@@ -1,50 +1,95 @@
 <template>
   <div class="home">
-    <img id="staff-image"
-      class="img-rounded img-responsive" src="../assets/main-image.webp" alt="staff image">
-    <div class="slogan">
-      <h1 id="slogan" class="lead">DAO Slimming Centers</h1>
-      <h2 id="dr-ahmed">Dr. Ahmed Omar</h2>
-    </div>
-    <div>
-      <h3>
-        Book An Online Weight Loss Consultation with Dr. Ahmed Omar!
-      </h3>
-      <p>
-        We are now able to deliver your weight loss programme to you remotely,
-        from wherever you are!
-      </p>
-    </div>
+    <carousel />
     <div>
       <h3>Our Weight Loss Programmes Are Still Available</h3>
-      <p>
-        Joining a weight loss program with The DAO Egypt Clinic
-        has never been more convenient with our remote appointment service.
-
-        Remote consultations enable us to provide our services nationwide
-        and offer a wider range of appointment times, 6 days a week!
-
-        And the additional availability means you can get the help and support you need
-        from our weight loss expert Dr. Ahmed Omar whether you are at work,
-        at home or even on holiday.
+      <p class="main-info">
+        <span class="badge">DAO Slimming Centers</span>
+        is considered one of the most successful centers
+        for weight loss in all over Egypt. Our journey began <b>{{ daoYears }}</b> years ago
+        with the opending of Haram clinic in 2001
+        <span class="span-read-more">
+          <button class="btn btn-link btn-read-more"
+            v-show="!readMore" @click="readMore = true">Read More
+          </button>
+        </span>
       </p>
+      <transition name="list">
+        <p class="main-info" v-show="readMore">
+          The thing that makes Dr. Ahmed's success very unique is that helping
+          people to lose weight and can reach over 70-80kg weight loss with
+          absolutely no surgery or even medications,
+          and definitely the concept of weight fixation coming into real life,
+          and so on the success continues to reach 220,000 cases and that was just the start.<br>
+          But once he reached 700,000 cases and almost reached million cases he started to train
+          doctors to assist him so he can deliver the help to a wider range of people and also
+          launched new departments.<br>
+          So he decided to start the expansion and inaugurated Mohandesin clinic and then
+          Zayed...<br>
+          As it was mentioned, departments in each branch was launched,
+          when it was found
+          that the cases are interested in reshaping as well as weight loss we started the
+          "Localized Obesity" department for the reshaping with its own specialized
+          doctors and equipment
+          and the results was astonishing, and the kids, when they were
+          found committed with amazing parents
+          that care enough for their children's health and weight we
+          started our "Childhood Obesity"
+          department from age of 4 years old to 14 with it own doctors and the
+          results was also amazing.<br>
+          As people not only from all over Egypt or all over the Middle East
+          but from all over the world try
+          to reach us and travel across the continents just to pay us a visit;
+          we decided that we should reach
+          them no matter where they are so we launched the "Online Clinic" to
+          meet them via a video call every
+          week just as the offline clinic...<br>
+          Last but not least,
+          we tried to encourage the cases by
+          a competition.. Our "Golden Transformer Competition",  it's a wonderful success
+          for 5 seasons now with more than 8 winners each and everyone lost around 30kg in only
+          3 months and every  winner won as much as he lost Gold!
+          And the series of success is just beginning...
+          <span class="span-read-more">
+            <button class="btn btn-link btn-read-more"
+              v-show="readMore" @click="readMore = false">Read Less
+            </button>
+          </span>
+        </p>
+      </transition>
+      <div id="bottom-line"></div>
     </div>
     <Footer/>
   </div>
 </template>
 
 <script>
+import Carousel from './CarouselPage.vue';
 
 export default {
   name: 'HomePage',
   props: {
   },
+  data() {
+    return {
+      readMore: false,
+    };
+  },
+  components: {
+    Carousel,
+  },
+  computed: {
+    daoYears() {
+      const d = new Date().getFullYear();
+      return d - 2001;
+    },
+  },
   metaInfo() {
     return {
-      title: 'DAO Egypt',
+      title: 'DAO World',
       meta: [
         {
-          name: 'DAO Egypt',
+          name: 'DAO World',
           content: '',
         },
       ],
@@ -85,6 +130,95 @@ export default {
   margin: 0 auto;
   text-align: center;
   font-size: 50px !important;
+}
+
+.badge {
+  color: #9a7338;
+  font-size: 14px !important;
+}
+
+.main-info {
+  width: 65%;
+  margin: 0 auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: justify;
+  text-justify: inter-word;
+  transition: all 0.2s;
+  font-size: 17px;
+}
+
+.span-read-more {
+  display: inline;
+  margin-left: -175px;
+
+}
+
+.btn-read-more {
+  width: 100px !important;
+  height: 25px;
+  display: inline;
+  margin-top: 0;
+  padding: 0;
+  line-height: 0.05 !important;
+  color: whitesmoke !important;
+  background-color: #9a7338 !important;
+}
+
+.list-enter,
+.list-leave-to {
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s;
+}
+
+#bottom-line {
+  width: 65%;
+  margin: 0 auto;
+  border-bottom: 0.5px solid #272627;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 20px;
+}
+
+#read-more {
+  background-color: #9a7338;
+  color: whitesmoke;
+}
+
+@media screen  and (max-width: 1065px) {
+  .main-info {
+    width: 85%;
+  }
+  .span-read-more {
+    margin-left: -165px;
+  }
+}
+
+@media screen  and (max-width: 575px) {
+  .main-info {
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5% ;
+  }
+
+  .span-read-more {
+    margin-left: -155px;
+  }
+}
+
+@media screen  and (max-width: 575px) {
+  .span-read-more {
+    margin-left: 0;
+    display: block;
+  }
 }
 
 </style>

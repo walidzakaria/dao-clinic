@@ -1,106 +1,70 @@
 <template>
-  <div class="container-fluid pb-0 mb-0 justify-content-center text-light ">
-    <footer>
-      <div class="row my-5 justify-content-center py-5">
-        <div class="col-11">
-          <div class="row ">
-            <div class="col-xl-8 col-md-4 col-sm-4 col-12 my-auto mx-auto a">
-              <!-- <h3 class="text-muted mb-md-0 mb-5 bold-text">Pepper.</h3> -->
-              <img id="footer-logo" src="../assets/DAO-LOGO.webp" alt="dao logo">
-            </div>
-            <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-              <h6 class="mb-3 mb-lg-4 bold-text "><b>MENU</b></h6>
-              <ul class="list-unstyled">
-                <li>
-                  <router-link class="nav-link" to="/" exact>Home</router-link>
-                </li>
-                <li>
-                  <router-link class="nav-link" to="/about/" exact>About Us</router-link>
-                </li>
-                <li>
-                  <router-link class="nav-link" to="/appointments/" exact>Appointments</router-link>
-                </li>
-                <li>
-                  <router-link class="nav-link" to="/prices/" exact>Prices</router-link>
-                </li>
-                <li>
-                  <router-link class="nav-link" to="/contact/" exact="">Contact Us</router-link>
-                </li>
-              </ul>
-            </div>
-            <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-              <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5"><b>ADDRESS</b></h6>
-              <p class="mb-1">MOHANDSEEN 49 SUDAN ST.</p>
-              <p>SHEIKH ZAYED 208</p>
-              <P>2ND FLOOR DOWNTOWN MALL</P>
-            </div>
-          </div>
-          <div class="row ">
-            <div
-              class="col-xl-8 col-md-4 col-sm-4 col-auto my-md-0 mt-5
-                    order-sm-1 order-3 align-self-end">
-              <p class="social text-muted mb-0 pb-0 bold-text">
-                <span class="mx-2">
-                  <a href="https://www.facebook.com/DrAhmedOmar1" target="_blank">
-                    <img src="../assets/iconmonstr-facebook-1.svg" alt="facebook">
-                  </a>
-                </span>
-                <span class="mx-2">
-                  <a href="https://wa.me/201019090187" target="_blank">
-                    <img src="../assets/iconmonstr-whatsapp-1.svg" alt="whatsapp">
-                  </a>
-                </span>
-                <span class="mx-2">
-                  <a href="https://www.youtube.com/channel/UCUejKcXgnPuorj3IIVfe4hQ" target="_blank">
-                    <img src="../assets/iconmonstr-youtube-6.svg" alt="youtube">
-                  </a>
-                </span>
-                <span class="mx-2">
-                  <a href="https://linkedin.com" target="_blank">
-                    <img src="../assets/iconmonstr-linkedin-3.svg" alt="linkedin">
-                  </a>
-                </span>
-                <span class="mx-2">
-                  <a href="https://tweitter.com">
-                    <img src="../assets/iconmonstr-twitter-1.svg" alt="twitter">
-                  </a>
-                  <br/>
-                </span> </p><small class="rights"><span>&#174;
-                </span>
-                  Developed with &#10084; by
-                    <a href="mailto:walidpiano@yahoo.com">Walid Zakaria
-                    </a>
-                  </small>
-            </div>
-            <div class="col-xl-2 col-md-4 col-sm-4 col-auto order-1 align-self-end ">
-              <h6 class="mt-55 mt-2 text-muted bold-text">
-                <b>CALL US</b>
-              </h6>
-              <small>
-                <span>
-                    <img src="../assets/iconmonstr-phone-3.svg" alt="phone">
-                  </span>
-                <a href="tel:00201019090187" target="_blank">
-                  (+20) 10 190 90 187
-                </a>
-              </small>
-            </div>
-            <div class="col-xl-2 col-md-4 col-sm-4 col-auto order-2 align-self-end mt-3 ">
-              <h6 class="text-muted bold-text">
-                <b>MAIL US</b>
-              </h6>
-              <small>
-                <a href="mailto:info@daoegypt.com" target="_blank">
-                  <span>
-                    <img src="../assets/iconmonstr-email-1.svg" alt="mail">
-                  </span> info@daoegypt.com
-                </a>
-              </small>
-            </div>
-          </div>
+  <div>
+    <div class="footer">
+      <div class="footer-column">
+        <h5>Get Our Apps (very soon)</h5>
+        <div class="badges">
+          <a class="app-link" href="#">
+            <img class="app-badge" src="../assets/android-badge.webp" alt="">
+          </a>
+          <a class="app-link" href="#">
+            <img class="app-badge" src="../assets/ios-badge.webp" alt="">
+          </a>
         </div>
       </div>
-    </footer>
+      <div class="footer-column">
+        <h5>Follow Us</h5>
+          <div class="social-container">
+            <a href="https://www.facebook.com/DrAhmedOmar1" target="_blank">
+            <img class="icon" src="../assets/iconmonstr-facebook-6.svg" alt="facebook">
+            @DrAhmedOmar1
+          </a>
+          <a href="https://www.instagram.com/dao_slimmingcenter/" target="_blank">
+            <img class="icon" src="../assets/iconmonstr-instagram-11.svg" alt="facebook">
+            dao_slimmingcenter
+          </a>
+          <a href="https://www.youtube.com/channel/UCUejKcXgnPuorj3IIVfe4hQ" target="_blank">
+            <img class="icon" src="../assets/iconmonstr-youtube-6.svg" alt="youtube">
+            DAO Slimming Centers
+          </a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h5>About Us</h5>
+        <div class="about-us-container">
+          <a href="/about">Know Our Crew</a>
+          <a href="/services">Our Services</a>
+        </div>
+      </div>
+      <div class="footer-column">
+        <h5>Meet Us</h5>
+        <table>
+          <tr>
+            <td><img src="../assets/iconmonstr-location-18.svg" alt="location"></td>
+            <td><a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
+                Mohandseen: 40 Sudan st.
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <a href="https://g.page/ZayedDowntown?share" target="_blank">
+                Sheikh Zayed: 208 2nd Floor Downtown
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="white-gap">
+      <p>
+        &copy; DAOEgypt.com All Rights Reserved
+      </p>
+      <p>
+        Developed with <span>❤</span> by <a href="mailto:walidpiano@yahoo.com">Walid Zakaria</a>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -114,53 +78,161 @@ export default {
 </script>
 
 <style scoped>
+  .footer {
+    width: 100%;
+    background-color: #4b4746;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
 
- body {
-     background: linear-gradient(0deg, #fff, 50%, #DEEEFE);
-     font-family: 'Rubik', sans-serif;
-     background: #455A64;
-     height: 100 !important
- }
+  h5, p {
+    color: whitesmoke;
+  }
 
- .container-fluid {
-     overflow: hidden;
-     /* margin-top: 250px; */
-     background: #262626;
-     color: #627482 !important;
-     margin-bottom: 0;
-     padding-bottom: 0
- }
+  h5 {
+    margin-top: -16px;
+    text-align: center;
+  }
 
- small {
-     font-size: calc(12px + (15 - 12) * ((100vw - 360px) / (1600 - 360))) !important
- }
+  .app-badge {
+    width: 115px;
+    margin: 5px;
+  }
 
- .bold-text {
-     color: #989c9e !important
- }
+  .footer-column {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 
- .mt-55 {
-     margin-top: calc(50px + (60 - 50) * ((100vw - 360px) / (1600 - 360))) !important
- }
+  .footer-column:nth-child(1), .footer-column:nth-child(2), .footer-column:nth-child(3) {
+    border-right: 1.4px solid whitesmoke;
+  }
 
- h3 {
-     font-size: calc(34px + (40 - 34) * ((100vw - 360px) / (1600 - 360))) !important
- }
+  .footer-column:nth-child(1) {
+    width: 27%;
+  }
 
- .social {
-     font-size: 21px !important
- }
+  .footer-column:nth-child(2) {
+    width: 20%;
+  }
 
- .rights {
-     font-size: calc(10px + (12 - 10) * ((100vw - 360px) / (1600 - 360))) !important
- }
+  .footer-column:nth-child(3) {
+    width: 16%;
+  }
 
-#footer-logo {
-  max-width: 250px;
-}
+  .footer-column:nth-child(4) {
+    width: 31%;
+  }
 
-a {
-  color: #007bff !important;
-}
+  .white-gap {
+    height: 20px;
+    text-align: center;
+  }
 
+  .white-gap a {
+    margin-left: 1px;
+    display: inline-block;
+  }
+
+  a {
+    display: block;
+    /* text-align: center; */
+    color: whitesmoke;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: whitesmoke;
+  }
+
+  .app-link {
+    display: inline;
+  }
+
+  .icon {
+    width: 19px;
+    border-radius: 3px;
+  }
+
+  .badges {
+    text-align: center;
+  }
+
+  .white-gap p, .white-gap a {
+    color: #272627;
+    margin: 0 auto;
+  }
+
+  .white-gap span {
+    color: red;
+  }
+
+  @media screen  and (max-width: 1065px) {
+    .footer-column:nth-child(1) {
+      width: 22%;
+    }
+
+    .footer-column:nth-child(2) {
+      width: 23%;
+    }
+
+    .footer-column:nth-child(3) {
+      width: 15%;
+    }
+
+    .footer-column:nth-child(4) {
+      width: 36%;
+    }
+    .app-badge {
+      margin: 1px;
+    }
+  }
+
+  @media screen  and (max-width: 960px) {
+    .footer-column {
+      min-width: 90%;
+      border-right: none !important;
+      margin: 5px auto 15px auto;
+      padding-left: 35px;
+      padding-right: 35px;
+    }
+
+    a {
+      display: inline-block;
+      padding: 10px;
+    }
+
+    td a {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    h5 {
+      margin-top: 0;
+    }
+    .footer-column:nth-child(1) {
+      order: 4;
+    }
+
+    .footer-column:nth-child(2) {
+      order: 1;
+      border-bottom: 1px solid whitesmoke;
+    }
+
+    .footer-column:nth-child(3) {
+      order: 2;
+      border-bottom: 1px solid whitesmoke;
+    }
+
+    .footer-column:nth-child(4) {
+      order: 3;
+      border-bottom: 1px solid whitesmoke;
+    }
+
+    .social-container, .about-us-container {
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
 </style>

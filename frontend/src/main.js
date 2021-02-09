@@ -1,7 +1,7 @@
-import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import NProgress from 'nprogress';
 import Meta from 'vue-meta';
+import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';

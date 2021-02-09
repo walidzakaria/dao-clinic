@@ -2,9 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
-import Appointments from '../views/Appointments.vue';
-import Prices from '../views/Prices.vue';
-import ConstactUs from '../views/ContactUs.vue';
+import Booking from '../views/Booking.vue';
+import Doctors from '../views/OurDoctors.vue';
+import Services from '../views/Services.vue';
 import VideoSession from '../home/VideoSession.vue';
 import DoctorSession from '../home/DoctorSession.vue';
 import LoginForm from '../login/LoginPage.vue';
@@ -50,19 +50,24 @@ const routes = [
     component: About,
   },
   {
-    path: '/appointments',
-    name: 'Appointments',
-    component: Appointments,
+    path: '/booking',
+    name: 'Booking',
+    component: Booking,
   }, {
-    path: '/prices',
-    name: 'Prices',
-    component: Prices,
+    path: '/doctors',
+    name: 'Doctors',
+    component: Doctors,
   },
   {
-    path: '/contact',
-    name: 'Contact',
-    component: ConstactUs,
+    path: '/services',
+    name: 'Services',
+    component: Services,
   },
+  // {
+  //   path: '/contact',
+  //   name: 'Contact',
+  //   component: ConstactUs,
+  // },
   {
     path: '/session/:sessionId',
     name: 'Session',
