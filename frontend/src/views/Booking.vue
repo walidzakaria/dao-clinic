@@ -146,8 +146,10 @@
               <textarea v-model="comments" class="form-control" rows="5" id="comment"></textarea>
             </div>
             <select class="form-control" name="currency" id="currency"
-              ref="currency" v-model="selectedCurrency">
-              <option v-for="(k, index) in currencyNames" :key="index" :value="k">
+              ref="currency" v-model="selectedCurrency" required>
+              <option
+                  v-for="(k, index) in currencyNames"
+                  :key="index" :value="k" :disabled="k === '---MORE---'">
                 {{ k }}
               </option>
             </select>
@@ -281,6 +283,28 @@ export default {
     ...mapGetters('user', ['isAuthenticated', 'userInfo', 'loginName']),
     currencyNames() {
       const keys = this.currency ? Object.keys(this.currency) : null;
+      if (keys) {
+        let currencyIndex = keys.indexOf('EGP');
+        keys.splice(currencyIndex, 1);
+        currencyIndex = keys.indexOf('USD');
+        keys.splice(currencyIndex, 1);
+        currencyIndex = keys.indexOf('EUR');
+        keys.splice(currencyIndex, 1);
+        currencyIndex = keys.indexOf('SAR');
+        keys.splice(currencyIndex, 1);
+        currencyIndex = keys.indexOf('KWD');
+        keys.splice(currencyIndex, 1);
+        currencyIndex = keys.indexOf('AED');
+        keys.splice(currencyIndex, 1);
+        keys.sort();
+        keys.unshift('---MORE---');
+        keys.unshift('KWD');
+        keys.unshift('AED');
+        keys.unshift('SAR');
+        keys.unshift('EUR');
+        keys.unshift('EGP');
+        keys.unshift('USD');
+      }
       return keys;
     },
     currencyRate() {

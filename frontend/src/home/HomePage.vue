@@ -2,23 +2,23 @@
   <div class="home">
     <carousel />
     <div>
-      <h3>Our Weight Loss Programmes Are Still Available</h3>
+      <h3>DAO Slimming Centers</h3>
       <p class="main-info">
         <span class="badge">DAO Slimming Centers</span>
         is considered one of the most successful centers
-        for weight loss in all over Egypt. Our journey began <b>{{ daoYears }}</b> years ago
+        for weight loss all over Egypt. Our journey began <b>{{ daoYears }}</b> years ago
         with the opending of Haram clinic in 2001
-        <span class="span-read-more">
-          <button class="btn btn-link btn-read-more"
-            v-show="!readMore" @click="readMore = true">Read More
-          </button>
+        <span v-if="!readMore"
+            class="span-read-more btn btn-link btn-read-more"
+            @click="readMore = true">Read More
         </span>
       </p>
       <transition name="list">
         <p class="main-info" v-show="readMore">
-          The thing that makes Dr. Ahmed's success very unique is that helping
+          The thing that makes <span class="badge">Dr. Ahmed's success</span>
+          very unique is that helping
           people to lose weight and can reach over 70-80kg weight loss with
-          absolutely no surgery or even medications,
+          absolutely no Surgery or even Medications,
           and definitely the concept of weight fixation coming into real life,
           and so on the success continues to reach 220,000 cases and that was just the start.<br>
           But once he reached 700,000 cases and almost reached million cases he started to train
@@ -39,21 +39,21 @@
           results was also amazing.<br>
           As people not only from all over Egypt or all over the Middle East
           but from all over the world try
-          to reach us and travel across the continents just to pay us a visit;
+          to reach us and travel across the continents just to pay us a visit
           we decided that we should reach
           them no matter where they are so we launched the "Online Clinic" to
           meet them via a video call every
           week just as the offline clinic...<br>
           Last but not least,
           we tried to encourage the cases by
-          a competition.. Our "Golden Transformer Competition",  it's a wonderful success
-          for 5 seasons now with more than 8 winners each and everyone lost around 30kg in only
-          3 months and every  winner won as much as he lost Gold!
+          a competition..<br>
+          Our "<span class="badge">Golden Transformer Competition</span>",
+          it's a wonderful success
+          for 6 seasons now with more than 11 winners each and everyone lost around 30kg in only
+          3 months and every  winner won as much as he lost <span class="badge">Gold</span>!
           And the series of success is just beginning...
-          <span class="span-read-more">
-            <button class="btn btn-link btn-read-more"
+          <span class="span-read-more btn btn-link btn-read-more"
               v-show="readMore" @click="readMore = false">Read Less
-            </button>
           </span>
         </p>
       </transition>
@@ -134,7 +134,9 @@ export default {
 
 .badge {
   color: #9a7338;
-  font-size: 14px !important;
+  font-size: 17px !important;
+  padding: 0 !important;
+  margin: 0;
 }
 
 .main-info {
@@ -148,19 +150,9 @@ export default {
   font-size: 17px;
 }
 
-.span-read-more {
-  display: inline;
-  margin-left: -175px;
-
-}
-
 .btn-read-more {
-  width: 100px !important;
-  height: 25px;
-  display: inline;
-  margin-top: 0;
-  padding: 0;
-  line-height: 0.05 !important;
+  display: inline !important;
+  white-space: nowrap;
   color: whitesmoke !important;
   background-color: #9a7338 !important;
 }
@@ -195,11 +187,11 @@ export default {
 
 @media screen  and (max-width: 1065px) {
   .main-info {
-    width: 85%;
+    width: 95%;
   }
-  .span-read-more {
+  /* .span-read-more {
     margin-left: -165px;
-  }
+  } */
 }
 
 @media screen  and (max-width: 575px) {
@@ -207,17 +199,6 @@ export default {
     width: 100%;
     padding-left: 5%;
     padding-right: 5% ;
-  }
-
-  .span-read-more {
-    margin-left: -155px;
-  }
-}
-
-@media screen  and (max-width: 575px) {
-  .span-read-more {
-    margin-left: 0;
-    display: block;
   }
 }
 

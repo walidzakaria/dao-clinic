@@ -27,7 +27,7 @@
               <p v-if="submitted.isSuccess" class="text-success">
                 Your password was reset successfully!
                 <br>
-                You can <router-link to="/login" exact="">Login</router-link> now
+                You can <router-link to="/login" exact>Login</router-link> now
                 Or you may go to <router-link to="/">home</router-link> page.
               </p>
             </div>

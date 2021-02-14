@@ -7,10 +7,10 @@
     </p>
     <div class="p2p-media">
       <div class="remote-stream">
-        <video id="js-remote-stream"></video>
+        <video id="js-remote-stream" controls ref="jsRemoteStream"></video>
       </div>
       <div class="local-stream">
-        <video id="js-local-stream"></video>
+        <video id="js-local-stream" controls ref="jsLocalStream"></video>
         <p>Client link:
           <router-link v-if="localId" :to="{ path: `/session/${this.localId}/` }"
             target="_blank">https://daoegypt.com/session/{{ localId }}/</router-link>
@@ -20,7 +20,9 @@
         <button @click="configureSession()" id="js-new-session">
           New Session <span v-if="isLoading" class="spinner-border"></span>
         </button>
-        <button id="js-close-trigger">Close</button>
+        <button @click="openPictureInPicture()">Picture on Picture</button>
+        <button @click="openFullscreen()">Fullscreen</button>
+        <button id="js-close-trigger" ref="jsCloseTrigger">Close</button>
       </div>
     </div>
     <div>
@@ -150,6 +152,26 @@ export default {
           console.log(error);
         });
     },
+    openFullscreen() {
+      const elem = this.$refs.jsRemoteStream;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    },
+    openPictureInPicture() {
+      const localVideo = this.$refs.jsLocalStream;
+      if (localVideo.requestPictureInPicture) {
+        localVideo.requestPictureInPicture();
+      } else if (localVideo.webkitRequestPictureInPicture) { /* Safari */
+        localVideo.webkitRequestPictureInPicture();
+      } else if (localVideo.msRrequestPictureInPicture) { /* IE11 */
+        localVideo.msRequestPictureInPicture();
+      }
+    },
     newSession() {
       window.peer.once('open', (id) => {
         this.sessionId = id;
@@ -157,9 +179,9 @@ export default {
     },
     async configureSession() {
       this.isLoading = true;
-      const localVideo = document.getElementById('js-local-stream');
-      const closeTrigger = document.getElementById('js-close-trigger');
-      const remoteVideo = document.getElementById('js-remote-stream');
+      const localVideo = this.$refs.jsLocalStream;
+      const closeTrigger = this.$refs.jsCloseTrigger;
+      const remoteVideo = this.$refs.jsRemoteStream;
       const localStream = await navigator.mediaDevices
         .getUserMedia({
           audio: true,
@@ -212,6 +234,10 @@ export default {
     width: 100%;
     border-radius: 10px;
     display: block;
+  }
+  audio::-webkit-media-controls-timeline,
+  video::-webkit-media-controls-timeline {
+      display: none;
   }
 
   #js-local-stream {

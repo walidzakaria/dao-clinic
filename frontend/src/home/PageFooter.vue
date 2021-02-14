@@ -39,21 +39,24 @@
       <div class="footer-column">
         <h5>Meet Us</h5>
         <table>
-          <tr>
-            <td><img src="../assets/iconmonstr-location-18.svg" alt="location"></td>
-            <td><a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
-                Mohandseen: 40 Sudan st.
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <a href="https://g.page/ZayedDowntown?share" target="_blank">
-                Sheikh Zayed: 208 2nd Floor Downtown
-              </a>
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>
+                <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
+                  <img src="../assets/iconmonstr-location-18.svg" alt="location">
+                  Mohandseen: 49 Sudan st.
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="https://g.page/ZayedDowntown?share" target="_blank">
+                  <img src="../assets/iconmonstr-location-18.svg" alt="location">
+                  Sheikh Zayed: 208 2nd Floor Downtown Mall
+                </a>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

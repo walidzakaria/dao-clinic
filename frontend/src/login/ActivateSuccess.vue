@@ -16,18 +16,18 @@
       <div v-if="isSuccess">
         <p>Your account has been confirmed :-)</p>
         <p>You may login now...</p>
-        <p>Click <router-link to="/login" exact="">here</router-link> to login.</p>
-        <p>Click <router-link to="/" exact="">here</router-link> to visit our home page.</p>
+        <p>Click <router-link to="/login" exact>here</router-link> to login.</p>
+        <p>Click <router-link to="/" exact>here</router-link> to visit our home page.</p>
       </div>
       <div v-if="!isSuccess">
         <p class="text-danger">Something went wrong :-(</p>
         <p class="text-danger">The activation link you provided is invalid.</p>
         <p>Click
-           <router-link to="/auth/account/resend/activation" exact="">here</router-link>
+           <router-link to="/auth/account/resend/activation" exact>here</router-link>
            to resend the activation code.
         </p>
-        <p>Click <router-link to="/signup" exact="">here</router-link> to register.</p>
-        <p>Click <router-link to="/" exact="">here</router-link> to visit our home page.</p>
+        <p>Click <router-link to="/signup" exact>here</router-link> to register.</p>
+        <p>Click <router-link to="/" exact>here</router-link> to visit our home page.</p>
       </div>
     </div>
   </div>

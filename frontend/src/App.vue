@@ -1,33 +1,31 @@
 <template>
   <div id="app">
-    <div class="upper-header">
-        <div class="link-wrapper">
-          <div class="link-child">
+    <div class="upper-header" ref="upperHeader">
+      <div class="link-wrapper">
+        <div class="link-child">
+          <a href="tel:00201019090187" target="_blank">
             <img src="./assets/iconmonstr-phone-6.svg" alt="phone-logo">
-            <a href="tel:00201096633904" target="_blank">
-              (+20) 10 966 33904
-            </a>,
-            <a href="tel:00201097766816" target="_blank">
-              (+20) 10 977 66816
-            </a>
-          </div>
-          <div class="link-child">
+            (+20) 10 190 90187
+          </a>
+        </div>
+        <div class="link-child">
+          <a href="https://wa.me/201019090187" target="_blank">
             <img src="./assets/iconmonstr-whatsapp-1.svg" alt="whatsapp-logo">
-            <a href="https://wa.me/201019090187" target="_blank">
-              (+20) 10 190 90187
-            </a>
-          </div>
-          <div class="link-child">
+            (+20) 10 190 90187
+          </a>
+        </div>
+        <div class="link-child">
+          <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
             <img src="./assets/iconmonstr-location-19.svg" alt="location-logo">
-            <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
-              Mohandseen: 40 Sudan st.
-            </a>,
-            <a href="https://g.page/ZayedDowntown?share" target="_blank">
-              Sheikh Zayed: 208 2nd Floor Downtown
-            </a>
-          </div>
+            Mohandseen: 49 Sudan st.
+          </a>
+          <a href="https://g.page/ZayedDowntown?share" target="_blank">
+            <img src="./assets/iconmonstr-location-19.svg" alt="location-logo">
+            Sheikh Zayed: 208 2nd Floor Downtown Mall
+          </a>
         </div>
       </div>
+    </div>
     <header class="container-fluid"
         :class="{ 'sticky': scrolled }" id="app-header" ref="mainHeader">
       <div class="wrap">
@@ -126,7 +124,8 @@ export default {
     console.log('appview mounted');
     this.$nextTick(() => {
       window.addEventListener('scroll', () => {
-        this.scrolled = document.documentElement.scrollTop > 50;
+        const upperHeaderSize = this.$refs.upperHeader.clientHeight;
+        this.scrolled = document.documentElement.scrollTop > upperHeaderSize;
       });
     });
   },

@@ -1,4 +1,7 @@
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import path
+from django.views.generic import RedirectView
+
 from .views import available_days_list, prices_list, redeem_coupon
 
 urlpatterns = [
