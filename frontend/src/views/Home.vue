@@ -6,7 +6,7 @@
 
 <script>
 // @ is an alias to /src
-import HomePage from '@/home/HomePage.vue';
+const HomePage = () => import('@/home/HomePage.vue');
 
 export default {
   name: 'Home',

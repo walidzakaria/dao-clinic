@@ -31,6 +31,14 @@ urlpatterns = [
     path('', include('apps.main.urls')),
     path('api/chat/', include('apps.chat.urls')),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
+    path('apple-icon57x57.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon57x57.png'))),
+    path('apple-icon72x72.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon72x72.png'))),
+    path('apple-icon114x114.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon114x114.png'))),
+    path('apple-icon144x144.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon144x144.png'))),
 ]
 
 # to enable viewing images in media directory

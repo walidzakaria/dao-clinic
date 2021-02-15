@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import Carousel from './CarouselPage.vue';
+const Carousel = () => import('./CarouselPage.vue');
 
 export default {
   name: 'HomePage',

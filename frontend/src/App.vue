@@ -91,8 +91,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import ChatBox from './chat/ChatBox.vue';
-import Footer from './home/PageFooter.vue';
+
+const ChatBox = () => import('./chat/ChatBox.vue');
+const Footer = () => import('./home/PageFooter.vue');
 
 export default {
   data() {

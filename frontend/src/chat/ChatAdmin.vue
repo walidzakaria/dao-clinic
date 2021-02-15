@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import ChatInstance from './ChatInstance.vue';
+const ChatInstance = () => import('./ChatInstance.vue');
 
 export default {
   name: 'ChatAdmin',
