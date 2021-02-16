@@ -1,8 +1,8 @@
 <template>
   <div class="home">
+    <h1 class="slogan">DAO Slimming Centers</h1>
     <carousel />
     <div>
-      <h3>DAO Slimming Centers</h3>
       <p class="main-info">
         <span class="badge">DAO Slimming Centers</span>
         is considered one of the most successful centers
@@ -102,16 +102,7 @@ export default {
 <style>
 
 .slogan {
-  margin-top: -150px;
-  padding: 5px 20px;
-  background-color: transparent;
-  z-index: 10;
-  position: sticky;
-  margin-left: auto;
-  margin-right: auto;
-  align-content: center;
-  border-radius: 10px;
-  max-width: 700px;
+  text-align: center;
 }
 
 #staff-image {

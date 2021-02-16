@@ -47,8 +47,8 @@ urlpatterns = [
          RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-72x72.png'))),
     path('apple-touch-icon-57x57.png',
          RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-57x57.png'))),
-    # path('site.webmanifest',
-    #      RedirectView.as_view(url=staticfiles_storage.url('site.webmanifest'))),
+    path('social.jpg',
+         RedirectView.as_view(url=staticfiles_storage.url('img/social.jpg'))),
 ]
 
 # to enable viewing images in media directory

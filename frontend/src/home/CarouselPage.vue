@@ -29,6 +29,17 @@
             class="d-block img-fluid w-100"
             width="100%"
             height="350"
+            src="../assets/dr-ahmed-omar.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            height="350"
             src="../assets/cropped-staff-1.webp"
             alt="image slot"
           >
