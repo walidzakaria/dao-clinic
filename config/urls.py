@@ -30,15 +30,25 @@ urlpatterns = [
     path('api/appointments/', include('apps.appointments.urls')),
     path('', include('apps.main.urls')),
     path('api/chat/', include('apps.chat.urls')),
+
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
+    path('favicon-32x32.png', RedirectView.as_view(url=staticfiles_storage.url('img/favicon-32x32.png'))),
+    path('favicon-16x16.png', RedirectView.as_view(url=staticfiles_storage.url('img/favicon-16x16.png'))),
     path('apple-icon57x57.png',
          RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon57x57.png'))),
-    path('apple-icon72x72.png',
-         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon72x72.png'))),
-    path('apple-icon114x114.png',
-         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon114x114.png'))),
-    path('apple-icon144x144.png',
-         RedirectView.as_view(url=staticfiles_storage.url('img/apple-icon144x144.png'))),
+
+    path('apple-touch-icon-180x180.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-180x180.png'))),
+    path('apple-touch-icon-144x144.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-144x144.png'))),
+    path('apple-touch-icon-114x114.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-114x114.png'))),
+    path('apple-touch-icon-72x72.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-72x72.png'))),
+    path('apple-touch-icon-57x57.png',
+         RedirectView.as_view(url=staticfiles_storage.url('img/apple-touch-icon-57x57.png'))),
+    # path('site.webmanifest',
+    #      RedirectView.as_view(url=staticfiles_storage.url('site.webmanifest'))),
 ]
 
 # to enable viewing images in media directory
