@@ -53,8 +53,6 @@ export default {
       showError: false,
     };
   },
-  computed: {
-  },
   methods: {
     login() {
       if (this.isLoading) { return; }

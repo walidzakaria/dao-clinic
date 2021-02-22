@@ -5,10 +5,10 @@
         <h5>Get Our Apps (very soon)</h5>
         <div class="badges">
           <a class="app-link" href="#">
-            <img class="app-badge" src="../assets/android-badge.webp" alt="">
+            <img class="app-badge" src="../assets/img/android-badge.webp" alt="">
           </a>
           <a class="app-link" href="#">
-            <img class="app-badge" src="../assets/ios-badge.webp" alt="">
+            <img class="app-badge" src="../assets/img/ios-badge.webp" alt="">
           </a>
         </div>
       </div>
@@ -16,15 +16,15 @@
         <h5>Follow Us</h5>
           <div class="social-container">
             <a href="https://www.facebook.com/DrAhmedOmar1" target="_blank">
-            <img class="icon" src="../assets/iconmonstr-facebook-6.svg" alt="facebook">
+            <img class="icon" src="../assets/img/iconmonstr-facebook-6.svg" alt="facebook">
             @DrAhmedOmar1
           </a>
           <a href="https://www.instagram.com/dao_slimmingcenter/" target="_blank">
-            <img class="icon" src="../assets/iconmonstr-instagram-11.svg" alt="facebook">
+            <img class="icon" src="../assets/img/iconmonstr-instagram-11.svg" alt="facebook">
             dao_slimmingcenter
           </a>
           <a href="https://www.youtube.com/channel/UCUejKcXgnPuorj3IIVfe4hQ" target="_blank">
-            <img class="icon" src="../assets/iconmonstr-youtube-6.svg" alt="youtube">
+            <img class="icon" src="../assets/img/iconmonstr-youtube-6.svg" alt="youtube">
             DAO Slimming Centers
           </a>
         </div>
@@ -43,7 +43,7 @@
             <tr>
               <td>
                 <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
-                  <img src="../assets/iconmonstr-location-18.svg" alt="location">
+                  <img src="../assets/img/iconmonstr-location-18.svg" alt="location">
                   Mohandseen: 49 Sudan st.
                 </a>
               </td>
@@ -51,7 +51,7 @@
             <tr>
               <td>
                 <a href="https://g.page/ZayedDowntown?share" target="_blank">
-                  <img src="../assets/iconmonstr-location-18.svg" alt="location">
+                  <img src="../assets/img/iconmonstr-location-18.svg" alt="location">
                   Sheikh Zayed: 208 2nd Floor Downtown Mall
                 </a>
               </td>

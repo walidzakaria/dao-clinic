@@ -21,14 +21,14 @@
                   </div>
                 </div>
                 <div class="col-2 avatar">
-                  <img src="../assets/employee-avatar.webp" class=" img-responsive ">
+                  <img src="../assets/img/employee-avatar.webp" class=" img-responsive ">
                 </div>
               </div>
             </div>
             <div v-else>
               <div class="row msg_container base_receive">
                 <div class="col-2 avatar">
-                  <img src="../assets/user-avatar.webp" class=" img-responsive ">
+                  <img src="../assets/img/user-avatar.webp" class=" img-responsive ">
                 </div>
                 <div class="text-container">
                   <div class="messages msg_receive">
