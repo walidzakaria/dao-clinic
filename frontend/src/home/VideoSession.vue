@@ -7,11 +7,13 @@
     </p>
     <div class="p2p-media">
         <div class="remote-stream">
-          <video id="js-remote-stream"></video>
+          <video id="js-remote-stream" controls ref="jsRemoteStream"></video>
         </div>
         <div class="local-stream">
-          <video id="js-local-stream"></video>
+          <video id="js-local-stream" controls ref="jsLocalStream"></video>
           <!-- <input type="text" placeholder="Remote Peer ID" id="js-remote-id"> -->
+          <button @click="openPictureInPicture()">Picture on Picture</button>
+          <button @click="openFullscreen()">Fullscreen</button>
           <button id="js-call-trigger">Call</button>
           <button id="js-close-trigger">Close</button>
         </div>
@@ -47,6 +49,26 @@ export default {
     },
   },
   methods: {
+    openFullscreen() {
+      const elem = this.$refs.jsRemoteStream;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    },
+    openPictureInPicture() {
+      const localVideo = this.$refs.jsLocalStream;
+      if (localVideo.requestPictureInPicture) {
+        localVideo.requestPictureInPicture();
+      } else if (localVideo.webkitRequestPictureInPicture) { /* Safari */
+        localVideo.webkitRequestPictureInPicture();
+      } else if (localVideo.msRrequestPictureInPicture) { /* IE11 */
+        localVideo.msRequestPictureInPicture();
+      }
+    },
     async configureSession() {
       const localVideo = document.getElementById('js-local-stream');
       // const localId = document.getElementById('js-local-id');

@@ -3,10 +3,11 @@
     <h1 class="slogan">DAO Slimming Centers</h1>
     <carousel />
     <div>
-      <router-link to="/booking/" exact id="btn-book" class="btn"
-          data-aos="zoom-in-down">
-        Book with Dr. Ahmed
-      </router-link>
+      <button class="btn btn-dark" id="book-now"
+          type="button" data-aos="zoom-in-down" @click="bookNow()">
+        <span style="font-size:16px;">Book with the LEGEND</span><br>
+        <span style="font-size:12px;">Dr. Ahmed Omar</span>
+      </button>
       <p class="main-info">
         <span class="badge">DAO Slimming Centers</span>
         is considered one of the most successful centers
@@ -63,101 +64,6 @@
       </transition>
       <div id="bottom-line"></div>
     </div>
-<!-- ======= Team Section ======= -->
-    <section id="team" class="team">
-
-      <div class="container" data-aos="fade-up">
-
-        <header class="section-header">
-          <p>Our Activities</p>
-        </header>
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up" data-aos-delay="100">
-            <div class="member">
-              <div class="member-img">
-                <img src="../assets/img/dr-ahmed-legend.webp" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>Dr. Ahmed Omar</h4>
-                <span>The Legend</span>
-                <!-- <p>The founder of DAO Slimming Centers</p> -->
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up" data-aos-delay="200">
-            <div class="member">
-              <div class="member-img">
-                <img src="../assets/img/dao-online.webp" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>DAO Online</h4>
-                <span>All Over the World</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up" data-aos-delay="300">
-            <div class="member">
-              <div class="member-img">
-                <img src="../assets/img/dr-dalia.webp" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>DAO Localized</h4>
-                <span>And Sports Nutritions</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up" data-aos-delay="400">
-            <div class="member">
-              <div class="member-img">
-                <img src="../assets/img/dr-aya.webp" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>DAO Kids</h4>
-                <span></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up" data-aos-delay="400">
-            <div class="member">
-              <div class="member-img">
-                <img src="../assets/img/academy.webp" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>DAO Academy</h4>
-                <span></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up" data-aos-delay="400">
-            <div class="member">
-              <div class="member-img">
-                <img src="../assets/img/golden-transformers.webp" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <h4>DAO Golden</h4>
-                <span>Transformers</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- End Team Section -->
     <Footer/>
   </div>
 </template>
@@ -193,6 +99,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    bookNow() {
+      this.$router.push('/booking');
+    },
   },
 };
 </script>
@@ -249,166 +160,6 @@ section {
   }
 }
 
-/*--------------------------------------------------------------
-# Team
---------------------------------------------------------------*/
-.team {
-  background: #fff;
-  padding: 60px 0;
-}
-
-.team .member {
-  overflow: hidden;
-  text-align: center;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
-  transition: 0.3s;
-}
-
-.team .member .member-img {
-  position: relative;
-  overflow: hidden;
-}
-
-.team .member .member-img:after {
-  position: absolute;
-  content: "";
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  /* background: url(../img/team-shape.svg) no-repeat center bottom; */
-  background-size: contain;
-  z-index: 1;
-}
-
-.team .member .social {
-  position: absolute;
-  right: -100%;
-  top: 30px;
-  opacity: 0;
-  border-radius: 4px;
-  transition: 0.5s;
-  background: rgba(255, 255, 255, 0.3);
-  z-index: 2;
-}
-
-.team .member .social a {
-  transition: color 0.3s;
-  margin: 15px 12px;
-  display: block;
-  line-height: 0;
-  text-align: center;
-}
-
-.team .member .social i {
-  font-size: 18px;
-}
-
-.team .member .member-info {
-  padding: 10px 15px 20px 15px;
-}
-
-.team .member .member-info h4 {
-  /* font-weight: 700; */
-  margin-bottom: 5px;
-  font-size: 20px;
-}
-
-.team .member .member-info span {
-  display: block;
-  font-size: 14px;
-  /* font-weight: 400; */
-  color: #aaaaaa;
-}
-
-.team .member .member-info p {
-  font-style: italic;
-  font-size: 14px;
-  padding-top: 15px;
-  line-height: 26px;
-  color: #5e5e5e;
-}
-
-.team .member:hover {
-  transform: scale(1.08);
-  box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
-}
-
-.team .member:hover .social {
-  right: 8px;
-  opacity: 1;
-}
-
-.slogan {
-  text-align: center;
-}
-
-#staff-image {
-  width: 100%;
-  position: relative;
-}
-
-.team .member {
-  overflow: hidden;
-  text-align: center;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0px 0 30px rgb(1 41 112 / 8%);
-  transition: 0.3s;
-}
-
-.team .member .social {
-    position: absolute;
-    right: -100%;
-    top: 30px;
-    opacity: 0;
-    border-radius: 4px;
-    transition: 0.5s;
-    background: rgba(255, 255, 255, 0.3);
-    z-index: 2;
-}
-
-.team .member .member-info {
-    padding: 10px 15px 20px 15px;
-}
-
-.team .member .member-info h4 {
-    /* font-weight: 700; */
-    margin-bottom: 5px;
-    font-size: 20px;
-}
-
-/* h1, h2, h3, h4, h5, h6 {
-    font-family: "Nunito", sans-serif;
-} */
-
-.team .member .member-info span {
-    display: block;
-    font-size: 14px;
-    /* font-weight: 400; */
-    color: #aaaaaa;
-}
-
-.team .member .member-info p {
-    font-style: italic;
-    font-size: 14px;
-    padding-top: 15px;
-    line-height: 26px;
-    color: #5e5e5e;
-}
-
-p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-.team .member .member-img {
-  position: relative;
-  overflow: hidden;
-}
-
 img, svg {
     vertical-align: middle;
 }
@@ -442,7 +193,7 @@ img, svg {
 #btn-book {
   margin: 10px auto;
   display: block;
-  width: 220px;
+  /* width: 220px; */
   background-color: #4b4746;
   color: whitesmoke;
   font-size: 17px;
@@ -537,5 +288,15 @@ img, svg {
   .main-info {
     text-align: center;
   }
+}
+
+#book-now {
+  margin: 10px auto;
+  display: block;
+  position: inherit;
+  border-radius: 5px;
+  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
+  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
 }
 </style>
