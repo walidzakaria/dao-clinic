@@ -55,11 +55,10 @@ def active_rooms(request):
         date_filter = (date.today() + relativedelta(months=-1)).strftime('%Y-%m-%d')
         query = f'''
             SELECT cc.room, cc.user_info, MAX(cc.time) AS last_time,
-            SUM(CASE WHEN cc.is_read = False THEN 1 ELSE 0 END) AS unread, cc.user_id,
-            COUNT(cc.user_id) AS Users
+            SUM(CASE WHEN cc.is_read = False THEN 1 ELSE 0 END) AS unread, cc.user_id
             FROM chat_chat cc
             WHERE cc.is_client = True
-            GROUP BY cc.room, cc.user_info
+            GROUP BY cc.room, cc.user_info, cc.user_id
             HAVING MAX(cc.time) >= '{date_filter}'
             ORDER BY MAX(cc.time) DESC;
         '''
