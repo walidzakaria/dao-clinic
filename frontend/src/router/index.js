@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Cookies from 'js-cookie';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import Booking from '../views/Booking.vue';
@@ -35,6 +36,9 @@ const ifAuthenticated = (to, from, next) => {
     next();
     return;
   }
+  const currentLink = window.location.href;
+  console.log('current link', currentLink);
+  Cookies.set('currentLink', currentLink, { expires: 1 });
   next('/login');
 };
 
@@ -160,9 +164,9 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeResolve((to, from, next) => {
-  next();
-});
+// router.afterEach((to) => {
+//   console.log('from before', to.name);
+// });
 
 // eslint-disable-next-line consistent-return
 // router.beforeEach((to, from, next) => {

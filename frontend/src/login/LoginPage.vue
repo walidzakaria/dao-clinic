@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 
 export default {
   data() {
@@ -54,18 +55,26 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       if (this.isLoading) { return; }
       this.isLoading = true;
-      this.$store.dispatch('user/retrieveToken', {
+      await this.$store.dispatch('user/retrieveToken', {
         email: this.email,
         password: this.password,
       }).then((response) => {
         console.log(response);
         this.showError = false;
-        this.isLoading = false;
-        this.$store.dispatch('user/retrieveUserData');
-        this.$router.push('/');
+        this.$store.dispatch('user/retrieveUserData').then(() => {
+          const redirectLink = Cookies.get('currentLink');
+          console.log(redirectLink);
+          if (redirectLink) {
+            window.location.href = redirectLink;
+          } else {
+            this.$router.push('/');
+          }
+          Cookies.remove('currentLink');
+          this.isLoading = false;
+        });
       }).catch((error) => {
         console.log(error);
         this.showError = true;

@@ -40,7 +40,7 @@ export default ({
     },
     getConversation({ commit, state }) {
       return new Promise((resolve, reject) => {
-        axios.get(`/api/chat/get-chat/${state.clientId}/`)
+        axios.get(`/api/chat/get-chat/${state.clientId}/client/`)
           .then((result) => {
             commit('updateConversation', result.data);
             resolve(result.data);
@@ -53,7 +53,7 @@ export default ({
     getCSConversation(context, roomName) {
       console.log('room name: ', roomName);
       return new Promise((resolve, reject) => {
-        axios.get(`/api/chat/get-chat/${roomName}/`)
+        axios.get(`/api/chat/get-chat/${roomName}/admin/`)
           .then((result) => {
             resolve(result.data);
           })
@@ -67,6 +67,17 @@ export default ({
         axios.get('/api/chat/active-rooms/')
           .then((result) => {
             resolve(result.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getContacts() {
+      return new Promise((resolve, reject) => {
+        axios.get('/api/chat/contacts/')
+          .then((response) => {
+            resolve(response.data);
           })
           .catch((error) => {
             reject(error);

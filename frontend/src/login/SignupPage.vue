@@ -64,6 +64,30 @@
             </div>
 
             <div class="form-group">
+              <label>Country <span class="text-danger">*</span></label>
+              <select class="form-control" name="country" id="country"
+                v-model="newUser.country" required>
+                <option value="null">--Select Country--</option>
+                <option
+                  v-for="(k, index) in countries.main"
+                    :key="index" :value="index">
+                  {{ k }}
+                </option>
+                <option value="null" disabled>---MORE---</option>
+                <option
+                  v-for="(k, index) in countries.all"
+                    :key="index" :value="index">
+                  {{ k }}
+                </option>
+              </select>
+              <ul>
+                <li v-for="(m, index) in invalidEntry.country" :key="index"
+                  class="text-danger">{{ m }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="form-group">
                 <label>Password <span class="text-danger"> *</span></label>
                 <input v-model="newUser.password"
                   type="password" class="form-control form-control-lg" required/>
@@ -112,6 +136,7 @@ export default {
         lastName: '',
         password: '',
         rePassword: '',
+        country: null,
       },
       invalidEntry: {
         username: [],
@@ -119,9 +144,14 @@ export default {
         phone: [],
         firstName: [],
         lastName: [],
+        country: [],
         password: [],
         rePassword: [],
         nonFieldErrors: [],
+      },
+      countries: {
+        all: this.$store.state.country.allCountries,
+        main: this.$store.state.country.mainCountries,
       },
     };
   },
@@ -136,6 +166,7 @@ export default {
         phone: this.newUser.phone,
         first_name: this.newUser.firstName,
         last_name: this.newUser.lastName,
+        country: this.newUser.country,
         email: this.newUser.email,
         password: this.newUser.password,
         re_password: this.newUser.rePassword,
@@ -156,6 +187,7 @@ export default {
           this.invalidEntry.lastName = error.lastName || [];
           this.invalidEntry.email = error.email || [];
           this.invalidEntry.password = error.password || [];
+          this.invalidEntry.country = error.country || [];
           this.invalidEntry.nonFieldErrors = (
             this.newUser.password === this.newUser.rePassword ? [] : ["The two password fields didn't match."]
           );

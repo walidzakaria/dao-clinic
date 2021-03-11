@@ -84,7 +84,9 @@
         :class="{ 'increase-top': scrolled }" ref="mainSection">
       <router-view/>
     </main>
-    <ChatBox/>
+    <div v-if="showChat">
+      <ChatBox/>
+    </div>
     <Footer/>
   </div>
 </template>
@@ -101,6 +103,7 @@ export default {
       load: false,
       open: false,
       scrolled: false,
+      showChat: true,
     };
   },
   components: {
@@ -128,6 +131,7 @@ export default {
         const upperHeaderSize = this.$refs.upperHeader.clientHeight;
         this.scrolled = document.documentElement.scrollTop > upperHeaderSize;
       });
+      this.checkChatView();
     });
   },
   methods: {
@@ -147,10 +151,6 @@ export default {
     toggleDropMenu() {
       this.open = !this.open;
       this.$refs.toggleButton.style.transform = this.open ? 'rotate(180deg)' : 'rotate(0deg)';
-      // if (window.innerWidth < 660 && this.open) {
-      //   // event.target.parentElement.nextSibling.
-      //   // nextSibling.style.marginTop = `${dropMenu.clientHeight}px`;
-      // }
     },
     displayDropMenu(event) {
       const dropMenu = event.target.parentElement.getElementsByClassName('drop_menu')[0];
@@ -179,6 +179,14 @@ export default {
       document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
       this.load = true;
     },
+    checkChatView() {
+      const viewName = this.$route.name;
+      if (viewName === 'ChatAdmin' || viewName === 'DoctorSession') {
+        this.showChat = false;
+      } else {
+        this.showChat = true;
+      }
+    },
   },
   watch: {
     $route() {
@@ -192,6 +200,7 @@ export default {
         left: 0,
         behavior: 'smooth',
       });
+      this.checkChatView();
     },
   },
 };
@@ -442,7 +451,6 @@ header #hamburger span:nth-child(3) {width: 12px;}
 #background {
   content: '';
   display: block;
-  width: 100vw;
   padding: 14px 5% 5% 5%;
 }
 
@@ -620,6 +628,7 @@ header li a:hover {
     flex-direction: column;
   }
   .display_menu header #menu {
+    display: block;
     height: calc(100vh - 64px);
   }
 
@@ -648,6 +657,7 @@ header #menu li {
   margin-left: 0;
   transition: 0.25s ease;
   border-bottom: 3px solid transparent;
+  display: none;
 }
 
 header #menu li a {
@@ -740,5 +750,9 @@ header .drop_menu a {
   #logo-title {
     visibility: hidden;
   }
+}
+
+h1 {
+  text-align: center;
 }
 </style>

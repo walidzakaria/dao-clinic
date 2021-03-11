@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import RedirectView
 
-admin.site.site_header = 'DAO Clinic'
-admin.site.site_title = 'DAO Clinic'
+admin.site.site_header = 'DAO Egypt'
+admin.site.site_title = 'DAO Egypt'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

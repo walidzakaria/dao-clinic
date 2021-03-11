@@ -1,59 +1,29 @@
 <template>
-  <div class="card">
-    <div class="card-header text-dark chat-header" @click="toggleChat()">
-      {{ chatHeader || 'unknown user' }}
-      <span v-if="!open && unreadNo > 0" class="unread">{{ unreadMsg }}</span>
+  <div>
+  <div class="contact-profile">
+      <p>{{ chatHeader }}</p>
     </div>
-    <div class="collapse" :class="{'show': open}">
-      <div class="card-body">
-        <div
-          class="panel-body msg_container_base dialog-container"
-          :class="{'hidden-chat-box': !open}" ref="chat-box">
-          <div v-for="(m, index) in chat" :key="index">
-            <div v-if="!m.is_client">
-              <div class="row msg_container base_sent">
-                <div class="text-container">
-                  <div class="messages msg_sent">
-                    <p>{{ m.message }}</p>
-                    <time datetime="2009-11-13T20:00">
-                      Me • {{ calcTime(m.time) }}
-                    </time>
-                  </div>
-                </div>
-                <div class="col-2 avatar">
-                  <img src="../assets/img/employee-avatar.webp" class=" img-responsive ">
-                </div>
-              </div>
-            </div>
-            <div v-else>
-              <div class="row msg_container base_receive">
-                <div class="col-2 avatar">
-                  <img src="../assets/img/user-avatar.webp" class=" img-responsive ">
-                </div>
-                <div class="text-container">
-                  <div class="messages msg_receive">
-                    <p>{{ m.message }}</p>
-                    <time datetime="2009-11-13T20:00">
-                      {{ m.user || m.user_info }} • {{ calcTime(m.time) }}
-                    </time>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="messages" ref="chat-box">
+      <ul id="message-container">
+        <div v-for="(m, index) in chat" :key="index">
+          <li v-if="m.is_client" class="sent">
+            <div class="chat-logo">{{ clientLetter }}</div>
+            <p class="message-text">{{ m.message }}</p>
+          </li>
+          <li v-else class="replies">
+            <div class="chat-logo">ME</div>
+            <p class="message-text">{{ m.message }}</p>
+          </li>
         </div>
-        <div class="panel-footer">
-          <div class="input-group btn-input" :class="{'hidden-chat-box': !open}">
-            <input type="text" v-model="userMessage"
-              @keyup.enter="sendMessage()"
-              class="form-control input-sm chat_input" ref="chat-input"
-              placeholder="Write your message here..." autocomplete="off"/>
-              <span class="input-group-btn">
-              <button @click="sendMessage()"
-                class="btn btn-dark btn-sm btn-chat">Send</button>
-              </span>
-          </div>
-        </div>
+      </ul>
+    </div>
+    <div class="message-input">
+      <div class="wrap">
+        <input type="text" placeholder="Write your message..."
+            v-model="userMessage"
+            @keyup.enter="sendMessage()" @focus="markRead()"
+            ref="chat-input"/>
+        <button @click="sendMessage()" class="submit btn">Send</button>
       </div>
     </div>
   </div>
@@ -69,10 +39,9 @@ function addLeadingZero(inputNumber) {
 
 export default {
   name: 'ChatInstance',
-  props: ['room'],
+  props: ['room', 'userConnect', 'chatHeader'],
   data() {
     return {
-      open: false,
       connection: null,
       chat: [],
       userMessage: null,
@@ -80,30 +49,27 @@ export default {
       userId: 0,
       clientId: this.$store.state.chat.clientId,
       unreadNo: 0,
-      chatHeader: null,
     };
   },
   computed: {
-    // chatHeader() {
-    //   const deviceInfo = this.chat.length > 0 ?
-    //    this.chat[this.chat.length - 1].user_info : 'Unkown User';
-    //   const username = this.chat.length > 0 ? this.chat[0].user : '';
-    //   return `${deviceInfo} * ${username}`;
-    // },
-    unreadMsg() {
-      const result = this.open ? 0 : this.unreadNo;
-      return result;
+    clientLetter() {
+      return this.chatHeader[0];
+    },
+    lastSenctence() {
+      return this.chat[this.chat.length - 1].message;
     },
   },
   created() {
+    this.scrollChat();
   },
-  async mounted() {
+  async mounted(event) {
     this.$nextTick(() => {
       this.username = this.$store.state.user.userInfo.username;
-      this.userId = this.$store.state.user.userInfo.id;
+      this.userId = this.$store.state.user.userInfo.id || 0;
       this.clientId = this.$store.state.chat.clientId;
       this.chat = [];
-      this.connectChat();
+      this.connectChat(event);
+      this.scrollChat();
     });
   },
   methods: {
@@ -117,20 +83,16 @@ export default {
       } else {
         wsHost += ':8001';
       }
-      const wsLink = `${wsScheme}://${wsHost}/ws/chat/${this.room}/admin/`;
+      const wsLink = `${wsScheme}://${wsHost}/ws/chat/${this.room}/admin/${this.userConnect}/`;
       console.log(wsLink);
       return wsLink;
-    },
-    toggleChat() {
-      this.open = !this.open;
-      this.unreadNo = 0;
-      this.scrollChat();
     },
     async connectChat() {
       this.unreadNo = 0;
       if (this.clientId === '0000') {
         await this.$store.dispatch('chat/getClientId').then(
           this.clientId = this.$store.state.chat.clientId,
+          this.scrollChat(),
         );
       }
       console.log(this.chat.length);
@@ -139,15 +101,33 @@ export default {
           .then((response) => {
             this.chat = response;
             console.log('current chat: ', this.chat);
-            this.chatHeader = `${this.chat[this.chat.length - 1].user_info} • ${this.chat[this.chat.length - 1].username}`;
+            this.scrollChat();
           });
       }
       this.applyConnection();
+    },
+    markRead() {
+      this.unreadNo = 0;
+      const readMessage = {
+        type: 'notification_read',
+        message: 'notification_read',
+        user: this.$store.state.user.userInfo.username,
+        user_id: this.$store.state.user.userInfo.id,
+        is_client: false,
+      };
+      try {
+        this.connection.send(JSON.stringify(readMessage));
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.userMessage = null;
+      }
     },
     sendMessage() {
       if (this.userMessage) {
         console.log(this.userMessage);
         const newMessage = {
+          type: 'chat_message',
           message: this.userMessage,
           user: this.username,
           user_id: this.userId,
@@ -180,17 +160,21 @@ export default {
           console.log('chat message data: ', data);
           const newMessage = {
             message: data.message,
+            type: data.type,
             room: this.clientId,
             time: data.time,
             user: data.user,
             is_client: data.is_client,
             user_info: data.user_info,
           };
-          this.chat.push(newMessage);
-          if (newMessage.is_client) {
-            this.chatHeader = `${this.chat[this.chat.length - 1].user_info} • ${this.chat[this.chat.length - 1].user}`;
+          if (newMessage.type !== 'notification_read') {
+            console.log(newMessage.type);
+            this.chat.push(newMessage);
+            this.scrollChat();
           }
-          this.unreadNo += 1;
+          if (newMessage.is_client && newMessage.type === 'chat_message') {
+            this.unreadNo += 1;
+          }
           this.scrollChat();
         };
       }
@@ -229,224 +213,260 @@ export default {
     },
   },
   watch: {
-    open() {
-      this.$nextTick(() => {
-        this.scrollChat();
+    // open() {
+    //   this.$nextTick(() => {
+    //     this.scrollChat();
+    //   });
+    // },
+    unreadNo() {
+      this.$emit('unreadChanged', {
+        room: this.room,
+        unread: this.unreadNo,
       });
     },
+    // lastSenctence() {
+    //   this.$emit('sentenceChanged', {
+    //     room: this.room,
+    //     lastSentence: this.lastSenctence,
+    //   });
+    // },
   },
 };
 </script>
+
 <style scoped>
-.col-2 {
-    padding:0;
+
+.wrap {
+  min-width: 220px !important;
 }
 
-.text-container {
-  width: calc(100% - 60px);
+.contact-profile p {
+  text-transform: capitalize;
 }
 
-.col-2 {
-  flex: 0 0 0 60px;
-  max-width: 60px;
-}
-
-.panel{
-    margin-bottom: 0px;
-}
-.chat-window{
-    bottom:0;
-    position:fixed;
-    float:right;
-    margin-left:10px;
-}
-.chat-window > div > .panel{
-    border-radius: 5px 5px 0 0;
-}
-.icon_minim{
-    padding:2px 10px;
-}
-.msg_container_base{
-  background: #e5e5e5;
-  margin: 0;
-  padding: 0 10px 10px;
-  max-height:300px;
-  min-height: 300px;
-  overflow-x:hidden;
-  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-
-}
-.top-bar {
-  background: #666;
-  color: white;
-  padding: 10px 10px 5px 10px;
-  position: relative;
+#frame .content {
+  float: right;
+  width: calc(100% - 340px);
+  height: 100%;
   overflow: hidden;
+  position: relative;
+  border: 1px solid #c4c0c0;
 }
-.msg_receive{
-    padding-left:0;
-    margin-left:0;
-}
-.msg_sent{
-    padding-bottom:20px !important;
-    margin-right:0;
-}
-.messages {
-  background: white;
-  padding: 10px;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  max-width:100%;
-}
-.messages > p {
-    font-size: 14px;
-    margin: 0 0 0.2rem 0;
+@media screen and (max-width: 991px) {
+  #frame .content {
+    width: 60%;
   }
-.messages > time {
-    font-size: 11px;
-    color: #ccc;
 }
-.msg_container {
-    padding: 10px;
-    overflow: hidden;
-    display: flex;
+@media screen and (max-width: 735px) {
+  #frame .content {
+    width: calc(100% - 58px);
+    min-width: 300px !important;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
-img {
-    display: block;
-    width: 50px;
-    height: 50px;
+@media screen and (max-width: 680px) {
+  #frame .content {
+    width: calc(100% - 60px);
+  }
 }
-.avatar {
-    position: relative;
-}
-.base_receive > .avatar:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    border: 5px solid #FFF;
-    border-left-color: rgba(0, 0, 0, 0);
-    border-bottom-color: rgba(0, 0, 0, 0);
-}
-
-.base_sent {
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-.base_sent > .avatar:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border: 5px solid white;
-    border-right-color: transparent;
-    border-top-color: transparent;
-    box-shadow: 1px 1px 2px rgba(black, 0.2);
-}
-
-.msg_sent > time {
-    float: right;
-}
-
-.msg_container_base::-webkit-scrollbar-track
-{
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background-color: #F5F5F5;
-}
-
-.msg_container_base::-webkit-scrollbar
-{
-    width: 12px;
-    background-color: #F5F5F5;
-}
-
-.msg_container_base::-webkit-scrollbar-thumb
-{
-    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #555;
-}
-
-.btn-group.dropup{
-    position:fixed;
-    left:0px;
-    bottom:0;
-}
-
-#chat_window_1 {
-  right: 10px;
-  min-width: 315px;
-  max-width: 350px;
-  z-index: 900;
-}
-
-.panel-heading {
-  border-radius: 10px 10px 0 0;
-  cursor: pointer;
-  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  margin-bottom: 0;
-}
-
-#chat-logo {
-  width: 30px;
-}
-
-.chat-logo-container {
-  float: right;
-}
-
-.hidden-chat-box {
-  min-height: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-}
-
-#chat-caption {
-  display: inline-block;
+#frame .content .contact-profile {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background: #c5964f;
+  font-weight: bold;
+  color: #272627;
   text-align: center;
-  width: 80%;
-  margin: 2px 0 -4px 0;
 }
-
-#btn-input {
-  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  padding: 20px;
-  font-size: 15px;
-}
-
-.btn-chat {
-  height: 33px;
-  margin-top: 1px;
-  margin-bottom: 1px;
-  -webkit-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  -moz-box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-  box-shadow: -5px -5px 23px -8px rgba(10,10,10,1);
-}
-
-#chat-header {
-  margin-bottom: 0;
-}
-
-.card-header {
-  cursor: pointer !important;
-}
-
-.unread {
-  background-color: grey;
-  color: white;
-  border: 1px solid grey;
-  padding: 2px 9px;
+#frame .content .contact-profile img {
+  width: 40px;
   border-radius: 50%;
+  float: left;
+  margin: 9px 12px 0 9px;
+}
+#frame .content .contact-profile p {
+  float: left;
+  width: 100%;
+  text-align: center;
+}
+#frame .content .contact-profile .social-media {
   float: right;
 }
+#frame .content .contact-profile .social-media i {
+  margin-left: 14px;
+  cursor: pointer;
+}
+#frame .content .contact-profile .social-media i:nth-last-child(1) {
+  margin-right: 20px;
+}
+#frame .content .contact-profile .social-media i:hover {
+  color: #7c766f;
+}
+#frame .content .messages {
+  height: auto;
+  min-height: calc(100% - 93px);
+  max-height: calc(100% - 93px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  width: 100%;
+}
+@media screen and (max-width: 735px) {
+  #frame .content .messages {
+    max-height: calc(100% - 105px);
+  }
+}
+#frame .content .messages::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+#frame .content .messages::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#frame .content .messages ul li {
+  display: inline-block;
+  clear: both;
+  /* float: left; */
+  margin: 15px 15px 5px 15px;
+  width: calc(100% - 25px);
+  font-size: 0.9em;
+}
+#frame .content .messages ul li:nth-last-child(1) {
+  margin-bottom: 20px;
+}
+#frame .content .messages ul li.sent .chat-logo {
+  margin: 6px 8px 0 0;
+  background-color: #4b4746;
+  height: 27px;
+  width: 27px;
+  color: #c5964f;
+  font-weight: bolder;
+  text-align: center;
+  padding: 5px;
+  border-radius: 50%;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+      'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      text-transform: uppercase;
+}
+#frame .content .messages ul li.sent .chat-logo {
+  margin: 6px 8px 0 0;
+  background-color: #4b4746;
+}
+#frame .content .messages ul li.sent p {
+  background: #7c766f;
+  color: #f5f5f5;
+}
+#frame .content .messages ul li.replies .chat-logo {
+  float: right;
+  margin: 6px 0 0 8px;
+  color: #4b4746;
+  height: 27px;
+  width: 27px;
+  background-color: #c5964f;
+  font-weight: bolder;
+  text-align: center;
+  padding: 5px;
+  border-radius: 50%;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+      'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#frame .content .messages ul li.replies p {
+  background: #f5f5f5;
+  float: right;
+}
+#frame .content .messages ul li img {
+  width: 22px;
+  border-radius: 50%;
+  float: left;
+}
+#frame .content .messages ul li p {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 205px;
+  line-height: 130%;
+}
+@media screen and (min-width: 100px) {
+  #frame .content .messages ul li p {
+    max-width: 300px;
+  }
+}
+#frame .content .message-input {
+  position: absolute;
+  bottom: 0;
+  width: 109%;
+  z-index: 99;
+}
+#frame .content .message-input .wrap {
+  position: relative;
+}
+#frame .content .message-input .wrap input {
+  float: left;
+  border: none;
+  width: calc(100% - 90px);
+  padding: 11px 32px 10px 8px;
+  color: #272627;
+}
+@media screen and (min-width: 1125px) {
+  #frame .content .message-input .wrap input {
+    width: calc(100% - 140px);
+  }
+}
+
+#frame .content .message-input .wrap input:focus {
+  outline: none;
+}
+#frame .content .message-input .wrap .attachment {
+  position: absolute;
+  right: 60px;
+  z-index: 4;
+  margin-top: 10px;
+  font-size: 1.1em;
+  color: #7c766f;
+  opacity: .5;
+  cursor: pointer;
+}
+@media screen and (max-width: 735px) {
+  #frame .content .message-input .wrap .attachment {
+    margin-top: 17px;
+    right: 65px;
+  }
+}
+#frame .content .message-input .wrap .attachment:hover {
+  opacity: 1;
+}
+#frame .content .message-input .wrap button {
+  float: right;
+  border: none;
+  width: 80px;
+  padding: 10px 0;
+  cursor: pointer;
+  background: #272627;
+  color: #f5f5f5;
+  position: revert;
+  margin-right: 10px;
+}
+@media screen and (min-width: 1125px) {
+  #frame .content .message-input .wrap button {
+    margin-right: 20px;
+  }
+}
+
+#frame .content .message-input .wrap button:hover {
+  background: #7c766f;
+}
+#frame .content .message-input .wrap button:focus {
+  outline: none;
+}
+
+.sent .message-text {
+  width: 100%;
+  text-align: right;
+}
+
+.reply .message-text {
+  width: 100%;
+}
+
 </style>

@@ -71,7 +71,6 @@ def deactivate_user(request):
         return Response(data={'message': 'OK'}, status=status.HTTP_200_OK)
 
 
-
 @api_view(['GET', ])
 def add_log_info(request):
     """ Created a new session code """
@@ -115,8 +114,8 @@ def save_log(request, code):
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    print(x_forwarded_for)
-    print(request.META)
+    # print(x_forwarded_for)
+    # print(request.META)
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
