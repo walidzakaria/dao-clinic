@@ -9,10 +9,10 @@
                   <h5 id="chat-header">
                     <p id="chat-caption">Chat Now</p>
                     <span v-if="!open" class="chat-logo-container">
-                      <img id="chat-logo" src="../assets/img/chat-logo.svg" alt="">
+                      <img id="chat-logo" src="../assets/img/chat/chat-logo.svg" alt="">
                     </span>
                     <span v-if="open" class="chat-logo-container">
-                      <img id="chat-logo" src="../assets/img/chat-minimize.svg" alt="">
+                      <img id="chat-logo" src="../assets/img/chat/chat-minimize.svg" alt="">
                     </span>
                   </h5>
                 </div>
@@ -33,14 +33,15 @@
                               </div>
                           </div>
                           <div class="col-2 avatar">
-                              <img src="../assets/img/user-avatar.webp" class=" img-responsive ">
+                              <img src="../assets/img/chat/user-avatar.webp"
+                                  class=" img-responsive ">
                           </div>
                         </div>
                       </div>
                       <div v-else>
                         <div class="row msg_container base_receive">
                           <div class="col-2 avatar">
-                              <img src="../assets/img/employee-avatar.webp"
+                              <img src="../assets/img/chat/employee-avatar.webp"
                                   class=" img-responsive ">
                           </div>
                           <div class="col-10">

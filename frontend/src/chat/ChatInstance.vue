@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
   <div class="contact-profile">
       <p>{{ chatHeader }}</p>

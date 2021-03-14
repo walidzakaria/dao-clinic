@@ -128,11 +128,18 @@
             <FeaturesCarousel />
           </div>
         <div class="parallax-img" v-parallax="0.2">
-          <img src="../assets/img/features-1.webp" class="img-fluid" alt="">
+          <img src="../assets/img/about/dr-ahmed-quote.webp" class="img-fluid" alt="dr-ahmed">
         </div>
         <div class="quote-section">
           <q>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam suscipit quas autem.
+            Obesity is neither a defect nor a deficiency in YOU.
+            It's a disease and has a cure.
+            Its start is a decision and motivation.
+            <div class="more-qoute">
+              The drive to change for the better is not in your appearance and body,
+              but rather in your personality, way of thinking, and outlook on life.
+              And to get out of a body that you are refusing to be in.
+            </div>
           </q>
         </div>
     </div><!-- End Feature Tabs -->
@@ -156,11 +163,11 @@
                   <i class="bi bi-geo-alt"></i>
                   <h3>Address</h3>
                   <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
-                    <img src="../assets/img/iconmonstr-location-19.svg" alt="location-logo">
+                    <img src="../assets/img/icon/iconmonstr-location-19.svg" alt="location-logo">
                     Mohandseen: 49 Sudan st.
                   </a><br>
                   <a href="https://g.page/ZayedDowntown?share" target="_blank">
-                    <img src="../assets/img/iconmonstr-location-19.svg" alt="location-logo">
+                    <img src="../assets/img/icon/iconmonstr-location-19.svg" alt="location-logo">
                     Sheikh Zayed: 208 2nd Floor Downtown Mall
                   </a>
                 </div>
@@ -170,11 +177,11 @@
                   <i class="bi bi-telephone"></i>
                   <h3>Call Us</h3>
                   <a href="tel:00201019090187" target="_blank">
-                    <img src="../assets/img/iconmonstr-phone-6.svg" alt="phone-logo">
+                    <img src="../assets/img/icon/iconmonstr-phone-6.svg" alt="phone-logo">
                     (+20) 10 190 90187
                   </a><br>
                 <a href="https://wa.me/201019090187" target="_blank">
-                  <img src="../assets/img/iconmonstr-whatsapp-1.svg" alt="whatsapp-logo">
+                  <img src="../assets/img/icon/iconmonstr-whatsapp-1.svg" alt="whatsapp-logo">
                   (+20) 10 190 90187
                 </a>
                 </div>
@@ -184,7 +191,7 @@
                   <i class="bi bi-envelope"></i>
                   <h3>Email Us</h3>
                   <a href="mailto:info@daoegypt.com" target="_blank">
-                    <img src="../assets/img/iconmonstr-email-1.svg" alt="mail">
+                    <img src="../assets/img/icon/iconmonstr-email-1.svg" alt="mail">
                     info@daoegypt.com
                 </a>
                 </div>
@@ -256,6 +263,7 @@ export default {
   },
   data() {
     return {
+      url: '../assets/img/icon/iconmonstr-email-1.svg',
       isLoading: false,
       isSent: false,
       isNotSent: false,
@@ -355,6 +363,12 @@ export default {
 
   #myVideo {
     margin-top: 0;
+  }
+
+  .quote-section {
+    margin-top: -130px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
   }
 }
 
@@ -526,10 +540,21 @@ button:focus {
 
 q {
   display: inline;
-  color: #fff;
+  color: #faf967;
   font-size: 18px;
-  font-weight: bold;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.more-qoute {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .more-qoute {
+    display: inline;
+  }
 }
 
 .quote-section {
@@ -548,6 +573,7 @@ q {
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
+
 .contact .info-box {
   color: #444444;
   background: #fafbff;

@@ -4,23 +4,23 @@
       <div class="link-wrapper">
         <div class="link-child">
           <a href="tel:00201019090187" target="_blank">
-            <img src="./assets/img/iconmonstr-phone-6.svg" alt="phone-logo">
+            <img src="./assets/img/icon/iconmonstr-phone-6.svg" alt="phone-logo">
             (+20) 10 190 90187
           </a>
         </div>
         <div class="link-child">
           <a href="https://wa.me/201019090187" target="_blank">
-            <img src="./assets/img/iconmonstr-whatsapp-1.svg" alt="whatsapp-logo">
+            <img src="./assets/img/icon/iconmonstr-whatsapp-1.svg" alt="whatsapp-logo">
             (+20) 10 190 90187
           </a>
         </div>
         <div class="link-child">
           <a href="https://goo.gl/maps/9zrf3vFoFHMtqNyQA" target="_blank">
-            <img src="./assets/img/iconmonstr-location-19.svg" alt="location-logo">
+            <img src="./assets/img/icon/iconmonstr-location-19.svg" alt="location-logo">
             Mohandseen: 49 Sudan st.
           </a>
           <a href="https://g.page/ZayedDowntown?share" target="_blank">
-            <img src="./assets/img/iconmonstr-location-19.svg" alt="location-logo">
+            <img src="./assets/img/icon/iconmonstr-location-19.svg" alt="location-logo">
             Sheikh Zayed: 208 2nd Floor Downtown Mall
           </a>
         </div>
@@ -39,7 +39,7 @@
           <div id="logo-container">
             <div id="logo-title">DAO Slimming Centers</div>
             <img id="logo" ref="logo" :class="{ 'shrink-logo': scrolled }"
-              src="./assets/img/DAO-LOGO.webp"
+              src="./assets/img/header/DAO-LOGO.webp"
               alt="logo">
           </div>
         </router-link>

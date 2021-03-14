@@ -12,7 +12,7 @@
         <video id="js-local-stream" controls autoPictureInPicture ref="jsLocalStream"></video>
       </div>
       <div class="remote-stream">
-        <video id="js-remote-stream" poster="../assets/img/DAO-LOGO.webp"
+        <video id="js-remote-stream" poster="../assets/img/video/DAO-LOGO.webp"
             controls ref="jsRemoteStream"></video>
         </div>
         <div class="btn-bar">

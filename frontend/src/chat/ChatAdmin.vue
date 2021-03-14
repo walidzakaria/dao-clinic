@@ -2,12 +2,14 @@
   <div id="frame">
   <div id="sidepanel">
     <div id="search">
-      <img class="find" src="../assets/img/iconmonstr-magnifier-2.svg" alt="">
-      <input type="text" placeholder="Search contacts..." />
+      <img class="find" src="../assets/img/icon/iconmonstr-magnifier-2.svg" alt="">
+      <input
+        @keydown="applySearch()" v-model="searchInput"
+        type="text" placeholder="Search contacts..." />
     </div>
     <div id="contacts">
       <ul>
-        <div v-for="(c, index) of onlineUsers" :key="index">
+        <div v-for="(c, index) of filteredContacts" :key="index">
           <div @click="activateRoom(c);" v-show="c.visible">
             <li class="contact" :class="{ 'active': c.active }">
               <span class="text-danger notification">{{ c.unread === 0 ? '' : c.unread }}</span>
@@ -43,6 +45,7 @@ export default {
     return {
       onlineUsers: [],
       timeInterval: null,
+      searchInput: '',
     };
   },
   mounted() {
@@ -52,10 +55,28 @@ export default {
       // this.getContacts();
     });
   },
+  computed: {
+    filteredContacts() {
+      let result = [];
+      if (this.searchInput && this.searchInput !== '') {
+        result = this.onlineUsers.find((el) => el.user_info === this.searchInput);
+        // eslint-disable-next-line max-len
+        result = this.onlineUsers.filter((el) => el.user_info.toLowerCase().includes(this.searchInput.toLowerCase()));
+      } else {
+        result = this.onlineUsers;
+      }
+      return result;
+    },
+  },
   components: {
     ChatInstance,
   },
   methods: {
+    applySearch() {
+      this.$nextTick(() => {
+        console.log('search is', this.searchInput);
+      });
+    },
     readChanged(value) {
       console.log('unread value changed', value);
       const updatedRead = this.onlineUsers.find((el) => el.room === value.room);
