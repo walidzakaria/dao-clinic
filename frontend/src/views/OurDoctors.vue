@@ -7,7 +7,7 @@
 
         <header class="section-header">
           <h1>Our Doctors</h1>
-          <p class="subtitle">Our hard working team</p>
+          Our hard working team
         </header>
 
         <div class="col-lg-3 col-md-6 d-flex align-items-stretch dr-ahmed"
@@ -169,7 +169,7 @@ export default {
   margin-right: auto;
 }
 
-.subtitle {
+.section-header {
   text-align: center;
   display: block;
 }

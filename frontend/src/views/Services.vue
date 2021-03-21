@@ -99,7 +99,7 @@
 
         <header class="section-header">
           <h1>Testimonials</h1>
-          <p class="subtitle">Check our Clients' Testimonials</p>
+          Check our Clients' Testimonials
         </header>
 
         <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
@@ -662,7 +662,7 @@ p {
 .portfolio-details .portfolio-description p {
   padding: 0;
 }
-.subtitle {
+.section-header {
   text-align: center;
   display: block;
 }
