@@ -149,7 +149,7 @@
 
       <div class="container" data-aos="fade-up">
 
-        <header class="section-header">
+        <header id="contact-us" class="section-header">
           <h2>Contact Us</h2>
         </header>
 
@@ -260,6 +260,12 @@ import FeaturesCarousel from '../about-us/FeaturesCarousel.vue';
 export default {
   components: {
     FeaturesCarousel,
+  },
+  metaInfo() {
+    return {
+      title: 'DAO World',
+      titleTemplate: '%s | About Us',
+    };
   },
   data() {
     return {

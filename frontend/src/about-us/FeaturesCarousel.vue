@@ -89,6 +89,86 @@
           >
         </template>
       </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/09.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/10.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/11.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/12.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/13.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/14.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/15.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="100%"
+            src="../assets/img/features/16.webp"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
     </b-carousel>
   </div>
 </template>

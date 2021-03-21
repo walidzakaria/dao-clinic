@@ -86,8 +86,8 @@
     </main>
     <div v-if="showChat">
       <ChatBox/>
+      <Footer/>
     </div>
-    <Footer/>
   </div>
 </template>
 

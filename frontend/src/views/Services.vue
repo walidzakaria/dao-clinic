@@ -99,7 +99,7 @@
 
         <header class="section-header">
           <h1>Testimonials</h1>
-          <h3>Check our Clients' Testimonials</h3>
+          <p class="subtitle">Check our Clients' Testimonials</p>
         </header>
 
         <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
@@ -226,6 +226,12 @@ function shuffle(array) {
 }
 
 export default {
+  metaInfo() {
+    return {
+      title: 'DAO World',
+      titleTemplate: '%s | Services',
+    };
+  },
   data() {
     return {
       toggler: false,
@@ -656,5 +662,8 @@ p {
 .portfolio-details .portfolio-description p {
   padding: 0;
 }
-
+.subtitle {
+  text-align: center;
+  display: block;
+}
 </style>

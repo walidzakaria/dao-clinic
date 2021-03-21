@@ -1,130 +1,157 @@
 <template>
-  <div class="container">
+  <div>
     <h1 class="heading">DAO Video Session</h1>
     <p class="note">
       Please send the link to the patient.
       Please make sure to give permission for your camera & microphone.
     </p>
-    <div class="p2p-media">
-      <button @click="showFullScreen()">F</button>
-      <div id="video-frame" ref="videoFrame">
-        <div class="local-stream">
-        <video id="js-local-stream" controls autoPictureInPicture ref="jsLocalStream"></video>
-      </div>
+    <div id="frame">
       <div class="remote-stream">
-        <video id="js-remote-stream" poster="../assets/img/video/DAO-LOGO.webp"
-            controls ref="jsRemoteStream"></video>
-        </div>
-        <div class="btn-bar">
-          <button class="btn bg-success btn-dial">
-            <img src="../assets/img/session/iconmonstr-phone-dial.svg" alt="dial">
-          </button>
-
-          <button id="js-close-trigger" ref="jsCloseTrigger" class="btn bg-danger btn-dial">
-            <img src="../assets/img/session/iconmonstr-phone-hang.svg" alt="hang">
-          </button>
-        </div>
+        <video id="js-remote-stream" controls ref="jsRemoteStream"></video>
+      </div>
+      <div class="local-stream">
+        <video id="js-local-stream" autoPictureInPicture ref="jsLocalStream"></video>
+      </div>
+      <button class="btn bg-success btn-dial" @click="configureSession()" id="js-new-session">
+        <img src="../assets/img/session/iconmonstr-phone-dial.svg" alt="dial">
+        <span v-if="isLoading" class="spinner-border"></span>
+      </button>
+      <button id="js-close-trigger" ref="jsCloseTrigger" class="btn bg-danger btn-dial">
+        <img src="../assets/img/session/iconmonstr-phone-hang.svg" alt="hang">
+      </button>
+      <button @click="startRecording()" class="btn bg-primary">
+        <img src="../assets/img/session/iconmonstr-microphone-4.svg" alt="record">
+      </button>
+      <button @click="stopRecording()" class="btn bg-dark">
+        <img id="logo-stop" src="../assets/img/session/iconmonstr-media-control-50.svg" alt="stop">
+      </button>
     </div>
-    <!-- <input type="text" placeholder="Remote Peer ID" id="js-remote-id"> -->
-    <!-- <button id="js-call-trigger">Call</button> -->
-    <button @click="openPictureInPicture()">Picture on Picture</button>
-    <button @click="openFullscreen()">Fullscreen</button>
-    <button @click="configureSession()" id="js-new-session">
-      New Session <span v-if="isLoading" class="spinner-border"></span>
-    </button>
-    <p>Client link:
-      <router-link v-if="localId" :to="{ path: `/session/${this.localId}/` }"
+      <!-- Prescriptions Tabs -->
+      <div class="row feture-tabs">
+        <br>
+        <p id="link">Client's link:
+        <router-link v-if="localId" :to="{ path: `/session/${this.localId}/` }"
           target="_blank">https://daoegypt.com/session/{{ localId }}/</router-link>
-    </p>
-      <button @click="startRecording()">Record</button>
-      <button @click="stopRecording()">Stop</button>
-    </div>
-    <div>
-      <router-link to="/media/pdf/Dao System  AM H_/cdNUnXKf89nnLwjk/dao system am h eng.pdf"
-          target="_blank" class="files">
-        DAO System AM H EN
-      </router-link>
-      <router-link to="/media/pdf/Dao System  AM H_/cdNUnXKf89nnLwjk/dao system am h ar .pdf"
-          target="_blank" class="files">
-        DAO System AM H AR
-      </router-link>
-      <router-link to="/media/pdf/Dao System 1 A1 H_/vvfMcHTqcGLzd9A6/syetm dao 1 a1 h eng.pdf"
-          target="_blank" class="files">
-        DAO System 1 A1 H EN
-      </router-link>
-      <router-link to="/media/pdf/Dao System 1 A1 H_/vvfMcHTqcGLzd9A6/system dao 1 a1 h Ar.pdf"
-          target="_blank" class="files">
-        DAO System 1 A1 H AR
-      </router-link>
-      <router-link to="/media/pdf/Dao System 1 A2 H_/HkYfd8vhK9gf3Upp/dao system 1 a2 h eng.pdf"
-          target="_blank" class="files">
-        DAO System 1 A2 H EN
-      </router-link>
-      <router-link to="/media/pdf/Dao System 1 A2 H_/HkYfd8vhK9gf3Upp/dao system 1 a2 H ar.pdf"
-          target="_blank" class="files">
-        DAO System 1 A2 H AR
-      </router-link>
-      <router-link
+      </p>
+      <br>
+        <div class="col-lg-6 features">
+          <h2>Prescriptions</h2>
+
+          <!-- Tabs -->
+          <ul class="nav nav-pills mb-3">
+            <li>
+              <button data-bs-toggle="pill"
+                  @click="selectedPage = 1" class="btn" :class="{ 'clicked': selectedPage === 1}">
+                English
+              </button>
+            </li>
+            <li>
+              <button data-bs-toggle="pill"
+                  @click="selectedPage = 2" class="btn" :class="{ 'clicked': selectedPage === 2}">
+                Arabic
+              </button>
+            </li>
+          </ul><!-- End Tabs -->
+
+          <!-- Tab Content -->
+          <div class="tab-content">
+            <div class="tab-pane fade show" :class="{ 'active': selectedPage === 1 }" id="tab1">
+              <router-link
+                  to="/media/pdf/Dao System  AM H_/cdNUnXKf89nnLwjk/dao system am h eng.pdf"
+                  target="_blank" class="files">
+                DAO System AM H EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 1 A1 H_/vvfMcHTqcGLzd9A6/syetm dao 1 a1 h eng.pdf"
+                  target="_blank" class="files">
+                DAO System 1 A1 H EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 1 A2 H_/HkYfd8vhK9gf3Upp/dao system 1 a2 h eng.pdf"
+                  target="_blank" class="files">
+                DAO System 1 A2 H EN
+              </router-link>
+              <router-link
           to="/media/pdf/Dao System 11 B1 H/v4Na7eJWwznYk9cU/Dao 11 b1 H 4 days only  english .pdf"
-          target="_blank" class="files">
-        DAO System 11 B1 H EN
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 11 B1 H/v4Na7eJWwznYk9cU/Dao system 11 b1 H arabic .pdf"
-          target="_blank" class="files">
-        DAO System 11 B1 H AR
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 11 B2 H_/c39mkRvuPYD6vrz4/dao system 11 b2 eng.pdf"
-          target="_blank" class="files">
-        DAO System 11 B2 H EN
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 11 B2 H_/c39mkRvuPYD6vrz4/dao system 11 b2 ar.pdf"
-          target="_blank" class="files">
-        DAO System 11 B2 H AR
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 27_/rFuRBE9XenyhQ5ux/Dao system 27 H English.pdf"
-          target="_blank" class="files">
-        DAO System 27 EN
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 27_/rFuRBE9XenyhQ5ux/Dao system 27 H arabic.pdf"
-          target="_blank" class="files">
-        DAO System 27 AR
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 36_/79Rgpvm2zRHRdxDw/DAO system 36 H English.pdf"
-          target="_blank" class="files">
-        DAO System 36 EN
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 36_/79Rgpvm2zRHRdxDw/Doa system 36 H Arabic.pdf"
-          target="_blank" class="files">
-        DAO System 36 AR
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 64_/4LKHMbgNjh7pscjs/Doa system 64 H English.pdf"
-          target="_blank" class="files">
-        DAO System 64 EN
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System 64_/4LKHMbgNjh7pscjs/Doa system 64 H Arabic.pdf"
-          target="_blank" class="files">
-        DAO System 64 AR
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System X _/WeWC7Nj8Mj6Vd64P/dao system x 6 days .pdf"
-          target="_blank" class="files">
-        DAO System X EN
-      </router-link>
-      <router-link
-          to="/media/pdf/Dao System X _/WeWC7Nj8Mj6Vd64P/system Dao X  (1).pdf"
-          target="_blank" class="files">
-        DAO System X AR
-      </router-link>
-    </div>
+                  target="_blank" class="files">
+                DAO System 11 B1 H EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 11 B2 H_/c39mkRvuPYD6vrz4/dao system 11 b2 eng.pdf"
+                  target="_blank" class="files">
+                DAO System 11 B2 H EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 27_/rFuRBE9XenyhQ5ux/Dao system 27 H English.pdf"
+                  target="_blank" class="files">
+                DAO System 27 EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 36_/79Rgpvm2zRHRdxDw/DAO system 36 H English.pdf"
+                  target="_blank" class="files">
+                DAO System 36 EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 64_/4LKHMbgNjh7pscjs/Doa system 64 H English.pdf"
+                  target="_blank" class="files">
+                DAO System 64 EN
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System X _/WeWC7Nj8Mj6Vd64P/dao system x 6 days .pdf"
+                  target="_blank" class="files">
+                DAO System X EN
+              </router-link>
+            </div><!-- End Tab 1 Content -->
+            <div class="tab-pane fade show" :class="{ 'active': selectedPage === 2 }" id="tab2">
+              <router-link
+                  to="/media/pdf/Dao System  AM H_/cdNUnXKf89nnLwjk/dao system am h ar .pdf"
+                  target="_blank" class="files">
+                DAO System AM H AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 1 A1 H_/vvfMcHTqcGLzd9A6/system dao 1 a1 h Ar.pdf"
+                  target="_blank" class="files">
+                DAO System 1 A1 H AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 1 A2 H_/HkYfd8vhK9gf3Upp/dao system 1 a2 H ar.pdf"
+                  target="_blank" class="files">
+                DAO System 1 A2 H AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 11 B1 H/v4Na7eJWwznYk9cU/Dao system 11 b1 H arabic .pdf"
+                  target="_blank" class="files">
+                DAO System 11 B1 H AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 11 B2 H_/c39mkRvuPYD6vrz4/dao system 11 b2 ar.pdf"
+                  target="_blank" class="files">
+                DAO System 11 B2 H AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 27_/rFuRBE9XenyhQ5ux/Dao system 27 H arabic.pdf"
+                  target="_blank" class="files">
+                DAO System 27 AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 36_/79Rgpvm2zRHRdxDw/Doa system 36 H Arabic.pdf"
+                  target="_blank" class="files">
+                DAO System 36 AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System 64_/4LKHMbgNjh7pscjs/Doa system 64 H Arabic.pdf"
+                  target="_blank" class="files">
+                DAO System 64 AR
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao System X _/WeWC7Nj8Mj6Vd64P/system Dao X  (1).pdf"
+                  target="_blank" class="files">
+                DAO System X AR
+              </router-link>
+            </div><!-- End Tab 2 Content -->
+          </div>
+        </div>
+    </div><!-- End Feature Tabs -->
   </div>
 </template>
 
@@ -134,6 +161,7 @@ export default {
   name: 'VideoSession',
   data() {
     return {
+      selectedPage: 1,
       Peer: window.Peer,
       localId: null,
       isDoctor: false,
@@ -141,12 +169,6 @@ export default {
       remoteStream: null,
       mediaRecorder: null,
       chunks: [],
-      drag: {
-        pos1: 0,
-        pos2: 0,
-        pos3: 0,
-        pos4: 0,
-      },
     };
   },
   mounted() {
@@ -155,16 +177,7 @@ export default {
     document.head.appendChild(webRtcLinkFirst);
     this.checkIsDoctor();
   },
-  computed: {
-  },
   methods: {
-    dragMouseDown(e) {
-      e = e || window.event;
-      e.preventDefault();
-      this.drag.pos3 = e.clientX;
-      this.drag.pos4 = e.clientY;
-      console.log(this.drag);
-    },
     startRecording() {
       if (!this.remoteStream) { return; }
       if (this.chunks === []) { return; }
@@ -229,36 +242,6 @@ export default {
           console.log(error);
         });
     },
-    showFullScreen() {
-      const elem = this.$refs.videoFrame;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
-      }
-    },
-    openFullscreen() {
-      const elem = this.$refs.jsRemoteStream;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
-      }
-    },
-    openPictureInPicture() {
-      const localVideo = this.$refs.jsLocalStream;
-      if (localVideo.requestPictureInPicture) {
-        localVideo.requestPictureInPicture();
-      } else if (localVideo.webkitRequestPictureInPicture) { /* Safari */
-        localVideo.webkitRequestPictureInPicture();
-      } else if (localVideo.msRrequestPictureInPicture) { /* IE11 */
-        localVideo.msRequestPictureInPicture();
-      }
-    },
     newSession() {
       window.peer.once('open', (id) => {
         this.sessionId = id;
@@ -272,7 +255,7 @@ export default {
       const localStream = await navigator.mediaDevices
         .getUserMedia({
           audio: true,
-          video: true,
+          video: { width: 1280, height: 720 },
         })
         .catch(console.error);
 
@@ -318,73 +301,90 @@ export default {
 </script>
 
 <style scoped>
-  #js-remote-stream {
+#frame {
+  min-width: 360px;
+  /* height: 82vh; */
+  background: #E6EAEA;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 991px) and (min-width: 800px) {
+  #frame {
+    margin-left: -10%;
+    margin-right: -10%;
+  }
+}
+@media screen and (max-width: 800px) and (min-width: 576px) {
+  #frame {
+    margin-left: -5%;
+    margin-right: -5%;
+  }
+}
+@media screen and (max-width: 360px) {
+  #frame {
     width: 100%;
-    border-radius: 10px;
-    display: block;
-    max-height: 100vh;
+    height: 100vh;
   }
-  audio::-webkit-media-controls-timeline,
-  video::-webkit-media-controls-timeline {
-      display: none;
-  }
+}
+.remote-stream, .local-stream {
+  width: 50%;
+}
 
-  #js-local-stream {
-    max-width: 200px;
-    border-radius: 5px;
-    -o-transform : scaleX(-1);
-    -moz-transform : scaleX(-1);
-    -webkit-transform : scaleX(-1);
-    -ms-transform: scaleX(-1);
-    transform : scaleX(-1);
-  }
+video {
+  width: 100%;
+  border-radius: 5px;
+  margin: 1px;
+}
+.remote-stream video {
+  padding-right: 2px;
+}
+.local-stream video {
+  padding-left: 2px;
+}
 
-  .spinner-border {
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-
-  .files {
-    display: block;
-  }
-
-  #video-frame {
-    background-color: gray;
-    min-height: 300px;
+@media screen and (max-width: 767px) {
+  .local-stream, .remote-stream {
     width: 100%;
-    position: relative;
   }
+}
+.tab-pane a{
+  display: block;
+  color: #272627;
+}
+.clicked {
+  background-color: #9a7339;
+  color: whitesmoke !important;
+}
+button:focus {
+  border-color: #9a7339;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(154, 115, 57, 0.5);
+}
+.features {
+  width: 100%;
+  min-width: 300px;
+}
+.spinner-border {
+    height: 1.3rem;
+    width: 1.3rem;
+    margin-top: 0.7px;
+    margin-bottom: -1.3px;
+  }
+#js-local-stream {
+  -o-transform : scaleX(-1);
+  -moz-transform : scaleX(-1);
+  -webkit-transform : scaleX(-1);
+  -ms-transform: scaleX(-1);
+  transform : scaleX(-1);
+}
+audio::-webkit-media-controls-timeline,
+video::-webkit-media-controls-timeline {
+  display: none;
 
-  .remote-stream {
-    background-color: grey;
-    border-radius: 10px;
-    display: inline;
-    width: 100%;
-    height: 100%;
-  }
-
-  .local-stream {
-    display: inline-flex;
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-top: 30px;
-    margin-right: 30px;
-  }
-
-  .btn-dial {
-    border-radius: 50%;
-    min-width: 65px;
-    min-height: 65px;
-    margin: 5px;
-    display: inline;
-  }
-
-  .btn-dial img {
-    height: 45px;
-  }
-
-  .btn-bar {
-    display: ruby;
-  }
+}
+#link {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 </style>

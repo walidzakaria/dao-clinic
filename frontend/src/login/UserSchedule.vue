@@ -17,7 +17,7 @@
       <p>
         We will send you the session link on time.
         Looking forward to seeing you!
-        In case of inquiries, please <router-link to="/contact/" exact>contact us</router-link>.
+        In case of inquiries, please <a href="/about/#contact">contact us</a>.
       </p>
       <div v-for="(a, index) in myAppointments" :key="index" class="media border p-3">
         <div class="mr-3 mt-3 bg-light display-5" style="width:60px;">

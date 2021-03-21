@@ -92,12 +92,14 @@ export default {
   metaInfo() {
     return {
       title: 'DAO World',
-      meta: [
-        {
-          name: 'DAO World',
-          content: '',
-        },
-      ],
+      titleTemplate: '%s | Home',
+      // meta: [
+      //   {
+      //     name: 'description',
+      //     content: '...',
+      //   },
+      //   { name: 'robots', content: 'index,follow' },
+      // ],
     };
   },
   methods: {

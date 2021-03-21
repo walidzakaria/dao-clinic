@@ -1,24 +1,25 @@
 <template>
-  <div class="container">
+  <div>
     <h1 class="heading">DAO Video Session</h1>
     <p class="note">
       Please click connect, to get connected to the doctor.
       Please make sure to give permission for your camera & microphone.
     </p>
-    <div class="p2p-media">
-        <div class="remote-stream">
-          <video id="js-remote-stream" controls ref="jsRemoteStream"></video>
-        </div>
-        <div class="local-stream">
-          <video id="js-local-stream" controls ref="jsLocalStream"></video>
-          <!-- <input type="text" placeholder="Remote Peer ID" id="js-remote-id"> -->
-          <button @click="openPictureInPicture()">Picture on Picture</button>
-          <button @click="openFullscreen()">Fullscreen</button>
-          <button id="js-call-trigger">Call</button>
-          <button id="js-close-trigger">Close</button>
-        </div>
+    <div id="frame">
+      <div class="remote-stream">
+        <video id="js-remote-stream" controls ref="jsRemoteStream"></video>
       </div>
-
+      <div class="local-stream">
+        <video id="js-local-stream" autoPictureInPicture ref="jsLocalStream"></video>
+      </div>
+      <button class="btn bg-success btn-dial" id="js-call-trigger">
+        <img src="../assets/img/session/iconmonstr-phone-dial.svg" alt="dial">
+        <span v-if="isLoading" class="spinner-border"></span>
+      </button>
+      <button id="js-close-trigger" js-close-trigger class="btn bg-danger btn-dial">
+        <img src="../assets/img/session/iconmonstr-phone-hang.svg" alt="hang">
+      </button>
+    </div>
   </div>
 </template>
 
@@ -154,21 +155,84 @@ export default {
 </script>
 
 <style scoped>
-  #js-remote-stream {
+#frame {
+  min-width: 360px;
+  /* height: 82vh; */
+  background: #E6EAEA;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 991px) and (min-width: 800px) {
+  #frame {
+    margin-left: -10%;
+    margin-right: -10%;
+  }
+}
+@media screen and (max-width: 800px) and (min-width: 576px) {
+  #frame {
+    margin-left: -5%;
+    margin-right: -5%;
+  }
+}
+@media screen and (max-width: 360px) {
+  #frame {
     width: 100%;
-    border-radius: 10px;
-    display: block;
+    height: 100vh;
   }
+}
+.remote-stream, .local-stream {
+  width: 50%;
+}
 
-  #js-local-stream {
-    max-width: 150px;
-    border-radius: 3px;
-  }
+video {
+  width: 100%;
+  border-radius: 5px;
+  margin: 1px;
+}
+.remote-stream video {
+  padding-right: 2px;
+}
+.local-stream video {
+  padding-left: 2px;
+}
 
-  .remote-stream {
-    background-color: grey;
-    border-radius: 10px;
-    display: block;
-    max-width: 460px;
+@media screen and (max-width: 767px) {
+  .local-stream, .remote-stream {
+    width: 100%;
   }
+}
+.tab-pane a{
+  display: block;
+  color: #272627;
+}
+.clicked {
+  background-color: #9a7339;
+  color: whitesmoke !important;
+}
+button:focus {
+  border-color: #9a7339;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(154, 115, 57, 0.5);
+}
+.features {
+  width: 100%;
+  min-width: 300px;
+}
+.spinner-border {
+    height: 1.3rem;
+    width: 1.3rem;
+    margin-top: 0.7px;
+    margin-bottom: -1.3px;
+  }
+#js-local-stream {
+  -o-transform : scaleX(-1);
+  -moz-transform : scaleX(-1);
+  -webkit-transform : scaleX(-1);
+  -ms-transform: scaleX(-1);
+  transform : scaleX(-1);
+}
+audio::-webkit-media-controls-timeline,
+video::-webkit-media-controls-timeline {
+  display: none;
+}
 </style>

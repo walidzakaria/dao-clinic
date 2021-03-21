@@ -6,8 +6,8 @@
       <div class="container" data-aos="fade-up">
 
         <header class="section-header">
-          <h1>Team</h1>
-          <h3>Our hard working team</h3>
+          <h1>Our Doctors</h1>
+          <p class="subtitle">Our hard working team</p>
         </header>
 
         <div class="col-lg-3 col-md-6 d-flex align-items-stretch dr-ahmed"
@@ -84,7 +84,12 @@
 <script>
 
 export default {
-
+  metaInfo() {
+    return {
+      title: 'DAO World',
+      titleTemplate: '%s | Our Doctors',
+    };
+  },
 };
 </script>
 
@@ -109,7 +114,7 @@ export default {
 .team .member .member-img {
   position: relative;
   overflow: hidden;
-  padding-bottom: 20px;
+  padding-bottom: 12px;
 }
 
 .team .member .member-img:after {
@@ -162,5 +167,10 @@ export default {
 .dr-ahmed {
   margin-left: auto;
   margin-right: auto;
+}
+
+.subtitle {
+  text-align: center;
+  display: block;
 }
 </style>

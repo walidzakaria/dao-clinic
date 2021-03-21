@@ -194,6 +194,12 @@
             <button type="submit" class="btn btn-dark btn-lg btn-block">
               Book Now <span v-if="isLoading" class="spinner-border"></span>
             </button>
+            <div class="gateway-logos">
+              <img src="../assets/img/booking/mc_vrt_pos.svg"
+                  alt="mastercard-logo" width="80">
+              <img src="../assets/img/booking/MainVisaBlue.png"
+                  alt="visa-logo" width="80">
+            </div>
             <br>
             <!-- <iframe src="https://secure-egypt.paytabs.com/payment/page/3F12289C82E4157B7B65349D7ECBF07C5CE176142C111AB26B28E126"
               style="border:none;" title="Iframe Example" id="iframe"></iframe> -->
@@ -230,6 +236,12 @@ function TimeForJson(inputTime) {
 }
 
 export default {
+  metaInfo() {
+    return {
+      title: 'DAO World',
+      titleTemplate: '%s | Booking',
+    };
+  },
   data() {
     return {
       load: true,
