@@ -25,15 +25,14 @@
       <button @click="stopRecording()" class="btn bg-dark">
         <img id="logo-stop" src="../assets/img/session/iconmonstr-media-control-50.svg" alt="stop">
       </button>
+      <br>
     </div>
       <!-- Prescriptions Tabs -->
       <div class="row feture-tabs">
-        <br>
-        <p id="link">Client's link:
-        <router-link v-if="localId" :to="{ path: `/session/${this.localId}/` }"
+        <div>Client's link: </div>
+         <router-link v-if="localId" :to="{ path: `/session/${this.localId}/` }"
           target="_blank">https://daoegypt.com/session/{{ localId }}/</router-link>
-      </p>
-      <br>
+        <br><br><br>
         <div class="col-lg-6 features">
           <h2>Prescriptions</h2>
 
