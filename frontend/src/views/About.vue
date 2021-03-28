@@ -128,7 +128,7 @@
             <FeaturesCarousel />
           </div>
         <div class="parallax-img" v-parallax="0.2">
-          <img src="../assets/img/about/dr-ahmed-quote.webp" class="img-fluid" alt="dr-ahmed">
+          <img src="../assets/img/about/dr-ahmed-quote.jpg" class="img-fluid" alt="dr-ahmed">
         </div>
         <div class="quote-section">
           <q>

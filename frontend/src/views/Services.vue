@@ -12,7 +12,7 @@
               data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/services/dr-ahmed-legend.webp" class="img-fluid" alt="">
+                <img src="../assets/img/services/dr-ahmed-legend.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>Dr. Ahmed Omar</h4>
@@ -26,7 +26,7 @@
               data-aos="fade-up" data-aos-delay="200">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/services/dao-online.webp" class="img-fluid" alt="">
+                <img src="../assets/img/services/dao-online.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>DAO Online</h4>
@@ -39,7 +39,7 @@
               data-aos="fade-up" data-aos-delay="300">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/services/dr-dalia.webp" class="img-fluid" alt="">
+                <img src="../assets/img/services/dr-dalia.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>DAO Localized</h4>
@@ -52,7 +52,7 @@
               data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/services/dr-aya.webp" class="img-fluid" alt="">
+                <img src="../assets/img/services/dr-aya.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>DAO Kids</h4>
@@ -65,7 +65,7 @@
               data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/services/academy.webp" class="img-fluid" alt="">
+                <img src="../assets/img/services/academy.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>DAO Academy</h4>
@@ -78,7 +78,7 @@
               data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/services/golden-transformers.webp" class="img-fluid" alt="">
+                <img src="../assets/img/services/golden-transformers.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>DAO Golden</h4>
@@ -108,7 +108,7 @@
               data-aos="fade-up"
               class="col-lg-4 col-md-6 portfolio-item filter-app">
             <div class="portfolio-wrap">
-              <img :src="require(`../assets/img/testimony/testimony (${i}).webp`)"
+              <img :src="require(`../assets/img/testimony/testimony (${i}).jpg`)"
                 class="img-fluid" alt="testimony image">
               <div class="portfolio-info">
                 <div class="portfolio-links">
@@ -129,89 +129,89 @@
     <FsLightbox
       :toggler="toggler"
       :sources="[
-        require(`../assets/img/testimony/testimony (${randomImages[imgIndex]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[1]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[2]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[3]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[4]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[5]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[6]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[7]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[8]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[9]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[10]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[11]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[12]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[13]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[14]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[15]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[16]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[17]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[18]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[19]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[20]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[21]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[22]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[23]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[24]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[25]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[26]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[27]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[28]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[29]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[30]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[31]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[32]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[33]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[34]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[35]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[36]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[37]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[38]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[39]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[40]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[41]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[42]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[43]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[44]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[45]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[46]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[47]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[48]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[49]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[50]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[51]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[52]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[53]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[54]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[55]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[56]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[57]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[58]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[59]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[60]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[71]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[72]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[73]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[74]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[75]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[76]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[77]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[78]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[79]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[80]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[81]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[82]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[83]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[84]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[85]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[86]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[87]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[88]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[89]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[90]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[91]}).webp`),
-        require(`../assets/img/testimony/testimony (${randomImages[92]}).webp`),
+        require(`../assets/img/testimony/testimony (${randomImages[imgIndex]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[1]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[2]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[3]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[4]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[5]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[6]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[7]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[8]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[9]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[10]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[11]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[12]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[13]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[14]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[15]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[16]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[17]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[18]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[19]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[20]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[21]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[22]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[23]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[24]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[25]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[26]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[27]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[28]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[29]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[30]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[31]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[32]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[33]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[34]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[35]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[36]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[37]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[38]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[39]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[40]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[41]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[42]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[43]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[44]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[45]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[46]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[47]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[48]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[49]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[50]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[51]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[52]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[53]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[54]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[55]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[56]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[57]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[58]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[59]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[60]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[71]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[72]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[73]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[74]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[75]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[76]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[77]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[78]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[79]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[80]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[81]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[82]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[83]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[84]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[85]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[86]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[87]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[88]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[89]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[90]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[91]}).jpg`),
+        require(`../assets/img/testimony/testimony (${randomImages[92]}).jpg`),
       ]"
 
     />

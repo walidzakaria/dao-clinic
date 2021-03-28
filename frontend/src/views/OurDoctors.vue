@@ -14,7 +14,7 @@
               data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/doctors/dr-ahmed.webp" class="img-fluid" alt="dr-ahmed">
+                <img src="../assets/img/doctors/dr-ahmed.jpg" class="img-fluid" alt="dr-ahmed">
               </div>
               <div class="member-info">
                 <h4>Dr. Ahmed</h4>
@@ -28,7 +28,7 @@
               data-aos="fade-up" data-aos-delay="200">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/doctors/dr-laila.webp" class="img-fluid" alt="dr-laila">
+                <img src="../assets/img/doctors/dr-laila.jpg" class="img-fluid" alt="dr-laila">
               </div>
               <div class="member-info">
                 <h4>Dr. Laila</h4>
@@ -41,7 +41,7 @@
               data-aos="fade-up" data-aos-delay="300">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/doctors/dr-noha.webp" class="img-fluid" alt="">
+                <img src="../assets/img/doctors/dr-noha.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>Dr. Noha</h4>
@@ -54,7 +54,7 @@
               data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/doctors/dr-aya.webp" class="img-fluid" alt="">
+                <img src="../assets/img/doctors/dr-aya.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>Dr. Aya</h4>
@@ -67,7 +67,7 @@
               data-aos="fade-up" data-aos-delay="400">
             <div class="member">
               <div class="member-img">
-                <img src="../assets/img/doctors/dr-dalia.webp" class="img-fluid" alt="">
+                <img src="../assets/img/doctors/dr-dalia.jpg" class="img-fluid" alt="">
               </div>
               <div class="member-info">
                 <h4>Dr. Dalia</h4>

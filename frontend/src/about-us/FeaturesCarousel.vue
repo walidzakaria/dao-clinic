@@ -14,7 +14,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/01.webp"
+            src="../assets/img/features/01.jpg"
             alt="image slot"
           >
         </template>
@@ -24,7 +24,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/02.webp"
+            src="../assets/img/features/02.jpg"
             alt="image slot"
           >
         </template>
@@ -34,7 +34,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/03.webp"
+            src="../assets/img/features/03.jpg"
             alt="image slot"
           >
         </template>
@@ -44,7 +44,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/04.webp"
+            src="../assets/img/features/04.jpg"
             alt="image slot"
           >
         </template>
@@ -54,7 +54,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/05.webp"
+            src="../assets/img/features/05.jpg"
             alt="image slot"
           >
         </template>
@@ -64,7 +64,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/06.webp"
+            src="../assets/img/features/06.jpg"
             alt="image slot"
           >
         </template>
@@ -74,7 +74,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/07.webp"
+            src="../assets/img/features/07.jpg"
             alt="image slot"
           >
         </template>
@@ -84,7 +84,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/08.webp"
+            src="../assets/img/features/08.jpg"
             alt="image slot"
           >
         </template>
@@ -94,7 +94,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/09.webp"
+            src="../assets/img/features/09.jpg"
             alt="image slot"
           >
         </template>
@@ -104,7 +104,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/10.webp"
+            src="../assets/img/features/10.jpg"
             alt="image slot"
           >
         </template>
@@ -114,7 +114,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/11.webp"
+            src="../assets/img/features/11.jpg"
             alt="image slot"
           >
         </template>
@@ -124,7 +124,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/12.webp"
+            src="../assets/img/features/12.jpg"
             alt="image slot"
           >
         </template>
@@ -134,7 +134,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/13.webp"
+            src="../assets/img/features/13.jpg"
             alt="image slot"
           >
         </template>
@@ -144,7 +144,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/14.webp"
+            src="../assets/img/features/14.jpg"
             alt="image slot"
           >
         </template>
@@ -154,7 +154,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/15.webp"
+            src="../assets/img/features/15.jpg"
             alt="image slot"
           >
         </template>
@@ -164,7 +164,7 @@
           <img
             class="d-block img-fluid w-100"
             width="100%"
-            src="../assets/img/features/16.webp"
+            src="../assets/img/features/16.jpg"
             alt="image slot"
           >
         </template>

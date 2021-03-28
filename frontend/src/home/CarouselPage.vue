@@ -18,7 +18,7 @@
             class="d-block img-fluid w-100"
             width="100%"
             height="350"
-            src="../assets/img/main-carousel/main-image.webp"
+            src="../assets/img/main-carousel/main-image.jpg"
             alt="image slot"
           >
         </template>
@@ -29,7 +29,7 @@
             class="d-block img-fluid w-100"
             width="100%"
             height="350"
-            src="../assets/img/main-carousel/dr-ahmed-omar.webp"
+            src="../assets/img/main-carousel/dr-ahmed-omar.jpg"
             alt="image slot"
           >
         </template>
@@ -40,7 +40,7 @@
             class="d-block img-fluid w-100"
             width="100%"
             height="350"
-            src="../assets/img/main-carousel/cropped-staff-1.webp"
+            src="../assets/img/main-carousel/staff.jpg"
             alt="image slot"
           >
         </template>

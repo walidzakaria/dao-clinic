@@ -197,7 +197,7 @@
             <div class="gateway-logos">
               <img src="../assets/img/booking/mc_vrt_pos.svg"
                   alt="mastercard-logo" width="80">
-              <img src="../assets/img/booking/MainVisaBlue.png"
+              <img src="../assets/img/booking/MainVisaBlue.jpg"
                   alt="visa-logo" width="80">
             </div>
             <br>

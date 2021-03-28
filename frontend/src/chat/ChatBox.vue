@@ -33,16 +33,16 @@
                               </div>
                           </div>
                           <div class="col-2 avatar">
-                              <img src="../assets/img/chat/user-avatar.webp"
-                                  class=" img-responsive ">
+                            <img class="img-responsive"
+                                src="../assets/img/chat/user-avatar.jpg">
                           </div>
                         </div>
                       </div>
                       <div v-else>
                         <div class="row msg_container base_receive">
                           <div class="col-2 avatar">
-                              <img src="../assets/img/chat/employee-avatar.webp"
-                                  class=" img-responsive ">
+                            <img class="img-responsive"
+                                src="../assets/img/chat/employee-avatar.jpg">
                           </div>
                           <div class="col-10">
                               <div class="messages msg_receive">

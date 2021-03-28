@@ -5,10 +5,10 @@
         <h5>Get Our Apps (very soon)</h5>
         <div class="badges">
           <a class="app-link" href="#">
-            <img class="app-badge" src="../assets/img/footer/android-badge.webp" alt="">
+            <img class="app-badge" src="../assets/img/footer/android-badge.jpg" alt="">
           </a>
           <a class="app-link" href="#">
-            <img class="app-badge" src="../assets/img/footer/ios-badge.webp" alt="">
+            <img class="app-badge" src="../assets/img/footer/ios-badge.jpg" alt="">
           </a>
         </div>
       </div>

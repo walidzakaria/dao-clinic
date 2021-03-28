@@ -39,7 +39,7 @@
           <div id="logo-container">
             <div id="logo-title">DAO Slimming Centers</div>
             <img id="logo" ref="logo" :class="{ 'shrink-logo': scrolled }"
-              src="./assets/img/header/DAO-LOGO.webp"
+              src="./assets/img/header/DAO-LOGO.jpg"
               alt="logo">
           </div>
         </router-link>
