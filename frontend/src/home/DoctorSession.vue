@@ -50,6 +50,18 @@
                 Arabic
               </button>
             </li>
+            <li>
+              <button data-bs-toggle="pill"
+                  @click="selectedPage = 3" class="btn" :class="{ 'clicked': selectedPage === 3}">
+                DAO Kids
+              </button>
+            </li>
+            <li>
+              <button data-bs-toggle="pill"
+                  @click="selectedPage = 4" class="btn" :class="{ 'clicked': selectedPage === 4}">
+                DAO Old
+              </button>
+            </li>
           </ul><!-- End Tabs -->
 
           <!-- Tab Content -->
@@ -148,6 +160,80 @@
                 DAO System X AR
               </router-link>
             </div><!-- End Tab 2 Content -->
+            <div class="tab-pane fade show" :class="{ 'active': selectedPage === 3 }" id="tab3">
+              <router-link
+                  to="/media/pdf/Dao Kids/j6WeWNj8MC7Vd64P/dao kids 1.pdf"
+                  target="_blank" class="files">
+                DAO Kids 1
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Kids/K9gf3UppHkYfd8vh/dao kids 13.pdf"
+                  target="_blank" class="files">
+                DAO Kids 13
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Kids/nyE9XehQ5uxrFuRB/dao kids 25.pdf"
+                  target="_blank" class="files">
+                DAO Kids 25
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Kids/Pz4c3YD6vr9mkRvu/dao kids 37.pdf"
+                  target="_blank" class="files">
+                DAO Kids 37
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Kids/Yk9cUv4wNa7eJWzn/dao kids 49.pdf"
+                  target="_blank" class="files">
+                DAO Kids 49
+              </router-link>
+            </div><!-- End Tab 3 Content -->
+            <div class="tab-pane fade show" :class="{ 'active': selectedPage === 4 }" id="tab4">
+              <router-link
+                  to="/media/pdf/Dao Old/wznYk9cUv4Na7eJW/DAO1.pdf"
+                  target="_blank" class="files">
+                DAO Old 1
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/C7Vd64j6WeWNj8MP/DAO3.pdf"
+                  target="_blank" class="files">
+                DAO Old 3
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/PYD6vrz4c39mkRvu/DAO11.pdf"
+                  target="_blank" class="files">
+                DAO Old 11
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/nyhQ5uxrFuRBE9Xe/DAO14.pdf"
+                  target="_blank" class="files">
+                DAO Old 14
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/Nj8Mj6WeWC7Vd64P/DAO27.pdf"
+                  target="_blank" class="files">
+                DAO Old 27
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/m279RgpvzDwRHRdx/DAO36.pdf"
+                  target="_blank" class="files">
+                DAO Old 36
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/js4LKbgNjh7pscHM/DAO42.pdf"
+                  target="_blank" class="files">
+                DAO Old 42
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/f89nnLwjkcdNUnXK/DAO55.pdf"
+                  target="_blank" class="files">
+                DAO Old 55
+              </router-link>
+              <router-link
+                  to="/media/pdf/Dao Old/cGLzd9A6vvfMcHTq/DAO64.pdf"
+                  target="_blank" class="files">
+                DAO Old 64
+              </router-link>
+            </div><!-- End Tab 4 Content -->
           </div>
         </div>
     </div><!-- End Feature Tabs -->
