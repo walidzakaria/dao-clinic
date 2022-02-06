@@ -76,11 +76,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'channels',
     'django_user_agents',
-    'apps.main',
-    'apps.authapp',
-    'apps.appointments',
-    'apps.configurations',
-    'apps.chat',
+    'main',
+    'authapp',
+    'appointments',
+    'configurations',
+    'chat',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -182,8 +183,8 @@ DJOSER = {
     'SET_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'SERIALIZERS': {
-        'user_create': 'apps.authapp.serializers.UserCreateSerializer',
-        'user': 'apps.authapp.serializers.UserCreateSerializer',
+        'user_create': 'authapp.serializers.UserCreateSerializer',
+        'user': 'authapp.serializers.UserCreateSerializer',
     }
 }
 
@@ -284,3 +285,4 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
 EMAIL_USE_SSL = config('EMAIL_USE_SSL')
 
 BASE_URL = "http://159.65.120.247"
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

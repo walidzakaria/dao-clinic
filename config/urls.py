@@ -25,11 +25,12 @@ admin.site.site_title = 'DAO Egypt'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('apps.authapp.urls')),
-    path('api/config/', include('apps.configurations.urls')),
-    path('api/appointments/', include('apps.appointments.urls')),
-    path('', include('apps.main.urls')),
-    path('api/chat/', include('apps.chat.urls')),
+    path('api/auth/', include('authapp.urls')),
+    path('api/config/', include('configurations.urls')),
+    path('api/appointments/', include('appointments.urls')),
+    path('', include('main.urls')),
+    path('api/chat/', include('chat.urls')),
+    path('api/blog/', include('blog.urls')),
 
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
     path('favicon-32x32.png', RedirectView.as_view(url=staticfiles_storage.url('img/favicon-32x32.png'))),
