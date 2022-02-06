@@ -5,6 +5,7 @@ import userModule from './modules/users';
 import chatModule from './modules/chat';
 import reservationModule from './modules/reservation';
 import countries from './modules/country';
+import blogs from './modules/blogs';
 
 Vue.use(Vuex);
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
     chat: chatModule,
     res: reservationModule,
     country: countries,
+    blog: blogs,
   },
 });

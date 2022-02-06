@@ -61,6 +61,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/services/" exact>Services</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/blog/" exact>Blog</router-link>
+          </li>
           <li id="login-drop" class="drop">
             <a class="nav-link" v-on:click="toggleDropMenu()">
               {{ accountName }} <i class="icon-arrow" ref="toggleButton"></i>
@@ -754,5 +757,19 @@ header .drop_menu a {
 
 h1 {
   text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  [data-aos] {
+    pointer-events: auto !important;
+  }
+
+  html:not(.no-js) [data-aos^=fade][data-aos^=fade] {
+    opacity: 1 !important;
+  }
+
+  html:not(.no-js) [data-aos=fade-up] {
+    transform: none !important;
+  }
 }
 </style>

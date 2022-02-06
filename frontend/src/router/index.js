@@ -2,22 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Cookies from 'js-cookie';
 import Home from '../views/Home.vue';
-import About from '../views/About.vue';
-import Booking from '../views/Booking.vue';
-import Doctors from '../views/OurDoctors.vue';
-import Services from '../views/Services.vue';
-import VideoSession from '../home/VideoSession.vue';
-import DoctorSession from '../home/DoctorSession.vue';
-import LoginForm from '../login/LoginPage.vue';
-import SignupForm from '../login/SignupPage.vue';
-import ForgotPassword from '../login/ForgotPassword.vue';
-import ActivateUser from '../login/ActivateSuccess.vue';
-import ResetPassword from '../login/ResetSuccess.vue';
-import ResendActivation from '../login/ResendActivation.vue';
-import PaymentStatus from '../views/PaymentStatus.vue';
-import UserSchedule from '../login/UserSchedule.vue';
-import Logout from '../login/LogoutPage.vue';
-import ChatAdmin from '../chat/ChatAdmin.vue';
 
 import store from '../store';
 
@@ -51,21 +35,29 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: About,
+    component: () => import('../views/About.vue'),
   },
   {
     path: '/booking',
     name: 'Booking',
-    component: Booking,
+    component: () => import('../views/Booking.vue'),
   }, {
     path: '/doctors',
     name: 'Doctors',
-    component: Doctors,
+    component: () => import('../views/OurDoctors.vue'),
   },
   {
     path: '/services',
     name: 'Services',
-    component: Services,
+    component: () => import('../views/Services.vue'),
+  }, {
+    path: '/blog',
+    name: 'Blog',
+    component: () => import('../views/BlogIndex.vue'),
+  }, {
+    path: '/blog/:title',
+    name: 'BlogDetails',
+    component: () => import('../views/BlogDetails.vue'),
   },
   // {
   //   path: '/contact',
@@ -75,53 +67,53 @@ const routes = [
   {
     path: '/session/:sessionId',
     name: 'Session',
-    component: VideoSession,
+    component: () => import('../home/VideoSession.vue'),
     props: true,
     beforeEnter: ifAuthenticated,
   },
   {
     path: '/Doctor',
     name: 'DoctorSession',
-    component: DoctorSession,
+    component: () => import('../home/DoctorSession.vue'),
     props: false,
     beforeEnter: ifAuthenticated,
   },
   {
     path: '/my-schedule',
     name: 'MyAppointments',
-    component: UserSchedule,
+    component: () => import('../login/UserSchedule.vue'),
     beforeEnter: ifAuthenticated,
   },
   {
     path: '/auth/activate/:uid/:token',
     name: 'Activate',
-    component: ActivateUser,
+    component: () => import('../login/ActivateSuccess.vue'),
   },
   {
     path: '/auth/password/reset/confirm/:uid/:token',
     name: 'ResetConfirm',
-    component: ResetPassword,
+    component: () => import('../login/ResetSuccess.vue'),
   }, {
     path: '/auth/account/resend/activation',
     name: 'ResendActivation',
-    component: ResendActivation,
+    component: () => import('../login/ResendActivation.vue'),
     beforeEnter: ifNotAuthenticated,
   },
   {
     path: '/login',
     name: 'Login',
-    component: LoginForm,
+    component: () => import('../login/LoginPage.vue'),
     beforeEnter: ifNotAuthenticated,
   },
   {
     path: '/signup',
     name: 'Signup',
-    component: SignupForm,
+    component: () => import('../login/SignupPage.vue'),
     beforeEnter: ifNotAuthenticated,
   }, {
     path: '/reset',
     name: 'Reset',
-    component: ForgotPassword,
+    component: () => import('../login/ForgotPassword.vue'),
     beforeEnter: ifNotAuthenticated,
   },
   // {
@@ -133,19 +125,19 @@ const routes = [
   {
     path: '/chat-admin',
     name: 'ChatAdmin',
-    component: ChatAdmin,
+    component: () => import('../chat/ChatAdmin.vue'),
     beforeEnter: ifAuthenticated,
   },
   {
     path: '/payment',
     name: 'Payment',
-    component: PaymentStatus,
+    component: () => import('../views/PaymentStatus.vue'),
     beforeEnter: ifAuthenticated,
   },
   {
     path: '/logout',
     name: 'Logout',
-    component: Logout,
+    component: () => import('../login/LogoutPage.vue'),
   },
   {
     // otherwise redirect to home

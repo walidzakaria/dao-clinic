@@ -23,7 +23,9 @@ Vue.filter('currency', CurrencyFilter);
 
 new Vue({
   created() {
-    AOS.init();
+    AOS.init({
+      disable: window.innerWidth < 768,
+    });
   },
   router,
   store,

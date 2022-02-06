@@ -13,7 +13,7 @@ module.exports = {
           // Absolute path to compiled SPA
           path.resolve(__dirname, 'dist'),
           // List of routes to prerender
-          ['/', '/about', '/doctors', '/services'],
+          ['/', '/about', '/doctors', '/services', '/blog'],
           {
             postProcessHtml(context) {
               const titles = {
@@ -22,6 +22,7 @@ module.exports = {
                 '/booking': 'DAO World | Booking',
                 '/doctors': 'DAO World | Doctors',
                 '/services': 'DAO World | Services',
+                '/blog': 'DAO World | Blog',
               };
               return context.html.replace(
                 /<title>[^<]*<\/title>/i,
